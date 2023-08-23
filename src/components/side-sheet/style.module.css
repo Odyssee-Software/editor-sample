@@ -1,0 +1,36 @@
+.SideSheet{
+  min-width: 300px;
+  height: stretch;
+  display: grid;
+  padding: 20px;
+  grid-template-rows: min-content min-content minmax(0,1fr) min-content min-content;
+  gap: 15px;
+
+  background: rgba( 255, 255, 255, 0.25 );
+  box-shadow: 1px 1px 10px rgba( 31, 38, 135, 0.37 );
+  backdrop-filter: blur( 4px );
+  border-radius: 10px;
+  border: 1px solid rgba( 255, 255, 255, 0.18 );
+}
+
+.SideSheetHeader{
+  padding: 20px;
+  border: 1px solid rgb(105, 105, 105 , 0.2);
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.SideSheetContent{
+  padding: 20px;
+  border: 1px solid rgb(105, 105, 105 , 0.2);
+}
+
+.SideSheetActionBar{
+  padding: 20px;
+  border: 1px solid rgb(105, 105, 105 , 0.2);
+  display: inline-flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+}

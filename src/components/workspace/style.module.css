@@ -1,0 +1,4 @@
+.Workspace{
+  display: grid;
+  grid-template-columns: min-content minmax(0,1fr);
+}

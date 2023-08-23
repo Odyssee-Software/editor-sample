@@ -1,0 +1,47 @@
+{
+  "applicationId": "js.neutralino.zero",
+  "version": "1.0.0",
+  "defaultMode": "window",
+  "documentRoot": "/public/",
+  "url": "/",
+  "enableServer": true,
+  "enableNativeAPI": true,
+  "nativeAllowList": [
+    "os.*",
+    "app.*",
+    "filesystem.*",
+    "window.*"
+  ],
+  "globalVariables": {
+    "TEST_1": 1,
+    "TEST_2": null,
+    "TEST_3": 3.5,
+    "TEST_4": [3, 5, 4, 5],
+    "TEST_5": {
+        "key": "value",
+        "anotherKey": 100
+    }
+  },
+  "modes": {
+    "window": {
+      "title": "Notes",
+      "width": 800,
+      "height": 500,
+      "minWidth": 400,
+      "minHeight": 200,
+      "icon": "/public/thorium.png",
+      "enableInspector": true
+    }
+  },
+  "cli": {
+    "binaryName": "Notes",
+    "resourcesPath": "/public/",
+    "extensionsPath": "/extensions/",
+    "binaryVersion": "4.13.0",
+    "clientVersion": "3.8.2",
+    "frontendLibrary": {
+      "patchFile" : "/public/index.html",
+      "devUrl" : "http://localhost:8080"
+  }
+  }
+}
