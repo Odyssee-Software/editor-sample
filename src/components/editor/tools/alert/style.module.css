@@ -1,0 +1,7 @@
+.ErrorInput{
+  width: stretch;
+  background-color: rgb(255, 0, 0 , 0.2);
+  padding: 10px;
+  color: red;
+  font-size: x-large;
+}

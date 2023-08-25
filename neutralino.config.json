@@ -42,6 +42,13 @@
     "frontendLibrary": {
       "patchFile" : "/public/index.html",
       "devUrl" : "http://localhost:8080"
-  }
-  }
+    }
+  },
+  "enableExtensions": true,
+  "extensions": [
+    {
+      "id": "extensions.test",
+      "command": "node ${NL_PATH}/extensions/testExtension/dist/index.js"
+    }
+  ]
 }

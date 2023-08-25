@@ -6,7 +6,11 @@ import { Divider } from '../divider';
 const SideSheetContent = (props:{}) => {
 
   return <div class = { style.SideSheetContent }>
-
+    <h3>section a</h3>
+    <Divider/>
+    <h3>section b</h3>
+    <Divider/>
+    <h3>section c</h3>
   </div>;
 
 }

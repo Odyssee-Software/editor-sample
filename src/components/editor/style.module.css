@@ -1,32 +1,14 @@
 .EditorContainer{
   display: flex;
-  background-color: whitesmoke;
   justify-content: center;
   align-items: center;
 }
 
 .Editor{
   background-color: white;
-  padding: 20px 50px;
-  height: 90%;
-  width: 85%;
+  height: 100%;
+  width: 100%;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba( 31, 38, 135, 0.37 );
-}
-
-.WarningInput{
-  width: stretch;
-  background-color: rgb(255, 165, 0 , 0.2);
-  padding: 10px;
-  color: orange;
-  font-size: x-large;
-}
-
-.ErrorInput{
-  width: stretch;
-  background-color: rgb(255, 0, 0 , 0.2);
-  padding: 10px;
-  color: red;
-  font-size: x-large;
 }
 

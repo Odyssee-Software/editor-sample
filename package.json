@@ -11,7 +11,11 @@
   "license": "ISC",
   "dependencies": {
     "@editorjs/editorjs": "^2.27.2",
+    "@editorjs/header": "^2.7.0",
     "@neutralinojs/lib": "^3.11.0",
+    "@types/nedb": "^1.8.13",
+    "nedb": "^1.8.0",
+    "thorino-ipc": "^1.0.0",
     "thorium-framework": "^1.0.0",
     "typescript": "^5.1.6"
   }
