@@ -1,4 +1,5 @@
-export declare const Icon: (props: {
+export type IconProps = {
     type: 'background' | 'mask';
     path: string;
-}) => any;
+};
+export declare const Icon: (props: IconProps) => any;

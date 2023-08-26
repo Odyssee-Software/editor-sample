@@ -2,6 +2,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
+  font-size: 14px;
 }
 
 .Editor{
@@ -10,5 +12,6 @@
   width: 100%;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba( 31, 38, 135, 0.37 );
+  overflow: auto;
 }
 

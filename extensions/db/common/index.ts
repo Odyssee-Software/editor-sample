@@ -18,6 +18,7 @@ const Application = () => {
     },
     find : ( req , res ) => {
       let { chanel , data } = req;
+      console.log( 'FIND' , data )
       Database.find( data , (err,result) => { res.send( ( err ? err : result ) ) })
     },
   }

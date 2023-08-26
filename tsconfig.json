@@ -10,7 +10,8 @@
     "skipLibCheck": true,
     "moduleResolution":"node",
     "strict": true,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "baseUrl": "."
   },
   "include": ["./src/*"],
 }

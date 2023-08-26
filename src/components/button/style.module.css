@@ -2,9 +2,21 @@
   font-size: inherit;
   font-family: inherit;
   padding: 5px 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 5px;
 }
 
 .ButtonText{
   padding: 0;
   margin: 0;
+}
+
+.Button div:has(icon){
+  padding: 0;
+}
+
+.Button icon{
+  height: 20px;
 }

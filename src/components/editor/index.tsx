@@ -8,6 +8,8 @@ import * as Tools from './tools';
 import EditorJS from '@editorjs/editorjs';
 import Header from '@editorjs/header';
 
+import * as Database from '../../modules/database';
+
 export const HelloWorld = () => {
 
   let openDocs = async () => {
@@ -24,7 +26,16 @@ export const HelloWorld = () => {
     <div
       id = "editorjs"
       class = {style.Editor}
-      _afterMounting = {(target) => {
+      _afterMounting = {async (target) => {
+
+        let pageHomeConfig = {
+          id : '69efe424-277c-4450-8ad1-401bb0509506',
+        };
+
+        let [ pageHome ] = (await Database.find<[Record<string,any>]>({ id : pageHomeConfig.id })).detail;
+        if(!pageHome){
+          await Database.insert( pageHomeConfig );
+        }
 
         new EditorJS({
           holder: target,
@@ -38,8 +49,12 @@ export const HelloWorld = () => {
                 defaultLevel: 3
               }
             },
+            console : Tools.Console,
             warning : Tools.Warning,
             error : Tools.Alert
+          },
+          onChange: (api, event) => {
+            console.log('Now I know that Editor\'s content changed!', event)
           }
         })
 

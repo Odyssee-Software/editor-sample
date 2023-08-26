@@ -4,4 +4,36 @@
   padding: 20px;
   gap: 20px;
   background-color: whitesmoke;
+  overflow: hidden;
+}
+
+.Workspace:has([context="side-sheet"][close="true"]){
+  grid-template-columns: 0 minmax(0,1fr);
+}
+
+.Workspace > [context="side-sheet"]{
+  /* width: 0; */
+  transition: 0.5s;
+  z-index: 10;
+}
+
+.Workspace > [context="side-sheet"][close="false"]{
+
+}
+
+.Workspace > [context="side-sheet"][close="true"]{
+  /* width: 0; */
+  transform: translateX(-103%);
+}
+
+.Workspace > [context="side-sheet"][close="true"] > [name=expander]{
+  transition: 0.4s;
+}
+
+.Workspace > [context="side-sheet"][close="true"] > [name=expander]:hover{
+  width: 20px;
+}
+
+.Workspace > [context="side-sheet"][close="true"]:has([name=expander]:hover){
+  transform: translateX(-100%);
 }

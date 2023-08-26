@@ -1,5 +1,13 @@
+.SideSheetContainer{
+  display: grid;
+  width: fit-content;
+}
+
 .SideSheet{
-  min-width: 300px;
+
+  --sidesheet-border-radius : 0px;
+
+  min-width: 250px;
   height: stretch;
   display: grid;
   padding: 20px;
@@ -9,8 +17,10 @@
   background: rgba( 255, 255, 255, 0.25 );
   box-shadow: 1px 1px 10px rgba( 31, 38, 135, 0.37 );
   backdrop-filter: blur( 4px );
-  border-radius: 10px;
+  border-radius: var(--sidesheet-border-radius);
   border: 1px solid rgba( 255, 255, 255, 0.18 );
+  grid-column: 1;
+  grid-row: 1;
 }
 
 .SideSheetHeader{
@@ -33,4 +43,14 @@
   justify-content: flex-end;
   align-items: center;
   gap: 10px;
+}
+
+.SideSheetExpand{
+  grid-row: 1;
+  grid-column: 1;
+  z-index: 1;
+  width: 10px;
+  margin-left: auto;
+  border-top-right-radius: var(--sidesheet-border-radius);
+  border-bottom-right-radius: var(--sidesheet-border-radius);
 }
