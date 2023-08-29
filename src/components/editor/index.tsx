@@ -1,4 +1,4 @@
-import { DOM } from 'thorium-framework';
+import { DOM , useState } from 'thorium-framework';
 
 import { window } from '@neutralinojs/lib'
 import style from './style.module.css';
@@ -9,6 +9,8 @@ import EditorJS from '@editorjs/editorjs';
 import Header from '@editorjs/header';
 
 import * as Database from '../../modules/database';
+
+export const [editorState,setEditorState] = useState<EditorJS | null>(null);
 
 export const HelloWorld = () => {
 
@@ -30,6 +32,7 @@ export const HelloWorld = () => {
 
         let pageHomeConfig = {
           id : '69efe424-277c-4450-8ad1-401bb0509506',
+          name : 'Home'
         };
 
         let [ pageHome ] = (await Database.find<[Record<string,any>]>({ id : pageHomeConfig.id })).detail;
@@ -37,7 +40,7 @@ export const HelloWorld = () => {
           await Database.insert( pageHomeConfig );
         }
 
-        new EditorJS({
+        let editor = new EditorJS({
           holder: target,
           autofocus: true,
           tools: {
@@ -53,12 +56,29 @@ export const HelloWorld = () => {
             warning : Tools.Warning,
             error : Tools.Alert
           },
-          onChange: (api, event) => {
-            console.log('Now I know that Editor\'s content changed!', event)
+          onReady: () => {
+            setEditorState(editor);
+          },
+          onChange: async (api, event) => {
+            console.log('Now I know that Editor\'s content changed!', event);
+            console.log(api);
+
+            let insertResult = await Database.update( {
+              search : { name : pageHomeConfig.name },
+              insert : {
+                id : pageHomeConfig.id,
+                name : pageHomeConfig.name,
+                content : await editor.save()
+              }
+            } )
+
+            console.log(insertResult);
+
           }
-        })
+        });
 
       }}
     />
   </div>;
+  
 }

@@ -3,10 +3,19 @@
  * database to insert data into a database.
  * @returns The code is returning an object with a single method called `insert`.
  */
-import { Extension } from 'thorino-ipc';
+import { Extension , IExtension } from 'thorino-ipc';
 import Datastore from 'nedb';
 
+import { 
+  createPage , 
+  findPage ,
+  findAllPages , 
+  updatePage 
+} from './pages';
+
 const Application = () => {
+
+  console.log('Application');
 
   const Database = new Datastore({ filename: 'datafile.db', autoload: true });
 
@@ -18,11 +27,43 @@ const Application = () => {
     },
     find : ( req , res ) => {
       let { chanel , data } = req;
-      console.log( 'FIND' , data )
       Database.find( data , (err,result) => { res.send( ( err ? err : result ) ) })
     },
+    update : (req , res ) => {
+      let { chanel , data } = req;
+      let { search , insert } = data;
+
+      updatePage( search , insert )
+      .then(( result ) => res.send(result))
+      .catch(( error ) => res.send(error));
+
+    },
+    'find-page' : ( req , res ) => {
+
+      let { chanel , data } = req;
+
+      findPage( data )
+      .then( (result) => res.send( result ) )
+      .catch( (error) => res.send( error ) )
+
+    },
+    'find-all-pages' : ( req , res ) => {
+
+      findAllPages( )
+      .then( (result) => res.send( result ) )
+      .catch( (error) => res.send( error ) )
+
+    },
+    'create-page' : ( req , res ) => {
+
+      let { chanel , data } = req;
+      createPage( data as { name : string } )
+      .then( (result) => res.send( result ) )
+      .catch( (error) => res.send( error ) )
+
+    }
   }
   
 }
 
-Extension( Application() );
+export default Extension( Application() ) as IExtension;

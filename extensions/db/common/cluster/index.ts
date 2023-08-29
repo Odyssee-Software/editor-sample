@@ -1,14 +1,45 @@
-import { Collection , DataStoreOptions } from '../collection';
-import { v4 as uuid4 } from "uuid";
+import Datastore , { DataStoreOptions } from 'nedb';
+export { DataStoreOptions };
 
-import * as fs from 'fs';
+import * as Fs from 'fs';
+import * as Path from 'path';
 
-export class Cluster{
+export class Cluster extends Datastore{
 
-  static create( clusterPath:string ){
+  static create( collectionOptions:DataStoreOptions ){
 
+    let ensureDirExist = ( path ) => {
 
+      console.log(path);
+      let pSplit = path.split('/').filter( x => x ) as string[];
+      let fragment = '';
+      let result = Array.from( pSplit , ( p , i ) => {
+        
+        fragment = Path.join( fragment , p );
 
+        let isFile = ( Path.extname( fragment ) ? true : false );
+
+        let isDirExistResult = Fs.existsSync( fragment );
+        if(!isDirExistResult && !isFile){
+          Fs.mkdirSync( fragment );
+          isDirExistResult = true;
+        }
+        else if(!isDirExistResult && isFile){
+          Fs.writeFileSync( fragment , '' , 'utf-8' );
+          isDirExistResult = true;
+        }
+
+        return isDirExistResult;
+
+      }) as boolean[];
+
+      return !result.includes(false);
+
+    }
+
+    let isExist = ensureDirExist( collectionOptions.filename );
+
+    return new Cluster(collectionOptions);
   }
 
   static delete(){
@@ -16,32 +47,6 @@ export class Cluster{
   }
 
   static load(){
-
-  }
-
-  #_collections:Record<string,any> = {};
-
-  addCollection( options:DataStoreOptions ){
-
-    let collectionId = uuid4();
-
-    this.#_collections[collectionId] = new Collection({ filename : `${collectionId}.db` , autoload : true })
-
-  }
-
-  loadCollection(){
-
-  }
-
-  useCollection(){
-    
-  }
-
-  unloadCollection(){
-
-  }
-
-  deleteCollection(){
 
   }
 

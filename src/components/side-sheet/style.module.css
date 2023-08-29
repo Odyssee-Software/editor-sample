@@ -54,3 +54,21 @@
   border-top-right-radius: var(--sidesheet-border-radius);
   border-bottom-right-radius: var(--sidesheet-border-radius);
 }
+
+.PageControl{
+
+}
+
+.PageControl:hover{
+  background-color: royalblue;
+}
+
+.PageControl > button{
+  border: none;
+  background-color: transparent;
+  color: initial;
+}
+
+.PageControl:hover > button{
+  color: white;
+}

@@ -1,22 +1,75 @@
 import style from './style.module.css';
-import { CustomElement } from 'thorium-framework'
+import { CustomElement, DOM, Page } from 'thorium-framework'
 import { Button , ButtonIcon } from '../button';
 import { Divider } from '../divider';
 import { Icon } from '../icon';
 
+import { useState } from 'thorium-framework';
+
 import * as path from 'path';
 
-import OptionsIcon from '@fluentui/svg-icons/icons/options_20_filled.svg'
-import CloseIcon from '@fluentui/svg-icons/icons/arrow_previous_20_filled.svg'
+import OptionsIcon from '@fluentui/svg-icons/icons/options_20_filled.svg';
+import CloseIcon from '@fluentui/svg-icons/icons/arrow_previous_20_filled.svg';
+import PageIcon from '@fluentui/svg-icons/icons/document_20_filled.svg';
+
+import { 
+  findAllPages , 
+  findPage 
+} from '../../modules/database';
+
+import { editorState } from '../editor'
+
+type PageParams = {
+  id:string;
+  name:string;
+}
+
+const PageControl = (page:PageParams) => {
+  return <div class = {style.PageControl} >
+    <ButtonIcon 
+      textContent={page.name} 
+      icon={{ type : 'mask' , path : path.join( 'app' , path.basename(PageIcon) ) }}
+      action = {async () => {
+
+        let { value:editor } = editorState;
+        let { detail:pageResult } = await findPage( { _id : page.id } );
+        let [ pageSettings ] = pageResult as any[];
+        let { content } = pageSettings;
+        if(editor)editor.render(content);
+
+      }}
+    />
+  </div>;
+}
 
 const SideSheetContent = (props:{}) => {
 
   return <div class = { style.SideSheetContent }>
-    <h3>section a</h3>
+    <div>
+      <h3>section a</h3>
+    </div>
     <Divider/>
-    <h3>section b</h3>
+    <div>
+      <h3>section b</h3>
+      <div
+        _afterMounting = {async (target:CustomElement<HTMLDivElement , {}>) => {
+
+          let { detail:pages } = await findAllPages<{name:string,_id:string}[]>();
+
+          for await( const page of pages ){
+            DOM.render( <PageControl
+              id = { page._id } 
+              name = {page.name}
+            /> , target );
+          }
+          
+        }}
+      />
+    </div>
     <Divider/>
-    <h3>section c</h3>
+    <div>
+      <h3>section c</h3>
+    </div>
   </div>;
 
 }
@@ -67,7 +120,6 @@ export const SideSheet = (props:{}) => {
   return <div class = { style.SideSheetContainer } close = "false" context = "side-sheet" 
     _close = {function(this:TSideSheet){
       let attribute = this.getAttribute('close');
-      console.log(attribute);
       if(attribute && attribute == 'true')attribute = 'false';
       else if(attribute && attribute == 'false')attribute = 'true';
       this.setAttribute('close' , attribute as string);

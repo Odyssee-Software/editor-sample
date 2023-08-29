@@ -9,3 +9,9 @@ export declare const database: <response>(event: string, message: string | Recor
 */
 export declare const insert: <T>(data: Record<string, any> | Record<string, any>[]) => Promise<CustomEvent<T>>;
 export declare const find: <T>(data: Record<string, any> | Record<string, any>[]) => Promise<CustomEvent<T>>;
+export declare const update: <T>(data: Record<string, any> | Record<string, any>[]) => Promise<CustomEvent<T>>;
+export declare const findPage: <T>(data: Record<string, any>) => Promise<CustomEvent<T>>;
+export declare const findAllPages: <T>() => Promise<CustomEvent<T>>;
+export declare const createPage: <T = {
+    name: string;
+}>(data: any) => Promise<CustomEvent<T>>;

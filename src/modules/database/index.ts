@@ -22,3 +22,19 @@ export const find = <T>(data:Record<string,any>|Record<string,any>[]) => {
   return database<T>( 'find' , data );
 }
 
+export const update = <T>(data:Record<string,any>|Record<string,any>[]) => {
+  return database<T>( 'update' , data );
+}
+
+export const findPage = <T>(data:Record<string,any>) => {
+  return database<T>( 'find-page' , data );
+}
+
+export const findAllPages = <T>() => {
+  return database<T>( 'find-all-pages' , {} );
+}
+
+export const createPage = <T = {name:string}>(data:any) => {
+  return database<T>( 'create-page' , data );
+}
+
