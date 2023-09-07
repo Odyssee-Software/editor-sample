@@ -1,0 +1,8 @@
+.CodeEditorContainer{
+  width: stretch;
+  padding: 10px;
+}
+
+.CodeEditorContainer *{
+  font-family: var(--font-familly);
+}

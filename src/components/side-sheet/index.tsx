@@ -1,6 +1,6 @@
 import style from './style.module.css';
 import { CustomElement, DOM, Page } from 'thorium-framework'
-import { Button , ButtonIcon } from '../button';
+import { Button } from '../button';
 import { Divider } from '../divider';
 import { Icon } from '../icon';
 
@@ -26,9 +26,12 @@ type PageParams = {
 
 const PageControl = (page:PageParams) => {
   return <div class = {style.PageControl} >
-    <ButtonIcon 
+    <Button 
       textContent={page.name} 
       icon={{ type : 'mask' , path : path.join( 'app' , path.basename(PageIcon) ) }}
+      controls={[
+        // <Button icon={{ type : 'mask' , path : path.join( 'app' , path.basename(PageIcon) ) }} />
+      ]}
       action = {async () => {
 
         let { value:editor } = editorState;
@@ -86,10 +89,10 @@ const SideSheetActionBar = () => {
 const SideSheetHeader = () => {
 
   return <div class = { style.SideSheetHeader }>
-    <ButtonIcon textContent='A' icon = {{ type : 'mask' , path : path.join( 'app' , path.basename(OptionsIcon) ) }} />
+    <Button textContent='A' icon = {{ type : 'mask' , path : path.join( 'app' , path.basename(OptionsIcon) ) }} />
     <Button textContent='B'/>
     <Button textContent='C'/>
-    <ButtonIcon 
+    <Button 
       icon = {{ type : 'mask' , path : path.join( 'app' , path.basename(CloseIcon) ) }} 
       action = {(event) => {
         let { target } = event;
