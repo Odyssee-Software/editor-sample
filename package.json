@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npx thorium-cli --outputDir=./public/app --watch"
+    "build": "npx thorium-cli --outputDir=./public/app --watch",
+    "build:local": "npx /Users/guillaume/Documents/Odyssee/thorium/thorium-cli  --outputDir=./public/app --watch"
   },
   "author": "",
   "license": "ISC",
@@ -15,10 +16,11 @@
     "@fluentui/svg-icons": "^1.1.198",
     "@neutralinojs/lib": "^3.11.0",
     "@types/nedb": "^1.8.13",
+    "codemirror": "^6.0.1",
     "nedb": "^1.8.0",
     "terminatorator": "^1.0.2",
     "thorino-ipc": "^1.0.2",
-    "thorium-framework": "^1.0.0",
+    "thorium-framework": "^1.0.6",
     "typescript": "^5.1.6"
   }
 }

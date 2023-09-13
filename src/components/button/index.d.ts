@@ -1,10 +1,12 @@
 import { IconProps } from '../icon';
-export declare const Button: (props: {
-    textContent: string;
+export type ControlsProps = {
+    buttons: any[];
+};
+export declare const Controls: (props: ControlsProps) => any;
+export type ButtonProps = {
+    textContent?: string;
     action?(event: MouseEvent): void;
-}) => any;
-export declare const ButtonIcon: (props: {
-    textContent?: string | undefined;
-    action?(event: MouseEvent): void;
-    icon: IconProps;
-}) => any;
+    icon?: IconProps;
+    controls?: ControlsProps['buttons'];
+};
+export declare const Button: (props: ButtonProps) => any;

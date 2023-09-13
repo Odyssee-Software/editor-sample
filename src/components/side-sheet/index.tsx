@@ -1,6 +1,6 @@
 import style from './style.module.css';
-import { CustomElement, DOM, Page } from 'thorium-framework'
-import { Button , ButtonIcon } from '../button';
+import { CustomElement, DOM, Page } from 'thorium-framework';
+import { Button } from '../button';
 import { Divider } from '../divider';
 import { Icon } from '../icon';
 
@@ -26,9 +26,14 @@ type PageParams = {
 
 const PageControl = (page:PageParams) => {
   return <div class = {style.PageControl} >
-    <ButtonIcon 
+    <Button 
       textContent={page.name} 
       icon={{ type : 'mask' , path : path.join( 'app' , path.basename(PageIcon) ) }}
+      controls={[
+        <Button textContent='✍️' action = {() => { }} />,
+        <Button textContent='🗑️' action = {() => { }} />,
+        <Button textContent='⠸' action = {() => { }} />
+      ]}
       action = {async () => {
 
         let { value:editor } = editorState;
@@ -46,11 +51,11 @@ const SideSheetContent = (props:{}) => {
 
   return <div class = { style.SideSheetContent }>
     <div>
-      <h3>section a</h3>
+      <h3>▸ Options</h3>
     </div>
     <Divider/>
     <div>
-      <h3>section b</h3>
+      <h3>▸ Pages</h3>
       <div
         _afterMounting = {async (target:CustomElement<HTMLDivElement , {}>) => {
 
@@ -68,7 +73,7 @@ const SideSheetContent = (props:{}) => {
     </div>
     <Divider/>
     <div>
-      <h3>section c</h3>
+      <h3>▸ Spaces</h3>
     </div>
   </div>;
 
@@ -86,11 +91,11 @@ const SideSheetActionBar = () => {
 const SideSheetHeader = () => {
 
   return <div class = { style.SideSheetHeader }>
-    <ButtonIcon textContent='A' icon = {{ type : 'mask' , path : path.join( 'app' , path.basename(OptionsIcon) ) }} />
+    <Button textContent='A' icon = {{ type : 'mask' , path : path.join( 'app' , path.basename(OptionsIcon) ) }} />
     <Button textContent='B'/>
     <Button textContent='C'/>
-    <ButtonIcon 
-      icon = {{ type : 'mask' , path : path.join( 'app' , path.basename(CloseIcon) ) }} 
+    <Button 
+      icon = {{ type : 'mask' , path : path.join( 'app' , path.basename(CloseIcon) ) }}
       action = {(event) => {
         let { target } = event;
         /* The line `let sideSheet = (target as CustomElement<any,{}>).context('side-sheet');` is
