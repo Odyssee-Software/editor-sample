@@ -1,5 +1,5 @@
 import style from './style.module.css';
-import { CustomElement, DOM, Page } from 'thorium-framework'
+import { CustomElement, DOM, Page } from 'thorium-framework';
 import { Button } from '../button';
 import { Divider } from '../divider';
 import { Icon } from '../icon';
@@ -30,7 +30,9 @@ const PageControl = (page:PageParams) => {
       textContent={page.name} 
       icon={{ type : 'mask' , path : path.join( 'app' , path.basename(PageIcon) ) }}
       controls={[
-        // <Button icon={{ type : 'mask' , path : path.join( 'app' , path.basename(PageIcon) ) }} />
+        <Button textContent='✍️' action = {() => { }} />,
+        <Button textContent='🗑️' action = {() => { }} />,
+        <Button textContent='⠸' action = {() => { }} />
       ]}
       action = {async () => {
 
@@ -49,11 +51,11 @@ const SideSheetContent = (props:{}) => {
 
   return <div class = { style.SideSheetContent }>
     <div>
-      <h3>section a</h3>
+      <h3>▸ Options</h3>
     </div>
     <Divider/>
     <div>
-      <h3>section b</h3>
+      <h3>▸ Pages</h3>
       <div
         _afterMounting = {async (target:CustomElement<HTMLDivElement , {}>) => {
 
@@ -71,7 +73,7 @@ const SideSheetContent = (props:{}) => {
     </div>
     <Divider/>
     <div>
-      <h3>section c</h3>
+      <h3>▸ Spaces</h3>
     </div>
   </div>;
 
@@ -93,7 +95,7 @@ const SideSheetHeader = () => {
     <Button textContent='B'/>
     <Button textContent='C'/>
     <Button 
-      icon = {{ type : 'mask' , path : path.join( 'app' , path.basename(CloseIcon) ) }} 
+      icon = {{ type : 'mask' , path : path.join( 'app' , path.basename(CloseIcon) ) }}
       action = {(event) => {
         let { target } = event;
         /* The line `let sideSheet = (target as CustomElement<any,{}>).context('side-sheet');` is

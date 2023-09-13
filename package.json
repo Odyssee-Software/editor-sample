@@ -20,7 +20,7 @@
     "nedb": "^1.8.0",
     "terminatorator": "^1.0.2",
     "thorino-ipc": "^1.0.2",
-    "thorium-framework": "^1.0.0",
+    "thorium-framework": "^1.0.6",
     "typescript": "^5.1.6"
   }
 }

@@ -1,5 +1,5 @@
 import EditorJS from '@editorjs/editorjs';
-export declare const editorState: import("thorium-framework").State<EditorJS | null>, setEditorState: (value: EditorJS | null) => EditorJS | null;
+export declare const editorState: import("thorium-states").State<EditorJS | null>, setEditorState: (value: EditorJS | null) => EditorJS | null;
 /**
  * Le code ci-dessus est un composant Thorium TypeScript appelé "HelloWorld" qui rend un éditeur en utilisant la
  * bibliothèque EditorJS et enregistre le contenu dans une base de données lorsqu'il est modifié.

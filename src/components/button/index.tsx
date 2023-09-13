@@ -3,11 +3,12 @@ import { Icon , IconProps } from '../icon'
 import style from './style.module.css';
 
 export type ControlsProps = {
-  buttons:typeof Button[];
+  buttons:any[];
 }
 
 export const Controls = (props:ControlsProps) => {
-  // return <div name = "controls" childrens = {props.buttons} ></div>
+  console.log({props : props});
+  return <div name = "controls" childrens = {props.buttons} >{props.buttons}</div>
 }
 
 export type ButtonProps = {
@@ -18,13 +19,13 @@ export type ButtonProps = {
 };
 
 export const Button = (props:ButtonProps) => {
-
+  console.log('Button',{props});
   return <button 
       _onmousedown = {(props.action ? props.action : null)}
       class = {style.Button}
       childrens = {[
-        ( 'icon' in props && props.icon ? <Icon type = { props.icon.type } path={ props.icon.path } /> : <div></div> ),
-        // ( 'controls' in props && props.controls ? <Controls buttons = {props.controls} /> : <div></div> )
+        ( 'icon' in props && props.icon ? <Icon type = { props.icon.type } path={ props.icon.path } /> : null ),
+        ( 'controls' in props && props.controls ? <Controls buttons = {props.controls} /> : null )
       ]}
     >
     <p 
