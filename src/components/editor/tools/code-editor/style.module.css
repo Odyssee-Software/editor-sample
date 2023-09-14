@@ -1,8 +1,25 @@
 .CodeEditorContainer{
   width: stretch;
   padding: 10px;
+  display: grid;
 }
 
 .CodeEditorContainer *{
   font-family: var(--font-familly);
+}
+
+.CodeEditorMenu{
+  grid-column: 1;
+  grid-row: 1;
+  display: inline-flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.CodeEditor{
+  grid-column: 1;
+  grid-row: 2;
+  font-size: 16px;
+  font-weight:300;
+  font-family: Consolas, 'Courier New', monospace;
 }

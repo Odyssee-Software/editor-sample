@@ -3,6 +3,7 @@ export declare class CodeEditor {
         title: string;
         icon: string;
     };
+    static get enableLineBreaks(): boolean;
     render(): unknown;
     save(blockContent: any): {
         url: any;

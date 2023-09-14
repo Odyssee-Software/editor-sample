@@ -8,5 +8,6 @@ export type ButtonProps = {
     action?(event: MouseEvent): void;
     icon?: IconProps;
     controls?: ControlsProps['buttons'];
+    className?: string;
 };
 export declare const Button: (props: ButtonProps) => any;
