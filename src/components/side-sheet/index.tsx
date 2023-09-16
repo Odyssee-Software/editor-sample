@@ -1,8 +1,8 @@
 import style from './style.module.css';
 import { CustomElement, DOM, Page } from 'thorium-framework';
-import { Button , ButtonElement } from '../button';
-import { Divider } from '../divider';
-import { Icon } from '../icon';
+import { Button , ButtonElement } from '@thorium-components/button';
+import { Divider } from '@thorium-components/divider';
+import { Icon } from '@thorium-components/icon';
 
 import { useState } from 'thorium-framework';
 

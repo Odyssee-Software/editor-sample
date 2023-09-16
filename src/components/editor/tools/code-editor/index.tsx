@@ -7,7 +7,7 @@ import { createTheme } from '@uiw/codemirror-themes';
 import { vscodeDark } from '@uiw/codemirror-theme-vscode';
 import { tags as t } from '@lezer/highlight';
 
-import { Button , Controls } from '../../../button';
+import { Button , Controls } from '../../../../thorium-components/button';
 
 const myTheme = createTheme({
   theme: 'light',
