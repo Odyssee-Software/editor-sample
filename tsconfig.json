@@ -11,7 +11,11 @@
     "moduleResolution":"node",
     "strict": true,
     "noImplicitAny": false,
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths" : {
+      "@thorium-components/*" : ["src/thorium-components/*"],
+      "@components/*" : ["src/components/*"]
+    }
   },
   "include": ["./src/*"],
 }
