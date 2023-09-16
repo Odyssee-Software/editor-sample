@@ -14,7 +14,9 @@
     "baseUrl": ".",
     "paths" : {
       "@thorium-components/*" : ["src/thorium-components/*"],
-      "@components/*" : ["src/components/*"]
+      "@components/*" : ["src/components/*"],
+      "@modules/*" : ["src/modules/*"],
+      "@utils/*" : ["src/utils/*"],
     }
   },
   "include": ["./src/*"],

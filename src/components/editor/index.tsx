@@ -8,7 +8,7 @@ import * as Tools from './tools';
 import EditorJS from '@editorjs/editorjs';
 import Header from '@editorjs/header';
 
-import * as Database from '../../modules/database';
+import * as Database from '@modules/database';
 
 export const [editorState,setEditorState] = useState<EditorJS | null>(null);
 

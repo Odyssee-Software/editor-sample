@@ -1,6 +1,6 @@
 import { CustomElement } from 'thorium-framework';
 import { IconProps, IconContainerElement } from '../icon';
-import { CustomElementDefultProps } from '../../components';
+import { CustomElementDefultProps } from '../';
 export type ControlsProps = {
     buttons: any[];
 };

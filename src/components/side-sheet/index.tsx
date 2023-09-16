@@ -15,9 +15,9 @@ import PageIcon from '@fluentui/svg-icons/icons/document_20_filled.svg';
 import { 
   findAllPages , 
   findPage 
-} from '../../modules/database';
+} from '@modules/database';
 
-import { editorState } from '../editor'
+import { editorState } from '@components/editor'
 
 type PageParams = {
   id:string;

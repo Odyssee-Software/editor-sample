@@ -16,7 +16,9 @@ const configuration = ( config ) => {
     ...config.resolve,
     alias : {
       '@components' : path.resolve( compilationTargetPath , 'components'),
-      '@thorium-components' : path.resolve( compilationTargetPath , 'thorium-components')
+      '@thorium-components' : path.resolve( compilationTargetPath , 'thorium-components'),
+      '@modules' : path.resolve( compilationTargetPath , 'modules'),
+      '@utils' : path.resolve( compilationTargetPath , 'utils'),
     }
   }
 

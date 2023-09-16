@@ -4,7 +4,7 @@ import { computer } from '@neutralinojs/lib';
 import style from './style.module.css';
 // import Datastore from 'nedb';
 
-import { insert , find } from '../../../../modules/database';
+import { insert , find } from '@modules/database';
 
 export class Console{
 
