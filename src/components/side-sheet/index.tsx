@@ -1,6 +1,6 @@
 import style from './style.module.css';
 import { CustomElement, DOM, Page } from 'thorium-framework';
-import { Button } from '../button';
+import { Button , ButtonElement } from '../button';
 import { Divider } from '../divider';
 import { Icon } from '../icon';
 
@@ -24,15 +24,26 @@ type PageParams = {
   name:string;
 }
 
-const PageControl = (page:PageParams) => {
+export type PageControlElement = CustomElement<HTMLDivElement , {
+  children:{
+    "page-selector" : ButtonElement<{
+      "page-edit" : ButtonElement,
+      "page-delete" : ButtonElement,
+      "page-options" : ButtonElement,
+    }>
+  }
+}>
+
+const PageControl = (page:PageParams):PageControlElement => {
   return <div class = {style.PageControl} >
     <Button 
+      name = "page-selector"
       textContent={page.name} 
       icon={{ type : 'mask' , path : path.join( 'app' , path.basename(PageIcon) ) }}
       controls={[
-        <Button textContent='✍️' action = {() => { }} />,
-        <Button textContent='🗑️' action = {() => { }} />,
-        <Button textContent='⠸' action = {() => { }} />
+        <Button name = "page-edit" textContent='✍️' action = {() => { }} />,
+        <Button name = "page-delete" textContent='🗑️' action = {() => { }} />,
+        <Button name = "page-options" textContent='⠸' action = {() => { }} />
       ]}
       action = {async () => {
 

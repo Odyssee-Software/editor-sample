@@ -39,6 +39,102 @@ const myTheme = createTheme({
   ],
 });
 
+type EditorContainerElement = CustomElement<HTMLDivElement , {
+  children : {
+    "editor" : CustomElement<HTMLDivElement,{
+
+    }>
+  }
+}>
+
+export const TypescriptEditor = ():EditorContainerElement => {
+
+  return <div class = { style.TypescriptEditor } >
+    <div
+      name = "editor"
+      class = {style.CodeEditor}
+      _afterMounting = {(target:CustomElement<HTMLDivElement,{lol():string}>) => {
+        
+        let editor = new EditorView({
+          doc: 'Hello World',
+          extensions: [
+            // theme
+            vscodeDark,
+            // setup
+            basicSetup,
+            // language
+            javascript({ jsx: true , typescript : true })
+          ],
+          parent: target,
+        });
+
+      }}
+    />
+</div>;
+
+}
+
+export const StyleEditor = ():EditorContainerElement => {
+
+  return <div>
+    <div
+      class = {style.CodeEditor}
+      _afterMounting = {(target:CustomElement<HTMLDivElement,{lol():string}>) => {
+        
+        let editor = new EditorView({
+          doc: 'Hello World',
+          extensions: [
+            // theme
+            vscodeDark,
+            // setup
+            basicSetup,
+            // language
+            javascript({ jsx: true , typescript : true })
+          ],
+          parent: target,
+        });
+
+      }}
+    />
+  </div>;
+
+}
+
+export type CodeEditorElement = CustomElement<HTMLDivElement , {
+  get_typescriptEditor():CustomElement<Element,{}>;
+  show_typescritEditor():void;
+  show_styleEditor():void;
+}>
+
+const action_ButtonCode = ( event:MouseEvent ) => {
+  let target = event.target as CustomElement<HTMLButtonElement,{}>;
+  let context = target.context<CodeEditorElement>('code-editor-container');
+  context.show_typescritEditor();
+}
+
+const action_ButtonStyle = ( event:MouseEvent ) => {
+  let target = event.target as CustomElement<HTMLButtonElement,{}>;
+  let context = target.context<CodeEditorElement>('code-editor-container');
+  context.show_styleEditor();
+}
+
+const action_ButtonView = () => {
+
+}
+
+const get_typescriptEditor = function( this:CodeEditorElement ){
+  return this.querySelectorAll(`div.${style.TypescriptEditor}`)[0];
+}
+
+const show_typescriptEditor = function( this:CodeEditorElement ){
+  let typescriptEditor = this.get_typescriptEditor();
+  console.log({typescriptEditor})
+}
+
+const show_styleEditor = function( this:CodeEditorElement ){
+  
+}
+
 export class CodeEditor {
 
   static get toolbox() {
@@ -55,41 +151,33 @@ export class CodeEditor {
 
   render(){
 
-    return DOM.render( <div 
-      class = { style.CodeEditorContainer } >
+    return DOM.render<CodeEditorElement>( <div 
+      context = "code-editor-container"
+      class = { style.CodeEditorContainer }
+      _get_typescriptEditor = {get_typescriptEditor}
+      _show_typescritEditor = {show_typescriptEditor}
+      _show_styleEditor = {show_styleEditor}
+      >
         <div class = { style.CodeEditorMenu } >
           <Controls buttons = {[
-            <Button textContent='code' />,
-            <Button textContent='style' />,
+            <Button textContent='code' action = {action_ButtonCode} />,
+            <Button textContent='style' action = {action_ButtonStyle} />,
             <Button textContent='view' />
           ]}/>
         </div>
-        <div
-          class = {style.CodeEditor}
-          _afterMounting = {(target:CustomElement<HTMLDivElement,{lol():string}>) => {
-            
-            let editor = new EditorView({
-              doc: 'Hello World',
-              extensions: [
-                // theme
-                vscodeDark,
-                // setup
-                basicSetup,
-                // language
-                javascript({ jsx: true , typescript : true })
-              ],
-              parent: target,
-            });
-
-          }}
-        />
+        <div>
+          <TypescriptEditor/>
+          <StyleEditor/>
+        </div>
       </div> 
     );
   }
 
   save(blockContent){
+
     return {
       url: blockContent.value
     }
+
   }
 }
