@@ -1,0 +1,31 @@
+.ContextualMenuContainer{
+  position: absolute;
+  height: fit-content;
+  width: fit-content;
+  display: grid;
+  z-index: 100;
+  padding: 15px;
+}
+
+.ContextualMenu{
+  display: grid;
+  height: fit-content;
+  min-width: 150px;
+  width: fit-content;
+  padding: 10px;
+  background-color: whitesmoke;
+  border: 1px solid;
+}
+
+.ContextualMenu > *{
+  width: stretch;
+  height: min-content;
+}
+
+.ContextualMenu > button{
+  border: none;
+}
+
+.ContextualMenu > button:hover{
+  background-color: rgba(105, 105, 105 , 0.2);
+}

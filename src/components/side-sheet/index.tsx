@@ -1,8 +1,9 @@
 import style from './style.module.css';
 import { CustomElement, DOM, Page } from 'thorium-framework';
-import { Button , ButtonElement } from '@thorium-components/button';
+import { Button , ButtonElement , Controls } from '@thorium-components/button';
 import { Divider } from '@thorium-components/divider';
 import { Icon } from '@thorium-components/icon';
+import { ContextualMenu } from '@components/contextual-menu';
 
 import { useState } from 'thorium-framework';
 
@@ -43,7 +44,19 @@ const PageControl = (page:PageParams):PageControlElement => {
       controls={[
         <Button name = "page-edit" textContent='✍️' action = {() => { }} />,
         <Button name = "page-delete" textContent='🗑️' action = {() => { }} />,
-        <Button name = "page-options" textContent='⠸' action = {() => { }} />
+        <Button name = "page-options" textContent='⠸' action = {( event ) => {
+          let { target } = event;
+          DOM.render( <ContextualMenu target = {target as Element} position='right' childrens = {[
+            <Button textContent='Edit' />,
+            <Button textContent='Copy' />,
+            <Divider/>,
+            <Button textContent='Edit' />,
+            <Button textContent='Copy' />,
+            <Divider/>,
+            <Button textContent='Edit' />,
+            <Button textContent='Copy' />
+          ]} /> , document.body )
+         }} />
       ]}
       action = {async () => {
 
