@@ -1,0 +1,15 @@
+.Terminal{
+  height: 100px;
+  width: stretch;
+  padding: 10px;
+}
+
+.Terminal > *{
+  padding: 10px 0;
+}
+
+@media (prefers-color-scheme: light) {
+  .Terminal > *{
+    background-color: white;
+  }
+}

@@ -1,5 +1,5 @@
-import { HelloWorld } from "../editor";
-import { SideSheet } from "../side-sheet";
+import { HelloWorld } from "@components/editor";
+import { SideSheet } from "@components/side-sheet";
 
 import style from './style.module.css';
 

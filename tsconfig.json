@@ -10,7 +10,14 @@
     "skipLibCheck": true,
     "moduleResolution":"node",
     "strict": true,
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "baseUrl": ".",
+    "paths" : {
+      "@thorium-components/*" : ["src/thorium-components/*"],
+      "@components/*" : ["src/components/*"],
+      "@modules/*" : ["src/modules/*"],
+      "@utils/*" : ["src/utils/*"],
+    }
   },
   "include": ["./src/*"],
 }

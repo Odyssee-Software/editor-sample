@@ -1,7 +1,7 @@
 {
   "applicationId": "js.neutralino.zero",
   "version": "1.0.0",
-  "defaultMode": "window",
+  "defaultMode": "chrome",
   "documentRoot": "/public/",
   "url": "/",
   "enableServer": true,
@@ -10,7 +10,10 @@
     "os.*",
     "app.*",
     "filesystem.*",
-    "window.*"
+    "window.*",
+    "extensions.*",
+    "custom.*",
+    "computer.*"
   ],
   "globalVariables": {
     "TEST_1": 1,
@@ -47,8 +50,8 @@
   "enableExtensions": true,
   "extensions": [
     {
-      "id": "extensions.test",
-      "command": "node ${NL_PATH}/extensions/testExtension/dist/index.js"
+      "id": "database.service",
+      "command": "node ${NL_PATH}/extensions/db/dist/index.js"
     }
   ]
 }

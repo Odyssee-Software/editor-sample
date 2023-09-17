@@ -1,0 +1,26 @@
+.IconContainer{
+  padding: 5px;
+  display: grid;
+}
+
+.Iconbackground{
+  height: stretch;
+  width: stretch;
+  background-image: var(--background);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  aspect-ratio: 1/1;
+  background-color: dimgray;
+}
+
+.Iconmask{
+  height: stretch;
+  width: stretch;
+  mask-image: var(--background);
+  mask-size: contain;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  aspect-ratio: 1/1;
+  background-color: dimgray;
+}
