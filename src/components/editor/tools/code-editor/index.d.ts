@@ -7,9 +7,11 @@ type EditorContainerElement = CustomElement<HTMLDivElement, {
 export declare const TypescriptEditor: () => EditorContainerElement;
 export declare const StyleEditor: () => EditorContainerElement;
 export type CodeEditorElement = CustomElement<HTMLDivElement, {
-    get_typescriptEditor(): CustomElement<Element, {}>;
+    get_typescriptEditor(): CustomElement<HTMLElement, {}>;
     show_typescritEditor(): void;
+    get_styleEditor(): CustomElement<HTMLElement, {}>;
     show_styleEditor(): void;
+    hide_all(): void;
 }>;
 export declare class CodeEditor {
     static get toolbox(): {

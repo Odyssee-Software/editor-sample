@@ -1,4 +1,6 @@
 import { DOM , useState , CustomElement } from 'thorium-framework';
+import notifier from 'codex-notifier';
+import {ConfirmNotifierOptions, NotifierOptions, PromptNotifierOptions} from 'codex-notifier';
 
 import { window } from '@neutralinojs/lib'
 import style from './style.module.css';
@@ -10,7 +12,16 @@ import Header from '@editorjs/header';
 
 import * as Database from '@modules/database';
 
-export const [editorState,setEditorState] = useState<EditorJS | null>(null);
+export type EditorState = {
+  configuration : {
+    pageId:string;
+    pageName:string;
+    content:any[]
+  },
+  editor:EditorJS
+}
+
+export const [editorState,setEditorState] = useState<EditorState | null>(null);
 
 /**
  * Le code ci-dessus est un composant Thorium TypeScript appelé "HelloWorld" qui rend un éditeur en utilisant la
@@ -23,16 +34,6 @@ export const [editorState,setEditorState] = useState<EditorJS | null>(null);
 export const HelloWorld = () => {
 
   let initEditorJs = async (target:CustomElement<HTMLElement,{}>) => {
-
-    let pageHomeConfig = {
-      id : '69efe424-277c-4450-8ad1-401bb0509506',
-      name : 'Home'
-    };
-
-    let [ pageHome ] = (await Database.find<[Record<string,any>]>({ id : pageHomeConfig.id })).detail;
-    if(!pageHome){
-      await Database.insert( pageHomeConfig );
-    }
 
     const editor = new EditorJS({
       holder: target,
@@ -53,31 +54,68 @@ export const HelloWorld = () => {
       },
       onReady: () => {
 
-        setEditorState(editor);
+        setEditorState({
+          configuration : {
+            pageId:'',
+            pageName:'',
+            content:[]
+          },
+          editor
+        });
 
       },
       onChange: async (api, event:CustomEvent | CustomEvent[]) => {
 
-        let insertResult = await Database.update( {
-          search : { name : pageHomeConfig.name },
-          insert : {
-            id : pageHomeConfig.id,
-            name : pageHomeConfig.name,
-            content : await editor.save()
-          }
-        } )
+        let { configuration , editor } = editorState.value as EditorState;
 
-        let treatEvent = (event : CustomEvent) => {
+        console.log({configuration});
 
-          if('target' in event.detail){
-            let { name } = event.detail.target;
-            if( name == 'codeEditor' )event.preventDefault();
+        if(!configuration.pageId){
+
+          notifier.show({
+            message: "Vous n'avez aucune page sélectionnée",
+            style : 'error',
+            time: 1000
+          });
+
+        }else{
+
+          let save = await editor.save();
+          
+          let { pageName } = configuration;
+          let { blocks } = save;
+          let [titleBlock] = blocks;
+
+          let { text:titleText } = titleBlock.data;
+
+          console.log( {titleBlock} , {titleText} , {pageName} );
+
+          if(titleText != pageName){
+            setEditorState({
+              configuration : {
+                ...configuration,
+                ...{ pageName : titleText }
+              },
+              editor,
+            })
           }
+
+          let insertResult = await Database.update( {
+            search : { id : configuration.pageId },
+            insert : {
+              id : configuration.pageId,
+              name : titleText,
+              content : save
+            }
+          })
+
+          console.log({insertResult , insert : {
+            id : configuration.pageId,
+            name : configuration.pageName,
+            content : save
+          }})
 
         }
-
-        if(Array.isArray(event))for(const singleEvent of event){ treatEvent(singleEvent) }
-        else treatEvent(event);
 
       }
     });

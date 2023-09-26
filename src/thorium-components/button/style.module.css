@@ -1,3 +1,9 @@
+.ButtonContainer{
+  display: block;
+  height: fit-content;
+  width: stretch;
+}
+
 .Button{
   font-size: inherit;
   font-family: inherit;
@@ -6,11 +12,29 @@
   align-items: center;
   justify-content: flex-start;
   gap: 5px;
+  width: stretch;
+}
+
+.Button [name=icon-container]{
+  order : 1;
 }
 
 .ButtonText{
   padding: 0;
   margin: 0;
+  width: stretch;
+  text-align: left;
+  order: 2;
+}
+
+.Button > [name=controls]{
+  order: 3;
+  opacity: 0;
+  transition: 0.2s;
+}
+
+.Button:hover > [name=controls]{
+  opacity: 1;
 }
 
 .Button div:has(icon){

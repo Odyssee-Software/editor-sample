@@ -16,17 +16,42 @@
   align-items: center;
 }
 
+.CodeEditorCodeWorkspace{
+  height: 400px;
+  overflow: auto;
+  display: grid;
+}
+
+/* Pour le parent des éditeur de code et tout les éditeurs de code */
+
 .CodeEditor{
-  grid-column: 1;
-  grid-row: 2;
   font-size: 16px;
   font-weight:300;
   font-family: Consolas, 'Courier New', monospace;
 }
 
-/*  */
+.CodeEditor > *{
+  height: 100%;
+}
+
+.CodeEditorCodeWorkspace > div[display=false]{
+  display: none;
+}
+
+.CodeEditorCodeWorkspace > div[display=true]{
+  display: grid;
+}
+
+/* Editeur de code typescript */
 
 .TypescriptEditor{
+  grid-column: 1;
+  grid-row: 1;
+}
+
+/* Editeur de code style */
+
+.StyleEditor{
   grid-column: 1;
   grid-row: 1;
 }

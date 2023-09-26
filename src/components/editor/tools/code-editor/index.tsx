@@ -7,7 +7,8 @@ import { createTheme } from '@uiw/codemirror-themes';
 import { vscodeDark } from '@uiw/codemirror-theme-vscode';
 import { tags as t } from '@lezer/highlight';
 
-import { Button , Controls } from '@thorium-components/button';
+import { Button } from '@thorium-components/button';
+import { Controls } from '@thorium-components/controls';
 
 const myTheme = createTheme({
   theme: 'light',
@@ -49,14 +50,14 @@ type EditorContainerElement = CustomElement<HTMLDivElement , {
 
 export const TypescriptEditor = ():EditorContainerElement => {
 
-  return <div class = { style.TypescriptEditor } >
+  return <div name = 'typescript-code-editor' display = "false" class = { style.TypescriptEditor } >
     <div
       name = "editor"
       class = {style.CodeEditor}
       _afterMounting = {(target:CustomElement<HTMLDivElement,{lol():string}>) => {
         
         let editor = new EditorView({
-          doc: 'Hello World',
+          doc: 'Code',
           extensions: [
             // theme
             vscodeDark,
@@ -76,13 +77,13 @@ export const TypescriptEditor = ():EditorContainerElement => {
 
 export const StyleEditor = ():EditorContainerElement => {
 
-  return <div>
+  return <div name = 'style-code-editor' display = "false" class = { style.StyleEditor } >
     <div
       class = {style.CodeEditor}
-      _afterMounting = {(target:CustomElement<HTMLDivElement,{lol():string}>) => {
+      _afterMounting = {(target:CustomElement<HTMLDivElement,{}>) => {
         
         let editor = new EditorView({
-          doc: 'Hello World',
+          doc: 'Style',
           extensions: [
             // theme
             vscodeDark,
@@ -101,9 +102,11 @@ export const StyleEditor = ():EditorContainerElement => {
 }
 
 export type CodeEditorElement = CustomElement<HTMLDivElement , {
-  get_typescriptEditor():CustomElement<Element,{}>;
+  get_typescriptEditor():CustomElement<HTMLElement,{}>;
   show_typescritEditor():void;
+  get_styleEditor():CustomElement<HTMLElement,{}>;
   show_styleEditor():void;
+  hide_all():void;
 }>
 
 const action_ButtonCode = ( event:MouseEvent ) => {
@@ -128,11 +131,22 @@ const get_typescriptEditor = function( this:CodeEditorElement ){
 
 const show_typescriptEditor = function( this:CodeEditorElement ){
   let typescriptEditor = this.get_typescriptEditor();
-  console.log({typescriptEditor})
+  if(typescriptEditor){
+    this.hide_all();
+    typescriptEditor.setAttribute('display' , 'true');
+  }
+}
+
+const get_styleEditor = function( this:CodeEditorElement ){
+  return this.querySelectorAll(`div.${style.StyleEditor}`)[0];
 }
 
 const show_styleEditor = function( this:CodeEditorElement ){
-  
+  let styleEditor = this.get_styleEditor();
+  if(styleEditor){
+    this.hide_all();
+    styleEditor.setAttribute('display' , 'true');
+  }
 }
 
 export class CodeEditor {
@@ -156,7 +170,15 @@ export class CodeEditor {
       class = { style.CodeEditorContainer }
       _get_typescriptEditor = {get_typescriptEditor}
       _show_typescritEditor = {show_typescriptEditor}
+      _get_styleEditor = {get_styleEditor}
       _show_styleEditor = {show_styleEditor}
+      _hide_all = {function(this:CustomElement<HTMLElement,{}>){
+        let [container] = this.querySelectorAll(`.${style.CodeEditorCodeWorkspace}`);
+        for(const child of container.children){
+          let value = child.getAttribute('display');
+          if(value == 'true')child.setAttribute('display','false');
+        }
+      }}
       >
         <div class = { style.CodeEditorMenu } >
           <Controls buttons = {[
@@ -165,7 +187,7 @@ export class CodeEditor {
             <Button textContent='view' />
           ]}/>
         </div>
-        <div>
+        <div class = { style.CodeEditorCodeWorkspace } >
           <TypescriptEditor/>
           <StyleEditor/>
         </div>

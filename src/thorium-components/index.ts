@@ -7,9 +7,11 @@ export type CustomElementDefultProps = {
   id?:string;
   name?:string;
   className?:string;
+  _afterMounting?(target):void;
 }
 
 export * from './button';
+export * from './controls';
 export * from './divider';
 export * from './icon';
 export * from './contextual-menu';

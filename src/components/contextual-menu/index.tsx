@@ -5,6 +5,21 @@ import * as dynamics from 'dynamics.js';
 
 const afterountingContextualMenu = ( target:CustomElement<HTMLDivElement,{}> ) => {
 
+  Show( target );
+
+  setTimeout(() => {
+    let onUnfocus = () => {
+      Hide( target );
+      window.removeEventListener( 'mousedown' , onUnfocus );
+    }
+  
+    window.addEventListener('mousedown' , onUnfocus)
+  } , 500)
+
+}
+
+const Show = ( target:CustomElement<HTMLDivElement,{}> ) => {
+
   let children = Object.values(target.children);
 
   dynamics.animate(target, {
@@ -42,11 +57,26 @@ const afterountingContextualMenu = ( target:CustomElement<HTMLDivElement,{}> ) =
 
 }
 
+const Hide = ( target:CustomElement<HTMLDivElement,{}> ) => {
+  // Animate the popover
+  dynamics.animate(target, {
+    opacity: 0,
+    scale: .1
+  }, {
+    type: dynamics.easeInOut,
+    duration: 300,
+    friction: 100
+  })
+
+  dynamics.setTimeout(target, 1000)
+}
+
+
 export const ContextualMenu = ( props:ContextualMenuProps ) => {
 
   return ContextualMenuBase({
     ...props , 
-    afterMouning : afterountingContextualMenu 
+    afterMouning : afterountingContextualMenu
   });
 
 }

@@ -6,7 +6,23 @@ page- {
   left: 0;
   position: absolute;
   display: grid;
+  z-index: 1;
 
   font-family: var(--font-familly);
   font-size: 12px;
+}
+
+.cdx-notifies{
+  position: absolute;
+  display: grid;
+  width: stretch;
+  left: 0;
+  top: 0;
+  justify-content: flex-end;
+  grid-auto-rows: min-content;
+  height: 0;
+}
+
+.cdx-notifies > .cdx-notify{
+  margin-right: 10px;
 }

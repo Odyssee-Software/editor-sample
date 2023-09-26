@@ -23,28 +23,6 @@
   grid-row: 1;
 }
 
-.SideSheetHeader{
-  padding: 20px;
-  border: 1px solid rgb(105, 105, 105 , 0.2);
-  display: inline-flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.SideSheetContent{
-  padding: 20px;
-  border: 1px solid rgb(105, 105, 105 , 0.2);
-}
-
-.SideSheetActionBar{
-  padding: 20px;
-  border: 1px solid rgb(105, 105, 105 , 0.2);
-  display: inline-flex;
-  justify-content: flex-end;
-  align-items: center;
-  gap: 10px;
-}
-
 .SideSheetExpand{
   grid-row: 1;
   grid-column: 1;
@@ -53,22 +31,4 @@
   margin-left: auto;
   border-top-right-radius: var(--sidesheet-border-radius);
   border-bottom-right-radius: var(--sidesheet-border-radius);
-}
-
-.PageControl{
-
-}
-
-.PageControl:hover{
-  background-color: royalblue;
-}
-
-.PageControl > button{
-  border: none;
-  background-color: transparent;
-  color: initial;
-}
-
-.PageControl:hover > button{
-  color: white;
 }
