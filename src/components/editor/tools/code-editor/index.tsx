@@ -179,6 +179,13 @@ export class CodeEditor {
           if(value == 'true')child.setAttribute('display','false');
         }
       }}
+      _afterMounting = {(target:CodeEditorElement) => {
+
+        let _virtualConf = {
+          id : crypto.randomUUID(),
+        }
+
+      }}
       >
         <div class = { style.CodeEditorMenu } >
           <Controls buttons = {[
@@ -195,10 +202,12 @@ export class CodeEditor {
     );
   }
 
-  save(blockContent){
+  save(blockContent:CodeEditorElement){
+
+    console.log({blockContent});
 
     return {
-      url: blockContent.value
+      url: ""
     }
 
   }

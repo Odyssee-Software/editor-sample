@@ -20,8 +20,8 @@ export declare class CodeEditor {
     };
     static get enableLineBreaks(): boolean;
     render(): CodeEditorElement;
-    save(blockContent: any): {
-        url: any;
+    save(blockContent: CodeEditorElement): {
+        url: string;
     };
 }
 export {};

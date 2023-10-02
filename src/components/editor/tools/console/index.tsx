@@ -34,8 +34,8 @@ export class Console{
                 let response = {};
 
                 try{
-                  if('insert' in args)response = (await insert<Record<string,string>>( JSON.parse(args.insert) )).detail;
-                  else if('find' in args)response = (await find<Record<string,string>>( JSON.parse(args.find) )).detail;
+                  if('insert' in args)response = (await insert( JSON.parse(args.insert) )).detail;
+                  else if('find' in args)response = (await find( JSON.parse(args.find) )).detail;
                 }
                 catch(error){
                   console.log(error);

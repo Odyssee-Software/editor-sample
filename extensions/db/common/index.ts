@@ -10,7 +10,8 @@ import {
   createPage , 
   findPage ,
   findAllPages , 
-  updatePage 
+  updatePage,
+  TPage
 } from './pages';
 
 const Application = () => {
@@ -57,7 +58,7 @@ const Application = () => {
     'create-page' : ( req , res ) => {
 
       let { chanel , data } = req;
-      createPage( data as { name : string } )
+      createPage( data as TPage<any> )
       .then( (result) => res.send( result ) )
       .catch( (error) => res.send( error ) )
 

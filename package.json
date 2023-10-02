@@ -17,6 +17,7 @@
     "@fluentui/svg-icons": "^1.1.198",
     "@neutralinojs/lib": "^3.11.0",
     "@types/nedb": "^1.8.13",
+    "@types/pages": "file:modules/@types/pages",
     "@uiw/codemirror-theme-vscode": "^4.21.13",
     "@uiw/codemirror-themes": "^4.21.13",
     "codemirror": "^6.0.1",

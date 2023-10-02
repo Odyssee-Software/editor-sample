@@ -10,6 +10,7 @@ import {
   findAllPages , 
   findPage 
 } from '@modules/database';
+import { TPage } from 'pages';
 
 import { editorState , EditorState, setEditorState } from '@components/editor'
 
@@ -176,7 +177,7 @@ export const SideSheetContent = (props:{}) => {
         name = 'pages-control'
         _afterMounting = {async (target:CustomElement<HTMLDivElement , {}>) => {
 
-          let { detail:pages } = await findAllPages<{name:string,id:string}[]>();
+          let { detail:pages } = await findAllPages();
 
           for await( const page of pages ){
             DOM.render( <PageContr
