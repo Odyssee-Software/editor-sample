@@ -1,4 +1,4 @@
-import { CustomElement , DesignSystem , PaternArea } from 'thorium-framework';
+import { DOM , CustomElement , DesignSystem , PaternArea , PageLink } from 'thorium-framework';
 import { Icon , IconProps , IconContainerElement} from '../icon';
 import { Controls , ControlsElement , ControlsProps } from '../controls';
 import style from './style.module.css';
@@ -24,6 +24,7 @@ export type ButtonElement< ControlsChildren = Record<string , CustomElement<Elem
 
 export type ButtonProps = {
   textContent?:string;
+  pageLink?:{ to:string , title:string };
   action?(event:MouseEvent):void;
   icon?:IconProps;
   controls?:ControlsProps['buttons'],
@@ -105,8 +106,6 @@ export const ButttonConnector = ButtonPatern.connector<any>();
 
 export const Button = (props:ButtonProps):ButtonElement => {
 
-  console.log({buttonProps : props})
-
   return <ButttonConnector
     attr = {{class : style.ButtonContainer}}
     childrens={[
@@ -119,18 +118,16 @@ export const Button = (props:ButtonProps):ButtonElement => {
         class = {( props.className ? `${style.Button} ${props.className}` : style.Button)}
         childrens = {[
           ( 'icon' in props && props.icon ? <Icon type = { props.icon.type } path={ props.icon.path } /> : null ),
-          ( 'controls' in props && props.controls ? <Controls buttons = {props.controls} /> : null )
+          ( props.textContent ? <p name = "text" part = "text" class = { style.ButtonText } _textContent = {props.textContent} /> : null ),
+          ( 'pageLink' in props && props.pageLink ? <PageLink to = { props.pageLink.to } title={ props.pageLink.title } /> : null),
+          ( 'controls' in props && props.controls ? <Controls buttons = {props.controls} /> : null ),
         ]}
         _afterMounting = {(target) => {
+
           if(props._afterMounting)props._afterMounting(target);
+
         }}
       >
-      <p 
-        name = 'text'
-        part = 'text'
-        class = { style.ButtonText }
-        _textContent = {props.textContent}
-      />
       </button>
     ]}
   />;

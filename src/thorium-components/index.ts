@@ -7,6 +7,7 @@ export type CustomElementDefultProps = {
   id?:string;
   name?:string;
   className?:string;
+  childrens?:any[];
   _afterMounting?(target):void;
 }
 
