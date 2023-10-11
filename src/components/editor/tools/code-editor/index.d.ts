@@ -1,5 +1,7 @@
 import { CustomElement, State } from 'thorium-framework';
 import { OutputBlockData, OutputData } from '@editorjs/editorjs';
+import { os } from '@neutralinojs/lib';
+import { editorState } from '../../';
 type EditorContainerElement = CustomElement<HTMLDivElement, {
     children: {
         "editor": CustomElement<HTMLDivElement, {}>;
@@ -46,6 +48,8 @@ export interface IEnvironements {
     tsconfigSrcPath: string;
     _indexSrcPath: string[];
     indexSrcPath: string;
+    _globalsDTsPath: string[];
+    globalsDTsPath: string;
     _styleSrcPath: string[];
     styleSrcPath: string;
 }
@@ -54,6 +58,10 @@ export declare class CodeEditor {
     state: State<CodeEditor> | null;
     codeBlockId: ICodeBlockEditorConfigData['codeBlockId'];
     codeBlockEnvPaths: IEnvironements;
+    watcherPidStateManager: [State<number>, (value: number) => number];
+    get watcherIdState(): State<number>;
+    set watcherId(pid: number);
+    get watcherId(): number;
     static get toolbox(): {
         title: string;
         icon: string;
@@ -62,7 +70,7 @@ export declare class CodeEditor {
     constructor(config: ICodeBlockEditorConfig);
     onChange(): void;
     ensureRepertoryIntegrity(): Promise<boolean>;
-    launchCompilationWatcher(): Promise<unknown>;
+    launchCompilationWatcher(): Promise<os.SpawnedProcess>;
     compile(): void;
     updateViewer(): void;
     render(): CodeEditorElement;

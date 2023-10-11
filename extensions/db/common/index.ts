@@ -58,7 +58,7 @@ const Application = () => {
     'create-page' : ( req , res ) => {
 
       let { chanel , data } = req;
-      createPage( data as TPage<any> )
+      createPage( data as TPage )
       .then( (result) => res.send( result ) )
       .catch( (error) => res.send( error ) )
 

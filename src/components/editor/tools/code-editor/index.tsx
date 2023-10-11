@@ -15,6 +15,8 @@ import { OutputBlockData , OutputData } from '@editorjs/editorjs';
 import { filesystem as fs , os , events } from '@neutralinojs/lib';
 import * as path from 'path';
 
+import { editorState } from '../../'
+
 let tsConfigFile = {
   "compilerOptions": {
     "jsx": "preserve",
@@ -303,6 +305,8 @@ export interface IEnvironements{
   tsconfigSrcPath:string;
   _indexSrcPath:string[];
   indexSrcPath:string;
+  _globalsDTsPath:string[];
+  globalsDTsPath:string;
   _styleSrcPath:string[];
   styleSrcPath:string;
 }
@@ -324,6 +328,8 @@ export const defineEnvironement = ( codeBlockId:string ):IEnvironements => {
     get tsconfigSrcPath(){ return this._tsconfigSrcPath.join('/') },
     get _indexSrcPath(){ return [ ...this._envSrcPath , 'index.tsx' ] },
     get indexSrcPath(){ return this._indexSrcPath.join('/') },
+    get _globalsDTsPath(){ return [ ...this._envSrcPath , 'Globals.d.ts' ] },
+    get globalsDTsPath(){ return this._globalsDTsPath.join('/') },
     get _styleSrcPath(){ return [ ...this._envSrcPath , 'styles.module.css' ] },
     get styleSrcPath(){ return this._styleSrcPath.join('/') }
   }
@@ -387,7 +393,13 @@ let isSourceFileExist = ( env:IEnvironements ) => {
 }
 
 let createSourceFileExist = ( env:IEnvironements ) => {
-  return fs.writeFile( env.indexSrcPath , `console.log("Hello World 😃");` );
+  let content = [
+    `import "./styles.module.css"`,
+    `import styles from "./styles.module.css"`,
+    ``,
+    `console.log("Hello World 😃");`
+  ].join('\n');
+  return fs.writeFile( env.indexSrcPath , content );
 }
 
 let isStyleFileExist = ( env:IEnvironements ) => {
@@ -406,6 +418,20 @@ let createTSConfig = ( env:IEnvironements ) => {
   return fs.writeFile( env.tsconfigSrcPath , JSON.stringify(tsConfigFile , null , '\t') );
 }
 
+let isGlobalsDTsFileExist = ( env:IEnvironements ) => {
+  return isFileExist( env.globalsDTsPath );
+}
+
+let createGlobalsDTs = ( env:IEnvironements ) => {
+  let content = [
+    `declare module "*.module.css";`,
+    `declare module "*.svg";`,
+    `declare module "*.jpeg";`,
+    `declare module "*.png";`
+  ];
+  return fs.writeFile( env.globalsDTsPath , content.join('\n') );
+}
+
 let pairConfiguration = async ( env:IEnvironements ):Promise<[boolean , () => Promise<any>][]> => {
 
   return [
@@ -414,6 +440,7 @@ let pairConfiguration = async ( env:IEnvironements ):Promise<[boolean , () => Pr
     [ await isSourceDirectoryExist(env) , () => { return createSourceDirectory( env ) } ],
     [ await isSourceFileExist(env) , () => { return createSourceFileExist( env ) } ],
     [ await isSourceFileExist(env) , () => { return createSourceFileExist( env ) } ],
+    [ await isGlobalsDTsFileExist(env) , () => { return createGlobalsDTs( env ) } ],
     [ await isStyleFileExist(env) , () => { return createStyleFileExist(env) } ],
     [ await isTsConfigExist(env) , () => { return createTSConfig( env ) } ],
   ];
@@ -455,6 +482,18 @@ export class CodeEditor {
   state:State<CodeEditor>|null = null;
   codeBlockId:ICodeBlockEditorConfigData['codeBlockId'] = crypto.randomUUID();
   codeBlockEnvPaths:IEnvironements = defineEnvironement(this.codeBlockId);
+  watcherPidStateManager = useState<number>(-1);
+  get watcherIdState(){ 
+    let [ state ] = this.watcherPidStateManager;
+    return state;
+  };
+  set watcherId(pid:number){ 
+    let [ state , setter ] = this.watcherPidStateManager;
+    setter(pid);
+  }
+  get watcherId(){ 
+    return this.watcherIdState.value;
+  }
 
   static get toolbox() {
     return {
@@ -500,20 +539,17 @@ export class CodeEditor {
       return arr;
     } , []).includes(false);
 
-    console.warn({verifCompleted})
-
     if(!verifCompleted)return this.ensureRepertoryIntegrity();
     else return true;
 
   }
 
-  launchCompilationWatcher( ){
-    console.warn('launchCompilationWatcher')
+  launchCompilationWatcher( ):Promise<os.SpawnedProcess>{
     return new Promise( async (resolve , reject) => {
       let { PWD } = await os.getEnvs();
       let command = `npx --yes thorium-cli@1.0.50 --entryDir=${path.join( PWD , this.codeBlockEnvPaths.envSrcPath )} --outputDir=${ path.join( PWD , this.codeBlockEnvPaths.envDistPath ) } --watch`;
       console.warn(`Exec : ${command}` , { background: true })
-      os.execCommand( command , { background: true } )
+      os.spawnProcess( command )
       .then(( result ) => {
         console.log( { consoleResult : result } )
         resolve( result )
@@ -533,12 +569,17 @@ export class CodeEditor {
 
   render(){
 
+    const _self = this;
+
     Promise.all([
       this.ensureRepertoryIntegrity(),
-      this.launchCompilationWatcher()
+      this.launchCompilationWatcher(),
     ])
     .then(( result ) => {
-      console.warn({ possibleResult1 : result })
+
+      let [ integrityResult , watcher ] = result;
+      _self.watcherId = watcher.id;
+
     })
     .catch((error) => {
       console.warn({ possibleResult2 : error })
@@ -561,6 +602,9 @@ export class CodeEditor {
           if(value == 'true')child.setAttribute('display','false');
         }
       }}
+      _onunmount = {() => {
+        alert('Unmount');
+      }}
       _afterMounting = {(target:CodeEditorElement) => {
 
         let _virtualConf = {
@@ -572,6 +616,7 @@ export class CodeEditor {
       }}
       >
         <div class = { style.CodeEditorMenu } >
+          <label _textContent = {this.codeBlockId} ></label>
           <Controls buttons = {[
             <Button textContent='settings ⛔️' />,
             <Button textContent='open Editor ⛔️' />,

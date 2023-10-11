@@ -40,8 +40,8 @@
     "binaryName": "Notes",
     "resourcesPath": "/public/",
     "extensionsPath": "/extensions/",
-    "binaryVersion": "4.13.0",
-    "clientVersion": "3.8.2",
+    "binaryVersion": "4.14.1",
+    "clientVersion": "3.12.0",
     "frontendLibrary": {
       "patchFile" : "/public/index.html",
       "devUrl" : "http://localhost:8080"
@@ -52,6 +52,14 @@
     {
       "id": "database.service",
       "command": "node ${NL_PATH}/extensions/db/dist/index.js"
+    },
+    {
+      "id" : "codeblock.manager",
+      "command": "node ${NL_PATH}/extensions/code-block/dist/index.js"
+    },
+    {
+      "id" : "extensions.manager",
+      "command": "node ${NL_PATH}/extensionsManager/dist/index.js"
     }
   ]
 }

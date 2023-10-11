@@ -1,3 +1,2 @@
-2023/10/11-07:44:26.649 3d03 Reusing MANIFEST /Users/guillaume/Documents/temporaire/editor-sample/.tmp/chromedata/Default/Local Storage/leveldb/MANIFEST-000001
-2023/10/11-07:44:26.651 3d03 Recovering log #31
-2023/10/11-07:44:26.667 3d03 Reusing old log /Users/guillaume/Documents/temporaire/editor-sample/.tmp/chromedata/Default/Local Storage/leveldb/000031.log 
+2023/10/11-20:43:52.248 3a03 Creating DB /Users/guillaume/Documents/temporaire/editor-sample/.tmp/chromedata/Default/Local Storage/leveldb since it was missing.
+2023/10/11-20:43:52.271 3a03 Reusing MANIFEST /Users/guillaume/Documents/temporaire/editor-sample/.tmp/chromedata/Default/Local Storage/leveldb/MANIFEST-000001

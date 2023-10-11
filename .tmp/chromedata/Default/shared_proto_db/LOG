@@ -1,3 +1,2 @@
-2023/10/11-07:44:26.884 a507 Reusing MANIFEST /Users/guillaume/Documents/temporaire/editor-sample/.tmp/chromedata/Default/shared_proto_db/MANIFEST-000001
-2023/10/11-07:44:26.884 a507 Recovering log #3
-2023/10/11-07:44:26.886 a507 Reusing old log /Users/guillaume/Documents/temporaire/editor-sample/.tmp/chromedata/Default/shared_proto_db/000003.log 
+2023/10/11-20:43:52.498 a707 Creating DB /Users/guillaume/Documents/temporaire/editor-sample/.tmp/chromedata/Default/shared_proto_db since it was missing.
+2023/10/11-20:43:52.518 a707 Reusing MANIFEST /Users/guillaume/Documents/temporaire/editor-sample/.tmp/chromedata/Default/shared_proto_db/MANIFEST-000001

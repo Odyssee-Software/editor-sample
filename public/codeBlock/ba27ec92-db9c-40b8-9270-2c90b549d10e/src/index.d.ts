@@ -1,2 +1,1 @@
-declare let body: HTMLElement;
-declare let h2: HTMLHeadingElement;
+import './styles.module.css';

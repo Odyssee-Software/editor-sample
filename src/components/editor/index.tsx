@@ -12,6 +12,8 @@ import Header from '@editorjs/header';
 
 import * as Database from '@modules/database';
 
+import { os , filesystem as fs } from '@neutralinojs/lib'
+
 export type EditorState = {
   configuration : {
     pageId:string;
@@ -34,6 +36,23 @@ export const [editorState,setEditorState] = useState<EditorState | null>(null);
 export const HelloWorld = () => {
 
   let initEditorJs = async (target:CustomElement<HTMLElement,{}>) => {
+
+    // Quand la configuration de l'éditeur change
+    // Tout les process en parallèle s'éteigne
+    editorState.subscribe( target , async () => {
+
+      let processes = await os.getSpawnedProcesses();
+      for await(const process of processes){
+        await os.updateSpawnedProcess( process.id , 'exit' );
+        console.warn(`kill process (${process.id})pid:${process.pid}`)
+      }
+
+      let watchers = await fs.getWatchers();
+      for await(const watcher of watchers){
+        await fs.removeWatcher(watcher.id)
+      }
+
+    })
 
     const editor = new EditorJS({
       holder: target,
