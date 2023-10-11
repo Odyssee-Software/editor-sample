@@ -69,7 +69,10 @@ const PageContr = (page:PageParams):PageControlElement => {
           <Button name = "page-delete" textContent='🗑️' action = {() => { }} />,
           <Button name = "page-options" textContent='⠸' action = {( event ) => {
             let { target } = event;
-            DOM.render( <ContextualMenu target = {target as Element} position='right' childrens = {[
+
+            let { virtual:VirtualDOM } = DOM;
+
+            VirtualDOM.createNodeElement( <ContextualMenu target = {target as Element} position='right' childrens = {[
               <Button textContent='Edit' />,
               <Button textContent='Copy' />,
               <Divider/>,
@@ -131,7 +134,8 @@ const PageControl = (page:PageParams):PageControlElement => {
         <Button name = "page-delete" textContent='🗑️' action = {() => { }} />,
         <Button name = "page-options" textContent='⠸' action = {( event ) => {
           let { target } = event;
-          DOM.render( <ContextualMenu target = {target as Element} position='right' childrens = {[
+          let { virtual:VirtualDOM } = DOM;
+          VirtualDOM.createNodeElement( <ContextualMenu target = {target as Element} position='right' childrens = {[
             <Button textContent='Edit' />,
             <Button textContent='Copy' />,
             <Divider/>,
@@ -177,10 +181,11 @@ export const SideSheetContent = (props:{}) => {
         name = 'pages-control'
         _afterMounting = {async (target:CustomElement<HTMLDivElement , {}>) => {
 
+          let { virtual:VirtualDOM } = DOM;
           let { detail:pages } = await findAllPages();
 
           for await( const page of pages ){
-            DOM.render( <PageContr
+            VirtualDOM.createNodeElement( <PageContr
               id = { page.id } 
               name = {page.name}
             /> , target );
@@ -190,7 +195,8 @@ export const SideSheetContent = (props:{}) => {
           
         }}
         _addPageController = {function( this , page ){
-          DOM.render( <PageContr
+          let { virtual:VirtualDOM } = DOM;
+          VirtualDOM.createNodeElement( <PageContr
             id = { page._id } 
             name = {page.name}
           /> , this );

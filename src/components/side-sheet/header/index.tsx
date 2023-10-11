@@ -11,8 +11,8 @@ import CloseIcon from '@fluentui/svg-icons/icons/arrow_previous_20_filled.svg';
 export const SideSheetHeader = () => {
 
   return <div class = { styles.SideSheetHeader }>
-    <Button icon = {{ type : 'mask' , path : path.join( 'app' , path.basename(OptionsIcon) ) }} pageLink={{ to : '/settings' , title : 'settings' }} />
-    <Button textContent='B'/>
+    <Button textContent='Settings' icon = {{ type : 'mask' , path : path.join( 'app' , path.basename(OptionsIcon) ) }} pageLink = {{ to : '/settings' }} />
+    <Button textContent='Google' pageLink = {{ to : 'https://www.google.be/' }} />
     <Button textContent='C'/>
     <Button 
       icon = {{ type : 'mask' , path : path.join( 'app' , path.basename(CloseIcon) ) }}

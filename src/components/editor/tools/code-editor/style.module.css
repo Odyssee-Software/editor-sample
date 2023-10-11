@@ -55,3 +55,23 @@
   grid-column: 1;
   grid-row: 1;
 }
+
+/* Code Viewer */
+.CodeViewer{
+  grid-column: 1;
+  grid-row: 1;
+  width: stretch;
+  height: stretch;
+  display: grid;
+}
+
+.CodeViewer > div{
+  width: stretch;
+  height: stretch;
+  display: grid;
+}
+
+.CodeViewer > div > iframe{
+  height: stretch;
+  width: stretch;
+}

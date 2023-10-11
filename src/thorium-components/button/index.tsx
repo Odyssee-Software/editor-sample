@@ -24,7 +24,7 @@ export type ButtonElement< ControlsChildren = Record<string , CustomElement<Elem
 
 export type ButtonProps = {
   textContent?:string;
-  pageLink?:{ to:string , title:string };
+  pageLink?:{ to:string };
   action?(event:MouseEvent):void;
   icon?:IconProps;
   controls?:ControlsProps['buttons'],
@@ -104,6 +104,20 @@ export const ButtonPatern = DesignSystem().register('thorium' , {
 
 export const ButttonConnector = ButtonPatern.connector<any>();
 
+function isURL( url:string ){
+  let result = false;
+  try{
+    let u = new URL(url);
+    result = true;
+  }
+  catch(error){
+    result = false;
+  }
+  finally{
+    return result;
+  }
+}
+
 export const Button = (props:ButtonProps):ButtonElement => {
 
   return <ButttonConnector
@@ -112,14 +126,19 @@ export const Button = (props:ButtonProps):ButtonElement => {
       <button 
         id = { (props.id ? props.id : null) }
         part = "button"
-        _onmousedown = {(props.action ? props.action : null)}
+        _onmousedown = {(event) => {
+          if(props.action)props.action(event);
+          if(props.pageLink){
+            if(isURL(props.pageLink.to))location.replace(props.pageLink.to);
+            else location.href = `#${props.pageLink.to}`
+          }
+        }}
         _icon = {getButtonIcon}
         _controls = {getButtonControls}
         class = {( props.className ? `${style.Button} ${props.className}` : style.Button)}
         childrens = {[
           ( 'icon' in props && props.icon ? <Icon type = { props.icon.type } path={ props.icon.path } /> : null ),
           ( props.textContent ? <p name = "text" part = "text" class = { style.ButtonText } _textContent = {props.textContent} /> : null ),
-          ( 'pageLink' in props && props.pageLink ? <PageLink to = { props.pageLink.to } title={ props.pageLink.title } /> : null),
           ( 'controls' in props && props.controls ? <Controls buttons = {props.controls} /> : null ),
         ]}
         _afterMounting = {(target) => {

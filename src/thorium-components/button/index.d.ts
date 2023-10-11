@@ -21,7 +21,6 @@ export type ButtonProps = {
     textContent?: string;
     pageLink?: {
         to: string;
-        title: string;
     };
     action?(event: MouseEvent): void;
     icon?: IconProps;

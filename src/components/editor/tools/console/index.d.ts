@@ -3,7 +3,7 @@ export declare class Console {
         title: string;
         icon: string;
     };
-    render(): unknown;
+    render(): string;
     save(blockContent: any): {
         url: any;
     };

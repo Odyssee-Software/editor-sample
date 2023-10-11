@@ -17,7 +17,10 @@ export class Console{
   }
 
   render(){
-    return DOM.render( <div class = { style.Terminal }>
+
+    let { virtual:VirtualDOM } = DOM;
+
+    return VirtualDOM.createNodeElement( <div class = { style.Terminal }>
       <div _afterMounting = {async (target) => {
 
         let { name } = await computer.getOSInfo();
