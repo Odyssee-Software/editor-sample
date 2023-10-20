@@ -1,16 +1,1 @@
-body{
-  background : ghostwhite;
-  align-items:center;
-  justify-content:center;
-  display:grid;
-  width:stretch;
-}
-
-.Title{
-  background-color : blue;
-  align-items : center;
-  justify-content : center;
-  width:stretch;
-  color: white;
-  text-align:center;
-}
+.MyComponent{}

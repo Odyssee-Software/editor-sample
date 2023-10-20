@@ -1,4 +1,4 @@
-import { TPage } from 'pages';
+import { TPage } from 'types-pages';
 export declare const database: <response>(event: string, message: string | Record<string, any>) => Promise<CustomEvent<response>>;
 /**
  * The function `insert` takes in a single object or an array of objects and inserts it into a

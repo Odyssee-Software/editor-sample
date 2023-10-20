@@ -6,12 +6,13 @@
 import { Extension , IExtension } from 'thorino-ipc';
 import Datastore from 'nedb';
 
+import { TPage } from 'types-pages'; 
+
 import { 
   createPage , 
   findPage ,
   findAllPages , 
   updatePage,
-  TPage
 } from './pages';
 
 const Application = () => {

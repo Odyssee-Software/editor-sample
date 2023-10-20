@@ -17,24 +17,45 @@ import * as path from 'path';
 
 import { editorState } from '../../'
 
-let tsConfigFile = {
-  "compilerOptions": {
-    "jsx": "preserve",
-    "module": "ES6",
-    "target": "ES2016",
-    "declaration": true,
-    "sourceMap": true,
-    "removeComments": false,
-    "preserveConstEnums" : true,
-    "skipLibCheck": true,
-    "moduleResolution":"node",
-    "strict": true,
-    "noImplicitAny": false,
-    "baseUrl": ".",
-  },
-  "include": ["./src/*"],
+let tsConfigFile = () => {
+  return {
+    "compilerOptions": {
+      "jsx": "preserve",
+      "module": "ES6",
+      "target": "ES2016",
+      "declaration": true,
+      "sourceMap": true,
+      "removeComments": false,
+      "preserveConstEnums" : true,
+      "skipLibCheck": true,
+      "moduleResolution":"node",
+      "strict": true,
+      "noImplicitAny": false,
+      "baseUrl": ".",
+    },
+    "include": ["./src/*"],
+  }
 }
 
+let packageJsonFile = ( projectName:string ) => {
+
+  return {
+    "name": projectName,
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+      "thorium-framework": "latest",
+      "typescript": "latest"
+    },
+    "author": "",
+    "license": "ISC"
+  }
+  
+};
 
 const myTheme = createTheme({
   theme: 'light',
@@ -193,7 +214,6 @@ export const HTMLViewer = ( props : {editorState:State<CodeEditor>} ) => {
           <head>
           </head>
           <body>
-            <h1>Hello</h1>
             <script src = "codeBlock/${state.codeBlockId}/dist/build.js"></script>
           </body>
         </html>`;
@@ -203,7 +223,6 @@ export const HTMLViewer = ( props : {editorState:State<CodeEditor>} ) => {
             <head>
             </head>
             <body>
-              <h1>Hello</h1>
               <script src = "codeBlock/${state.codeBlockId}/dist/build.js"></script>
             </body>
           </html>`;
@@ -291,6 +310,7 @@ export interface ICodeBlockEditorConfig extends OutputBlockData{
 }
 
 export interface IEnvironements{
+  codeBlockId:string;
   _publicPath:string[];
   publicPath:string;
   _codeBlockEnvPath:string[];
@@ -301,6 +321,8 @@ export interface IEnvironements{
   envSrcPath:string;
   _envDistPath:string[];
   envDistPath:string;
+  _packageJsonPath:string[];
+  packageJsonPath:string;
   _tsconfigSrcPath:string[];
   tsconfigSrcPath:string;
   _indexSrcPath:string[];
@@ -314,6 +336,7 @@ export interface IEnvironements{
 export const defineEnvironement = ( codeBlockId:string ):IEnvironements => {
 
   return {
+    codeBlockId,
     get _publicPath(){ return ['public'] },
     get publicPath(){ return this._publicPath.join('/') },
     get _codeBlockEnvPath(){ return [ ...this._publicPath , 'codeBlock' ] },
@@ -324,6 +347,8 @@ export const defineEnvironement = ( codeBlockId:string ):IEnvironements => {
     get envSrcPath(){return this._envSrcPath.join('/')},
     get _envDistPath(){return [ ...this._envPath , 'dist' ]},
     get envDistPath(){return this._envDistPath.join('/')},
+    get _packageJsonPath(){ return [ ...this._envPath , 'package.json' ] },
+    get packageJsonPath(){ return this._packageJsonPath.join('/') },
     get _tsconfigSrcPath(){ return [ ...this._envPath , 'tsconfig.json' ] },
     get tsconfigSrcPath(){ return this._tsconfigSrcPath.join('/') },
     get _indexSrcPath(){ return [ ...this._envSrcPath , 'index.tsx' ] },
@@ -410,12 +435,20 @@ let createStyleFileExist = ( env:IEnvironements ) => {
   return fs.writeFile( env.styleSrcPath , `.MyComponent{}` );
 }
 
+let isPackageJsonExist = ( env:IEnvironements ) => {
+  return isFileExist( env.packageJsonPath );
+}
+
+let createPackageJson = ( env:IEnvironements ) => {
+  return fs.writeFile( env.packageJsonPath , JSON.stringify(packageJsonFile( env.codeBlockId ) , null , '\t') );
+}
+
 let isTsConfigExist = ( env:IEnvironements ) => {
   return isFileExist( env.tsconfigSrcPath );
 }
 
 let createTSConfig = ( env:IEnvironements ) => {
-  return fs.writeFile( env.tsconfigSrcPath , JSON.stringify(tsConfigFile , null , '\t') );
+  return fs.writeFile( env.tsconfigSrcPath , JSON.stringify(tsConfigFile() , null , '\t') );
 }
 
 let isGlobalsDTsFileExist = ( env:IEnvironements ) => {
@@ -432,6 +465,10 @@ let createGlobalsDTs = ( env:IEnvironements ) => {
   return fs.writeFile( env.globalsDTsPath , content.join('\n') );
 }
 
+let intstallModules = ( env:IEnvironements ) => {
+  return os.execCommand( `cd "${env.envPath}" && npm install ` )
+}
+
 let pairConfiguration = async ( env:IEnvironements ):Promise<[boolean , () => Promise<any>][]> => {
 
   return [
@@ -442,6 +479,7 @@ let pairConfiguration = async ( env:IEnvironements ):Promise<[boolean , () => Pr
     [ await isSourceFileExist(env) , () => { return createSourceFileExist( env ) } ],
     [ await isGlobalsDTsFileExist(env) , () => { return createGlobalsDTs( env ) } ],
     [ await isStyleFileExist(env) , () => { return createStyleFileExist(env) } ],
+    [ await isPackageJsonExist(env) , () => { return createPackageJson( env ) } ],
     [ await isTsConfigExist(env) , () => { return createTSConfig( env ) } ],
   ];
 
@@ -530,7 +568,10 @@ export class CodeEditor {
     let pairConf = await pairConfiguration( this.codeBlockEnvPaths );
     for await(const pair of pairConf){
       let [ verif , create ] = pair;
-      if(!verif)await create();
+      if(!verif){
+        let result = await create();
+        console.log({ createResult : result })
+      }
     }
 
     let verifCompleted = !pairConf.reduce(( arr:boolean[] , pair ) => {
@@ -540,7 +581,10 @@ export class CodeEditor {
     } , []).includes(false);
 
     if(!verifCompleted)return this.ensureRepertoryIntegrity();
-    else return true;
+    else {
+      await intstallModules( this.codeBlockEnvPaths )
+      return true;
+    }
 
   }
 
@@ -571,18 +615,34 @@ export class CodeEditor {
 
     const _self = this;
 
+    let loading = () => {
+      console.warn(`${this.codeBlockId} is loading`);
+    }
+
+    let loadingInterval = setInterval( loading , 1000 )
+
+    console.warn(`launch watcher for ${this.codeBlockId}`)
     Promise.all([
       this.ensureRepertoryIntegrity(),
       this.launchCompilationWatcher(),
     ])
     .then(( result ) => {
 
+      clearInterval( loadingInterval );
+
+      console.warn(`launch watcher [end-succes] for ${this.codeBlockId}`)
+
       let [ integrityResult , watcher ] = result;
       _self.watcherId = watcher.id;
 
     })
     .catch((error) => {
-      console.warn({ possibleResult2 : error })
+
+      clearInterval( loadingInterval );
+
+      console.warn(`launch watcher [end-error] for ${this.codeBlockId}`)
+      console.warn({ possibleResult2 : error });
+      
     })
 
     return DOM.render<CodeEditorElement>( <div 
@@ -619,7 +679,11 @@ export class CodeEditor {
           <label _textContent = {this.codeBlockId} ></label>
           <Controls buttons = {[
             <Button textContent='settings ⛔️' />,
-            <Button textContent='open Editor ⛔️' />,
+            <Button textContent='open Editor' action={() => { 
+              let command = `npx --yes open-in-editor --file "${path.join(window['NL_CWD'] , this.codeBlockEnvPaths.envPath)}" --editor code`
+              console.log({command})
+              os.execCommand( command )
+            }} />,
             <Button textContent='code' action = {action_ButtonCode} />,
             <Button textContent='style' action = {action_ButtonStyle} />,
             <Button textContent='view' action = {action_ButtonView} />

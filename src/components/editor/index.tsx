@@ -44,12 +44,13 @@ export const HelloWorld = () => {
       let processes = await os.getSpawnedProcesses();
       for await(const process of processes){
         await os.updateSpawnedProcess( process.id , 'exit' );
-        console.warn(`kill process (${process.id})pid:${process.pid}`)
+        console.warn(`kill process (${process.id})pid:${process.pid}`);
       }
 
       let watchers = await fs.getWatchers();
       for await(const watcher of watchers){
-        await fs.removeWatcher(watcher.id)
+        await fs.removeWatcher(watcher.id);
+        console.warn(`kill watcher (${watcher.id})path:${watcher.path}`);
       }
 
     })

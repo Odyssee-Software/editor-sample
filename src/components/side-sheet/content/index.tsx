@@ -10,7 +10,7 @@ import {
   findAllPages , 
   findPage 
 } from '@modules/database';
-import { TPage } from 'pages';
+import { TPage } from 'types-pages';
 
 import { editorState , EditorState, setEditorState } from '@components/editor'
 

@@ -1,13 +1,14 @@
-console.log("Et Moi je suis un code block différent de celui au dessus 🔥✅");
-console.log("colo l'écolo");
+import "./styles.module.css"
+import styles from "./styles.module.css";
 
-let { body } = document;
+import { DOM } from 'thorium-framework';
 
-let button = document.createElement('button');
-button.innerText = 'Hello';
-button.onmousedown = ( event:MouseEvent ) => {
-  alert('🚀 je suis space X AKA Elon Musk 10000000xxxxx');
+let MonComponent = () => {
+
+  return <div>
+    <button _onmousedown = {() => { alert('MDRRRR') }} >YOO lolo</button>
+  </div>;
+  
 }
 
-body.appendChild( button );
-
+DOM.render( <MonComponent/> , document.body )

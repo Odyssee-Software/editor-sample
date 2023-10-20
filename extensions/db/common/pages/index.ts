@@ -1,11 +1,9 @@
-import { TPage } from 'pages'; 
+import { TPage } from 'types-pages'; 
 import { Cluster } from "../cluster/index";
 
 const cluster = Cluster.create( { filename : 'database/pages.db' , autoload : true } );
 
-export * from 'pages';
-
-export const findAllPages = async ( ):Promise<TPage<any>[]> => {
+export const findAllPages = async ( ):Promise<TPage[]> => {
   return new Promise((next , reject) => {
     cluster.find({} , (error , results) => {
       if(error)reject(error);
@@ -14,7 +12,7 @@ export const findAllPages = async ( ):Promise<TPage<any>[]> => {
   })
 }
 
-export const createPage = async (pageOption:TPage<any>):Promise<TPage<any> | boolean > => {
+export const createPage = async (pageOption:TPage):Promise<TPage | boolean > => {
 
   let preSearch:boolean = await new Promise((next,reject) => {
 
@@ -49,7 +47,7 @@ export const updatePage = async ( query:Record<string,any> , insert:Record<strin
   })
 }
 
-export const findPage = ( query:Record<string,any> ):Promise<TPage<any> | Error> => {
+export const findPage = ( query:Record<string,any> ):Promise<TPage | Error> => {
   return new Promise((next,reject) => {
     cluster.find( query , (error,result) => {
       if(error)reject(error);

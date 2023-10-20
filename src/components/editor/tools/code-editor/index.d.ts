@@ -34,6 +34,7 @@ export interface ICodeBlockEditorConfig extends OutputBlockData {
     data: ICodeBlockEditorConfigData;
 }
 export interface IEnvironements {
+    codeBlockId: string;
     _publicPath: string[];
     publicPath: string;
     _codeBlockEnvPath: string[];
@@ -44,6 +45,8 @@ export interface IEnvironements {
     envSrcPath: string;
     _envDistPath: string[];
     envDistPath: string;
+    _packageJsonPath: string[];
+    packageJsonPath: string;
     _tsconfigSrcPath: string[];
     tsconfigSrcPath: string;
     _indexSrcPath: string[];

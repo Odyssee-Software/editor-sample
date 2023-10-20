@@ -1,5 +1,5 @@
 import { Dispatcher } from "thorino-ipc";
-import { TPage } from 'pages';
+import { TPage } from 'types-pages';
 
 /* The line `export const database = Dispatcher( 'database.service' );` is creating a dispatcher object
 named `database` using the `Dispatcher` function from the `thorino-ipc` library. The dispatcher
