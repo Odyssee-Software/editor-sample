@@ -57,6 +57,8 @@ export interface IEnvironements {
     styleSrcPath: string;
 }
 export declare const defineEnvironement: (codeBlockId: string) => IEnvironements;
+export type TBlockSettingsKeys = 'input';
+export type TBlockSettings = Record<TBlockSettingsKeys, string>[];
 export declare class CodeEditor {
     state: State<CodeEditor> | null;
     codeBlockId: ICodeBlockEditorConfigData['codeBlockId'];
@@ -72,6 +74,7 @@ export declare class CodeEditor {
     static get enableLineBreaks(): boolean;
     constructor(config: ICodeBlockEditorConfig);
     onChange(): void;
+    get settings(): TBlockSettings;
     ensureRepertoryIntegrity(): Promise<boolean>;
     launchCompilationWatcher(): Promise<os.SpawnedProcess>;
     compile(): void;

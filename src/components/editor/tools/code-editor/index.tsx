@@ -515,6 +515,9 @@ let disposeWatcher = ( watcherId:number ):Promise<number> => {
   return fs.removeWatcher( watcherId );
 }
 
+export type TBlockSettingsKeys = 'input';
+export type TBlockSettings = Record<TBlockSettingsKeys , string>[];
+
 export class CodeEditor {
 
   state:State<CodeEditor>|null = null;
@@ -560,6 +563,15 @@ export class CodeEditor {
     // Update file
     // Compile
     // Render compilation in script
+
+  }
+
+  get settings():TBlockSettings{
+
+    return [
+      { input : 'loool' },
+      { input : 'mdr' },
+    ]
 
   }
 
