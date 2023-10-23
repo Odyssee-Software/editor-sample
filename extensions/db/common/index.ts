@@ -20,6 +20,42 @@ const Application = () => {
       let { chanel , data } = req;
       Database.find( data , (err,result) => { res.send( ( err ? err : result ) ) })
     },
+<<<<<<< Updated upstream
+=======
+    update : (req , res ) => {
+      let { chanel , data } = req;
+      let { search , insert } = data;
+
+      updatePage( search , insert )
+      .then(( result ) => res.send(result))
+      .catch(( error ) => res.send(error));
+
+    },
+    'find-page' : ( req , res ) => {
+
+      let { chanel , data } = req;
+
+      findPage( data )
+      .then( (result) => res.send( result ) )
+      .catch( (error) => res.send( error ) )
+
+    },
+    'find-all-pages' : ( req , res ) => {
+
+      findAllPages( )
+      .then( (result) => res.send( result ) )
+      .catch( (error) => res.send( error ) )
+
+    },
+    'create-page' : ( req , res ) => {
+
+      let { chanel , data } = req;
+      createPage( data as TPage )
+      .then( (result) => res.send( result ) )
+      .catch( (error) => res.send( error ) )
+
+    }
+>>>>>>> Stashed changes
   }
   
 }
