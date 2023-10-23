@@ -1,0 +1,47 @@
+.ButtonContainer{
+  display: block;
+  height: fit-content;
+  width: stretch;
+}
+
+.Button{
+  font-size: inherit;
+  font-family: inherit;
+  padding: 5px 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  width: stretch;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.Button [name=icon-container]{
+  order : 1;
+}
+
+.ButtonText{
+  padding: 0;
+  margin: 0;
+  width: max-content;
+  text-align: left;
+  order: 2;
+}
+
+.Button > [name=controls]{
+  order: 3;
+  opacity: 0;
+  transition: 0.2s;
+}
+
+.Button:hover > [name=controls]{
+  opacity: 1;
+}
+
+.Button div:has(icon){
+  padding: 0;
+}
+
+.Button icon{
+  height: 20px;
+}
