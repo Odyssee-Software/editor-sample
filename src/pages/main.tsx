@@ -1,6 +1,10 @@
 import { PageRouter , Page , PageLink } from "thorium-framework";
 import { Workspace } from '@components/workspace';
 
+import { configureNoteEditorBlock } from "@components/note-editor";
+import Header from '@editorjs/header';
+import * as tools from '../components/editor/tools';
+
 const Home = () => {
   return <div>
     <h1>Home</h1>
@@ -20,6 +24,28 @@ const Settings = () => {
 "thorium-framework" library. */
 export default <PageRouter >
   <Page name = "" childrens={[<Home/>]}/>
-  <Page name = "workspace" childrens={[<Workspace/>]}/>
+  <Page name = "workspace" childrens={[<Workspace
+    pluginPages={{
+      'note' : class {
+
+        constructor(  ){
+
+        }
+
+      },
+      'html' : class {
+
+      }
+    }}
+    pluginBlocks={{
+      'h1' : configureNoteEditorBlock( Header as any , {
+        placeholder: 'Enter a header',
+        levels: [1, 2, 3, 4],
+        defaultLevel: 3,
+      }),
+      'warning' : configureNoteEditorBlock( tools.Warning, { xd : 'lolilol' })
+      // 'codeEditor' : configureNoteEditorBlock( tools.CodeEditor , {} ) as any
+    }}
+  />]}/>
   <Page name = "settings" childrens={[<Settings/>]}/>
 </PageRouter>;

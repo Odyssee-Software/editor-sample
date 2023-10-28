@@ -8,7 +8,7 @@ import { ContextualMenu } from '@components/contextual-menu';
 
 import { OpenSpring } from '../../animations/spring';
 
-import { useState } from 'thorium-framework';
+import { useState , State } from 'thorium-framework';
 
 import { SideSheetHeader } from './header';
 import { SideSheetContent } from './content';
@@ -27,22 +27,53 @@ import {
 
 import { editorState , EditorState, setEditorState } from '@components/editor'
 
+export class _SideSheet{
 
-export type TSideSheet = CustomElement<HTMLDivElement , {
+  element:SideSheetElement;
+  get container(){ return this.element }
+
+  constructor(props:{
+    ref:SideSheetElement
+  }){
+
+    this.element = props.ref;
+
+  }
+
+  close(){
+    let attribute = this.container.getAttribute('close');
+    if(attribute && attribute == 'true')attribute = 'false';
+    else if(attribute && attribute == 'false')attribute = 'true';
+    this.container.setAttribute('close' , attribute as string);
+  }
+
+}
+
+export type SideSheetElement = CustomElement<HTMLDivElement , {
   close():void;
 }>
 
-export const SideSheet = (props:{}) => {
+export const SideSheet = (props:{
+  sideSheetManager : [ State<_SideSheet> , ( _SideSheet ) => _SideSheet ]
+}) => {
 
   return <div class = { style.SideSheetContainer } close = "false" context = "side-sheet" 
-    _close = {function(this:TSideSheet){
+    _close = {function(this:SideSheetElement){
       let attribute = this.getAttribute('close');
       if(attribute && attribute == 'true')attribute = 'false';
       else if(attribute && attribute == 'false')attribute = 'true';
       this.setAttribute('close' , attribute as string);
     }}
   >
-    <div class = { style.SideSheet } >
+    <div 
+      class = { style.SideSheet } 
+      _afterMounting = {( target:SideSheetElement ) => {
+
+        let [ state , setState ] = props.sideSheetManager;
+        setState( new _SideSheet( {ref:target} ) )
+
+      }}
+    >
       <SideSheetHeader/>
       <Divider/>
       <SideSheetContent/>
@@ -54,7 +85,7 @@ export const SideSheet = (props:{}) => {
       name = "expander"
       _onmousedown = {(event) => {
         let target:CustomElement<HTMLDivElement,{}> = event.target;
-        target.context<TSideSheet>('side-sheet').close();
+        target.context<SideSheetElement>('side-sheet').close();
       }}
     >
     </div>

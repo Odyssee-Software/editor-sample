@@ -1,7 +1,35 @@
-.WarningInput{
+.MessageContainer{
   width: stretch;
-  background-color: rgb(255, 165, 0 , 0.2);
+  height: fit-content;
+  display: grid;
   padding: 10px;
-  color: orange;
+}
+
+.MessageContainer > input{
+  width: stretch;
+  background-color: rgb(105, 105, 105 , 0.2);
+  padding: 10px;
   font-size: x-large;
+  outline: none;
+  border: 2px solid rgb(105, 105, 105 , 0.4);
+  border-radius: 5px;
+}
+
+.MessageContainer > input:focus{
+  border-color: royalblue;
+}
+
+.MessageContainer > input[type = message]{
+  color: rgb(173, 216, 230);
+  background-color: rgb(173, 216, 230 , 0.2);
+}
+
+.MessageContainer > input[type = warning]{
+  color: rgb(255, 165, 0);
+  background-color: rgb(255, 165, 0 , 0.2);
+}
+
+.MessageContainer > input[type = alert]{
+  color: rgb(240, 128, 128);
+  background-color: rgb(240, 128, 128 , 0.2);
 }

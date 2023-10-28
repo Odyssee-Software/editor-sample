@@ -16,3 +16,4 @@ export * from './controls';
 export * from './divider';
 export * from './icon';
 export * from './contextual-menu';
+export * from './input';

@@ -683,8 +683,6 @@ export class CodeEditor {
           id : crypto.randomUUID(),
         }
 
-        alert('afterMounting')
-
       }}
       >
         <div class = { style.CodeEditorMenu } >
