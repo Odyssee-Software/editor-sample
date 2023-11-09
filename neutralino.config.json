@@ -1,7 +1,7 @@
 {
   "applicationId": "js.neutralino.zero",
   "version": "1.0.0",
-  "defaultMode": "chrome",
+  "defaultMode": "window",
   "documentRoot": "/public/",
   "url": "/",
   "enableServer": true,

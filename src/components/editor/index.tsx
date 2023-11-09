@@ -1,5 +1,6 @@
 import { DOM , useState , CustomElement } from 'thorium-framework';
 import notifier from 'codex-notifier';
+import { RightSideSheet } from '../right-side-sheet';
 import {ConfirmNotifierOptions, NotifierOptions, PromptNotifierOptions} from 'codex-notifier';
 
 import { window } from '@neutralinojs/lib'

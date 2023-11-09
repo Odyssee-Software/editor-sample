@@ -1,4 +1,4 @@
-import { CustomElement, DOM, pageContext , DesignSystem , CustomElementPatern , PaternArea } from 'thorium-framework';
+import { CustomElement, DOM, pageContext , DesignSystem , CustomElementPatern , PaternArea, PageLink } from 'thorium-framework';
 import { Button , ButtonElement } from '@thorium-components/button';
 import { Controls } from '@thorium-components/controls';
 import { Divider } from '@thorium-components/divider';
@@ -75,12 +75,8 @@ const PageContr = (page:PageParams):PageControlElement => {
             VirtualDOM.createNodeElement( <ContextualMenu target = {target as Element} position='right' childrens = {[
               <Button textContent='Edit' />,
               <Button textContent='Copy' />,
-              <Divider/>,
-              <Button textContent='Edit' />,
-              <Button textContent='Copy' />,
-              <Divider/>,
-              <Button textContent='Edit' />,
-              <Button textContent='Copy' />
+              <Button textContent='Settings' pageLink = {{ to : '/settings' }} />,
+              <Divider/>
             ]} /> , document.body )
           }} />
         ]}
@@ -88,7 +84,7 @@ const PageContr = (page:PageParams):PageControlElement => {
 
           let { value:state } = editorState;
           let { detail:pageResult } = await findPage( { id : page.id } );
-          let [ pageSettings ] = pageResult as any[];
+          let [ pageSettings ] = pageResult;
           let { content } = pageSettings;
           
           setEditorState( {

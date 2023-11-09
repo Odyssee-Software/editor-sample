@@ -1,0 +1,28 @@
+.Settings{
+    display: grid;
+    grid-template-rows: 20% minmax(0,1fr);
+    height: 100%;
+    width: 100%;
+}
+.SettingsHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.SettingsHeader .Button{
+    width: 100px;
+    height: auto;
+}
+.SettingsContent{
+    display: grid;
+    grid-template-rows: repeat(10,10%);
+    align-items: center;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.InputItem{
+    display: flex;
+    gap: 5vh;
+}
