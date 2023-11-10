@@ -1,4 +1,5 @@
-import { DOM , CustomElement , NodeTemplate , useState } from "thorium-framework";
+import { DOM , CustomElement , NodeTemplate , useState , pageContext } from "thorium-framework";
+import { IStoreState } from "thorium-framework/modules/context";
 import styles from './style.module.css';
 
 import { Button } from "@thorium-components/button";
@@ -18,9 +19,15 @@ export type IInspectorElement = CustomElement<HTMLDivElement , {
 
 export const Inspector = () => {
 
-  let [inspector , setInspector] = useState<IInspectorElement | null>( null );
-  let [idleState , setIdleState] = useState< 'true' | 'false' >( 'false' );
-  let [keepOpen , setKeepOpen] = useState<boolean>( false );
+  const context = pageContext().extends( 'inspector' );
+
+  const { state:inspector , setter:setInspector } = context.set<IInspectorElement | null>( 'inspector' , null );
+  const { state:idleState , setter:setIdleState , subscribe } = context.set< 'true' | 'false' >( 'idle-state' , 'false' );
+  const { state:keepOpen , setter:setKeepOpen } = context.set< boolean >( 'keep-open' , false );
+
+  // let [inspector , setInspector] = useState<IInspectorElement | null>( null );
+  // let [idleState , setIdleState] = useState< 'true' | 'false' >( 'false' );
+  // let [keepOpen , setKeepOpen] = useState<boolean>( false );
   
   return (<div 
     context = "inspector"
@@ -30,7 +37,7 @@ export const Inspector = () => {
     _content = {function(this:IInspectorElement){ return this.children.content;}}
     _afterMounting = {( target:IInspectorElement ) => { 
 
-      idleState.subscribe( target , ( newValue ) => {
+      idleState.subscribe( target , ( newValue ):any => {
         if(newValue == 'false' && keepOpen.value == true)return ;
         else target.setAttribute('show' , `${newValue}`);
       })

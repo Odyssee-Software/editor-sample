@@ -1,13 +1,19 @@
 import { CustomElement, DOM , useState } from 'thorium-framework';
+import { storeContext } from 'thorium-framework/modules/context';
 import style from './style.module.css';
 
 export class Warning {
 
-  valueStateManager = useState<string>( "" );
-  typeStateManager = useState<'message' | 'warning' | 'alert'>('message');
+  context = storeContext().getContextByName('workbench')[0]
+  valueStateManager = this.context.set<string>( crypto.randomUUID() , "" );
+  typeStateManager = this.context.set<'message' | 'warning' | 'alert'>( crypto.randomUUID() , 'message');
   // get valueState(){ return this.valueStateManager[0] };
   // get value(){ return this.valueStateManager[0].value };
   // get setValue(){ return this.valueStateManager[1] };
+
+  constructor(){
+
+  }
 
   static get settings(){
     return {
@@ -30,21 +36,23 @@ export class Warning {
         type = "message"
         _afterMounting = {( target:CustomElement< HTMLInputElement , {} > ) => {
 
-          this.valueStateManager[0].subscribe( this['parentElement'] , ( newValue ) => {
+          this.valueStateManager.state.subscribe( this['parentElement'] , ( newValue ) => {
             target.value = String(newValue);
+            return newValue;
           } )
 
-          this.typeStateManager[0].subscribe( this['parentElement'] , (newType) => {
+          this.typeStateManager.state.subscribe( this['parentElement'] , (newType) => {
             target.setAttribute('type' , newType);
+            return newType;
           })
 
-          this.valueStateManager[1]( Warning.settings.message );
+          this.valueStateManager.setter( Warning.settings.message );
 
         }}
         _onkeyup = {(event:Event) => {
 
           let target = event.target as CustomElement< HTMLInputElement , {} >;
-          this.valueStateManager[1]( target.value );
+          this.valueStateManager.setter( target.value );
 
         }}
       />
@@ -62,18 +70,19 @@ export class Warning {
         <div>
           <label _textContent = { 'content' } />
           <input
-            _value  = { this.valueStateManager[0].value }
+            _value  = { this.valueStateManager.state }
             _afterMounting = {( target:CustomElement<HTMLInputElement , {}> ) => {
 
-              this.valueStateManager[0].subscribe( this['parentElement'] , ( newValue ) => {
+              this.valueStateManager.state.subscribe( this['parentElement'] , ( newValue ) => {
                 target.value = String(newValue);
+                return newValue;
               })
 
             }}
             _onkeyup = {(event:Event) => {
 
               let target = event.target as CustomElement<HTMLInputElement , {}>;
-              this.valueStateManager[1]( target.value )
+              this.valueStateManager.setter( target.value )
 
             }}
           />
@@ -81,11 +90,11 @@ export class Warning {
         <div>
           <label _textContent = "type" />
           <select
-            _value = { this.typeStateManager[0].value }
+            _value = { this.typeStateManager.state }
             _onchange = {(event:Event) => {
 
               let target = event.target as CustomElement< HTMLSelectElement , {} >;
-              this.typeStateManager[1]( target.value as any )
+              this.typeStateManager.setter( target.value as any )
 
             }}
           >

@@ -1,9 +1,10 @@
-import { HelloWorld } from "@components/editor";
-import { NoteEditor , NoteEditorProps , createNoteEditorBlock , configureNoteEditorBlock , NoteEditorBlockConf } from "@components/note-editor";
+// import { HelloWorld } from "@components/editor";
+import { Workbench , WorkbenchProps , createNoteEditorBlock , configureNoteEditorBlock , NoteEditorBlockConf , IEditor, _Workbench } from "@components/workbench";
 import { SideSheet , _SideSheet } from "@components/side-sheet";
-import { CustomElement, useState , State } from 'thorium-framework';
+import { CustomElement, useState , pageContext } from 'thorium-framework';
 
 import style from './style.module.css';
+import { storeContext } from "thorium-framework/modules/context";
 
 export const APPAPI = {
 
@@ -32,29 +33,26 @@ export const APPAPI = {
 
 }
 
-export class _Editor{
-
-}
-
 export class _Workspace{
 
   element:WorkspaceElement;
   get container(){ return this.element.parentElement }
-  sideSheetManager:[State<_SideSheet> , ( value:_SideSheet ) => _SideSheet];
-  editorManager:[State<_Editor> , ( value:_Editor ) => _Editor];
-
-  get sideSheet(){ return this.sideSheetManager[0].value }
-  get editor(){ return this.editorManager[0].value }
+  workbenchManager;
+  get workbench(){ return this.workbenchManager.state }
+  set workbench( value ){ this.workbenchManager.setter( value ) }
+  get states(){
+    return {
+      workbench : this.workbenchManager[0]
+    }
+  }
 
   constructor( props:{
     ref:WorkspaceElement,
-    sideSheetManager:[State<_SideSheet> , ( value:_SideSheet ) => _SideSheet]
-    editorManager:[State<_Editor> , ( value:_Editor ) => _Editor]
+    workbenchManager
   } ){
 
     this.element = props.ref;
-    this.sideSheetManager = props.sideSheetManager;
-    this.editorManager = props.editorManager;
+    this.workbenchManager = props.workbenchManager;
 
   }
 
@@ -64,39 +62,32 @@ export type WorkspaceElement = CustomElement<HTMLDivElement , _Workspace>;
 
 export interface WorkspaceProps{
 
-  pluginPages?:any;
-  pluginBlocks:NoteEditorProps['plugins'];
+  pluginPages:any[];
+  pluginBlocks:WorkbenchProps['plugins'];
 
+}
+
+export const WorkspaceContext = () => {
+  storeContext().getContextByName('workspace');
 }
 
 export const Workspace = ( props:WorkspaceProps ) => {
 
-  const workspaceManager = useState< _Workspace | null >( null )
-  const sideSheetManager = useState<_SideSheet>(_SideSheet);
-  const editorManager = useState<_Editor>(_Editor);
+  const workspaceContext = pageContext().extends( 'workspace' );
 
   return <div class = {style.WorkspaceContainer} >
     <div
       class = {style.Workspace}
       _afterMounting = {(target:CustomElement<HTMLDivElement , {}>) => {
-
-        let [ state , setState ] = workspaceManager;
-        setState( new _Workspace({
-          ref : target as WorkspaceElement,
-          sideSheetManager,
-          editorManager
-        }) );
-
+        console.log({ API : workspaceContext })
       }}
     >
       <SideSheet 
-        sideSheetManager = { sideSheetManager } 
+        pluginPages = { props.pluginPages }
       />
-      <NoteEditor
-        noteEditorManager = { editorManager }
+      <Workbench
         plugins={ props.pluginBlocks }
       />
     </div>
-    {/* <HelloWorld/> */}
   </div>
 }

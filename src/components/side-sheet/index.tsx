@@ -1,5 +1,6 @@
 import style from './style.module.css';
 import { CustomElement, DOM, Page } from 'thorium-framework';
+import { storeContext } from 'thorium-framework/modules/context';
 import { Button , ButtonElement } from '@thorium-components/button';
 import { Controls } from '@thorium-components/controls';
 import { Divider } from '@thorium-components/divider';
@@ -8,7 +9,7 @@ import { ContextualMenu } from '@components/contextual-menu';
 
 import { OpenSpring } from '../../animations/spring';
 
-import { useState , State } from 'thorium-framework';
+import { useState , State } from 'thorium-framework/modules/states';
 
 import { SideSheetHeader } from './header';
 import { SideSheetContent } from './content';
@@ -25,12 +26,12 @@ import {
   findPage 
 } from '@modules/database';
 
-import { editorState , EditorState, setEditorState } from '@components/editor'
+// import { EditorState } from '@components/editor'
 
 export class _SideSheet{
 
   element:SideSheetElement;
-  get container(){ return this.element }
+  get container(){ return this.element.parentElement as CustomElement<HTMLDivElement , {}> }
 
   constructor(props:{
     ref:SideSheetElement
@@ -47,15 +48,34 @@ export class _SideSheet{
     this.container.setAttribute('close' , attribute as string);
   }
 
+  static afterMounting( manager ){
+
+    return ( target ) => {
+
+      return manager.sideSheet = new _SideSheet({
+        ref : target
+      });
+
+    }
+
+  }
+
 }
 
 export type SideSheetElement = CustomElement<HTMLDivElement , {
   close():void;
 }>
 
+export const SideSheetContext = () => {
+  return storeContext().getContextByName('sidesheet')[0];
+}
+
 export const SideSheet = (props:{
-  sideSheetManager : [ State<_SideSheet> , ( _SideSheet ) => _SideSheet ]
+  pluginPages:any[];
 }) => {
+
+  const [workspace] =  storeContext().getContextByName( 'workspace' );
+  const context = workspace.extends( 'sidesheet' );
 
   return <div class = { style.SideSheetContainer } close = "false" context = "side-sheet" 
     _close = {function(this:SideSheetElement){
@@ -67,16 +87,14 @@ export const SideSheet = (props:{
   >
     <div 
       class = { style.SideSheet } 
-      _afterMounting = {( target:SideSheetElement ) => {
-
-        let [ state , setState ] = props.sideSheetManager;
-        setState( new _SideSheet( {ref:target} ) )
-
-      }}
+      // _afterMounting = { _SideSheet.afterMounting( props.manager ) }
     >
       <SideSheetHeader/>
       <Divider/>
-      <SideSheetContent/>
+      <SideSheetContent
+        // manager = { props.manager }
+        pluginPages = { props.pluginPages }
+      />
       <Divider/>
       <SideSheetActionBar/>
     </div>

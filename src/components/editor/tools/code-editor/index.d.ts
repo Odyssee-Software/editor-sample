@@ -1,20 +1,20 @@
-import { CustomElement, State } from 'thorium-framework';
+import { CustomElement } from 'thorium-framework';
+import { State } from 'thorium-framework/modules/states';
 import { OutputBlockData, OutputData } from '@editorjs/editorjs';
 import { os } from '@neutralinojs/lib';
-import { editorState } from '../../';
 type EditorContainerElement = CustomElement<HTMLDivElement, {
     children: {
         "editor": CustomElement<HTMLDivElement, {}>;
     };
 }>;
 export declare const TypescriptEditor: (props: {
-    editorState: State<CodeEditor>;
+    env;
 }) => EditorContainerElement;
 export declare const StyleEditor: (props: {
-    editorState: State<CodeEditor>;
+    env;
 }) => EditorContainerElement;
 export declare const HTMLViewer: (props: {
-    editorState: State<CodeEditor>;
+    state: CodeEditor;
 }) => any;
 export type CodeEditorElement = CustomElement<HTMLDivElement, {
     state: State<CodeEditor>;
@@ -60,11 +60,12 @@ export declare const defineEnvironement: (codeBlockId: string) => IEnvironements
 export type TBlockSettingsKeys = 'input';
 export type TBlockSettings = Record<TBlockSettingsKeys, string>[];
 export declare class CodeEditor {
-    state: State<CodeEditor> | null;
+    context: import("thorium-framework/modules/context").IStoreContext;
     codeBlockId: ICodeBlockEditorConfigData['codeBlockId'];
     codeBlockEnvPaths: IEnvironements;
-    watcherPidStateManager: [State<number>, (value: number) => number];
-    get watcherIdState(): State<number>;
+    watcherPidStateManager: import("thorium-framework/modules/context").IStoreState<number>;
+    codeEditor: import("thorium-framework/modules/context").IStoreState<null>;
+    get watcherIdState(): import("thorium-framework/modules/states").TState<number>;
     set watcherId(pid: number);
     get watcherId(): number;
     static get toolbox(): {

@@ -17,11 +17,13 @@ export const SideSheetHeader = () => {
     <Button 
       icon = {{ type : 'mask' , path : path.join( 'app' , path.basename(CloseIcon) ) }}
       action = {(event) => {
+        
         let { target } = event;
         /* The line `let sideSheet = (target as CustomElement<any,{}>).context('side-sheet');` is
         retrieving the context of the custom element with the name 'side-sheet'. */
         let sideSheet = (target as CustomElement<any,{}>).context('side-sheet');
         sideSheet.close();
+
       }}
     />
   </div>;
