@@ -1,0 +1,15 @@
+{
+	"name": "60296ec5-568f-4db7-95e0-e517ebee1add",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"dependencies": {
+		"thorium-framework": "latest",
+		"typescript": "latest"
+	},
+	"author": "",
+	"license": "ISC"
+}

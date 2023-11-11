@@ -1,3 +1,3 @@
-2023/11/10-21:37:41.748 c003 Reusing MANIFEST /Users/guillaume/Documents/temporaire/editor-sample/.tmp/chromedata/Default/Sync Data/LevelDB/MANIFEST-000001
-2023/11/10-21:37:41.748 c003 Recovering log #3
-2023/11/10-21:37:41.748 c003 Reusing old log /Users/guillaume/Documents/temporaire/editor-sample/.tmp/chromedata/Default/Sync Data/LevelDB/000003.log 
+2023/11/11-10:47:41.571 f003 Reusing MANIFEST /Users/guillaume/Documents/temporaire/editor-sample/.tmp/chromedata/Default/Sync Data/LevelDB/MANIFEST-000001
+2023/11/11-10:47:41.571 f003 Recovering log #3
+2023/11/11-10:47:41.571 f003 Reusing old log /Users/guillaume/Documents/temporaire/editor-sample/.tmp/chromedata/Default/Sync Data/LevelDB/000003.log 

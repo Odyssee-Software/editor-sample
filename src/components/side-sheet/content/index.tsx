@@ -4,8 +4,7 @@ import { Controls } from '@thorium-components/controls';
 import { Divider } from '@thorium-components/divider';
 import { Icon } from '@thorium-components/icon';
 import { ContextualMenu } from '@components/contextual-menu';
-import { WorkbenchContext } from '@components/workbench';
-import { SideSheetContext } from '@components/side-sheet';
+import { useContext } from '@context/index';
 
 import { 
   createPage ,
@@ -112,7 +111,7 @@ const PageContr = (page:PageParams):PageControlElement => {
         ]}
         action = {async () => {
 
-          const context = WorkbenchContext();
+          const context = useContext( "workbench" );
           const { state:editor , setter:setEditor } = context.get<IEditor>( 'manager' );
 
           let { detail:pageResult } = await findPage( { id : page.id } );
@@ -139,8 +138,7 @@ const PageContr = (page:PageParams):PageControlElement => {
         }}
         _afterMounting = {(target) => {
 
-          const context = WorkbenchContext();
-          const { state:editor , setter:setEditor } = context.get<IEditor>( 'manager' );
+          const { state:editor , setter:setEditor } = useContext( "workbench" ).get<IEditor>( 'manager' );
 
           editor.subscribe( target , (stateConfig) => {
 

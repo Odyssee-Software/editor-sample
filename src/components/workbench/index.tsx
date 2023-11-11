@@ -1,7 +1,9 @@
 import { CustomElement, useState } from 'thorium-framework';
 import { pageContext, storeContext , listContext } from 'thorium-framework/modules/context';
+import { uuid } from 'thorium-framework/modules/huid';
 import { State } from 'thorium-framework/modules/states';
 import styles from './style.module.css';
+import { useContext } from '@context/index';
 
 // import { afterMounting } from './editor-afterMounting';
 import EditorJS, { ToolConfig , ToolConstructable , ToolSettings , BlockToolConstructable , BlockToolConstructorOptions , BlockTool, BlockAPI } from '@editorjs/editorjs';
@@ -65,13 +67,16 @@ export const configureNoteEditorBlock = ( binder:ToolConstructable , config:Note
 
 export function createNoteEditorBlock( binder:ToolConstructable ):ToolConstructable{
 
+  let blockId = uuid.encode( uuid.componentId );
+
   return class CustomEditorBlock extends binder{
 
     static get toolbox(){ return binder['toolbox'] }
     static get enableLineBreaks(){ return binder['enableLineBreaks'] }
     static get settings(){ return binder['settings'] }
 
-    elementState = useState<CustomElement<HTMLElement,any> | null>( crypto.randomUUID() , null);
+    blockContext = useContext( 'workbench' ).extends( `custom-block-${blockId}` );
+    elementState = this.blockContext.set<CustomElement<HTMLElement,any> | null>( blockId , null);
     get state(){ return this.elementState; }
     setElement( element:CustomElement<HTMLElement,any> ){
       this.elementState.setter( element );
@@ -93,26 +98,25 @@ export function createNoteEditorBlock( binder:ToolConstructable ):ToolConstructa
 
       Object.assign( this , config );
 
-      let initBlock = () => {
-        if(this.element)this.element.onmousedown = (event:MouseEvent) => {
-          console.log({ selection : 'block selected' , inspector : this.inspector , config : this.config , element : this.element });
-          this.inspector.innerHTML = JSON.stringify( this.config );
+      let onmousedown = ( event:MouseEvent ) => {
+        console.log({ selection : 'block selected' , inspector : this.inspector , config : this.config , element : this.element , block : this });
+
+          if( this.inspector )this.inspector.show();
+          if(this["renderSettings"])this.inspector.render( this["renderSettings"]( { config : this.config , settings : CustomEditorBlock.settings} ) );
           if(this["onSelect"])this["onSelect"]( event );
-        }
+      }
+
+      let initBlock = () => {
+        if(this.element)this.element.onmousedown = onmousedown;
       }
 
       initBlock();
 
-      let { state } = this.state;
+      let { state , setter:setElement } = this.state;
 
       state.subscribe( this.parentElement , ( element:CustomElement<HTMLElement,any> ) => {
 
-        element.onmousedown = (event:MouseEvent) => {
-          console.log({ selection : 'block selected' , inspector : this.inspector , config : this.config , element : this.element });
-          if( this.inspector )this.inspector.show();
-          if(this["renderSettings"])this.inspector.render( this["renderSettings"]( { config : this.config , settings : CustomEditorBlock.settings} ) );
-          if(this["onSelect"])this["onSelect"]( event );
-        }
+        element.onmousedown = onmousedown;
 
       })
 
@@ -279,10 +283,6 @@ export interface WorkbenchProps{
   // manager:any;
   plugins:Record<string,(ToolConstructable|ToolSettings)>;
 
-}
-
-export const WorkbenchContext = () => {
-  return storeContext().getContextByName('workbench')[0]
 }
 
 export const Workbench = ( props:WorkbenchProps ) => {

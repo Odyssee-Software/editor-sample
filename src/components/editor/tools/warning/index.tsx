@@ -62,11 +62,15 @@ export class Warning {
 
   renderSettings( props ){
 
+    let block = this['block'];
     let { settings , config } = props;
 
     if(settings){
 
       return <div>
+        <nav>
+          <h1 _textContent = { String(block.name).toUpperCase() } />
+        </nav>
         <div>
           <label _textContent = { 'content' } />
           <input

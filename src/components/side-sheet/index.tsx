@@ -66,10 +66,6 @@ export type SideSheetElement = CustomElement<HTMLDivElement , {
   close():void;
 }>
 
-export const SideSheetContext = () => {
-  return storeContext().getContextByName('sidesheet')[0];
-}
-
 export const SideSheet = (props:{
   pluginPages:any[];
 }) => {

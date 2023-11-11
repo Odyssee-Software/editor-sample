@@ -19,6 +19,7 @@ const configuration = ( config ) => {
       '@thorium-components' : path.resolve( compilationTargetPath , 'thorium-components'),
       '@modules' : path.resolve( compilationTargetPath , 'modules'),
       '@utils' : path.resolve( compilationTargetPath , 'utils'),
+      '@context' : path.resolve( compilationTargetPath , 'context'),
     }
   }
 

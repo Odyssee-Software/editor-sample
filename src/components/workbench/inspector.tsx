@@ -48,9 +48,13 @@ export const Inspector = () => {
     _hide = {function(this:IInspectorElement){ setIdleState('false') }}
     _render = {( template:NodeTemplate<any> ) => {
 
+      console.log( { template } )
+
       if(inspector.value){
+
         for(let e of [...inspector.value.content().children].reverse()){ e.remove() }
         DOM.render( template , inspector.value.content() );
+
       }
 
     }}

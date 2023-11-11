@@ -17,6 +17,7 @@
       "@components/*" : ["src/components/*"],
       "@modules/*" : ["src/modules/*"],
       "@utils/*" : ["src/utils/*"],
+      "@context/*" : ["src/context/*"],
     }
   },
   "include": ["./src/*"],

@@ -47,5 +47,4 @@ export declare class _Workbench {
 export interface WorkbenchProps {
     plugins: Record<string, (ToolConstructable | ToolSettings)>;
 }
-export declare const WorkbenchContext: () => import("thorium-framework/modules/context").IStoreContext;
 export declare const Workbench: (props: WorkbenchProps) => any;
