@@ -1,24 +1,46 @@
 import { Button } from '@thorium-components/button';
-import { StoreContext } from 'store-context';
-import { DOM , CustomElement , DesignSystem , PaternArea } from 'thorium-framework';
+import { DOM , CustomElement , DesignSystem , PaternArea, useState , State } from 'thorium-framework';
 import style from './style.module.css';
 
-export const SettingsButton = () => {
+interface ISettings{
+
+}
+
+export type SettingsStateMutator = [ State<ISettings> , ( value:ISettings) => ISettings ];
+
+export interface SettingsButtonProps{
+  settingsStateMutator:SettingsStateMutator,
+  action?(event:MouseEvent):void;
+}
+
+export const SettingsButton = ( props:SettingsButtonProps ) => {
+
+  const [ settings ,  updateSettings ] = props.settingsStateMutator;
+
+  updateSettings( { ...settings.value , mdr : 'test' } )
+
   return <div>
-    <Button textContent='Enregister' />
+    <Button 
+    textContent='Enregister'
+    action = {async () => {
+      const colorInput = document.getElementById('colorInput');
+      const selectedColorDiv = document.getElementById('selectedColor');
+
+      updateSettings({...settings.value, themeColor : colorInput?.children});
+      console.log(settings.value);
+    }}/>
   </div>
 }
 
-export const ButtonSettingsPatern = DesignSystem().register('thorium' , {
-  baseName : 'button-settings',
-  attr : {},
-  childrens : [<PaternArea></PaternArea>],
-  proto : {},
-  __getter__ : {},
-  __setter__ : {},
-});
 
 export const Settings = () => {
+
+  const [ settings ,  updateSettings ] = useState<any>({
+    lol : '',
+    mdr : ''
+  });
+
+
     return <div class={style.Settings}>
       <div class={style.SettingsHeader}>
           <h1>Settings</h1>
@@ -33,7 +55,11 @@ export const Settings = () => {
             <label for='plugin'>Plugin</label>
             <input type='file'></input>
           </div>
-          <SettingsButton />
+          <div class={style.ColorPicker}>
+            <input type='color' id='colorInput'></input>
+            <div id='selectedColor'></div>
+          </div>
+          <SettingsButton settingsStateMutator={settings.mutator as SettingsStateMutator}/>
         </div>
     </div>;
 }
