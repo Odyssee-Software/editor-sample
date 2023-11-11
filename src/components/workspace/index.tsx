@@ -6,33 +6,6 @@ import { CustomElement, useState , pageContext } from 'thorium-framework';
 import style from './style.module.css';
 import { storeContext } from "thorium-framework/modules/context";
 
-export const APPAPI = {
-
-  Workspace:() => {
-
-    return {
-
-      SideSheet : () => {
-
-        return {
-
-        }
-
-      },
-      Editor : () => {
-
-        return {
-
-        }
-
-      }
-
-    }
-
-  }
-
-}
-
 export class _Workspace{
 
   element:WorkspaceElement;
