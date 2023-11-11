@@ -17,7 +17,7 @@ export const SettingsButton = ( props:SettingsButtonProps ) => {
 
   const [ settings ,  updateSettings ] = props.settingsStateMutator;
 
-  updateSettings( { ...settings.value , mdr : 'test' } )
+  updateSettings( { ...settings.value } )
 
   return <div>
     <Button 
