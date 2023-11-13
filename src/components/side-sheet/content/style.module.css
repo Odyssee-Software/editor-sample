@@ -1,0 +1,56 @@
+.SideSheetContent{
+  padding: 20px;
+  border: 1px solid rgb(105, 105, 105 , 0.2);
+}
+
+.PageControl{
+  display: block;
+  height: stretch;
+  width: stretch;
+}
+
+.PageControl:hover{
+  background-color: royalblue;
+}
+
+.PageControl > thorium-button > button{
+  border: none;
+  background-color: transparent;
+  color: initial;
+  width: stretch;
+  border: none;
+}
+
+.PageControl > thorium-button > button > [name="icon-container"]{
+  order: 1;
+}
+
+.PageControl > thorium-button > button > [name="text"]{
+  order: 2;
+}
+
+.PageControl > thorium-button > button > [name="controls"]{
+  order: 3;
+  margin-left: auto;
+}
+
+.PageControl > thorium-button > button > [name="controls"]:hover{
+  pointer-events: all;
+}
+
+.PageControl > thorium-button > button:has([name="controls"]:hover){
+  pointer-events: none;
+}
+
+.PageControl:hover > thorium-button > button{
+  color: white;
+}
+
+/*  */
+
+.UserPagesNav{
+  display: inline-flex;
+  width: stretch;
+  justify-content: space-between;
+  align-items: center;
+}

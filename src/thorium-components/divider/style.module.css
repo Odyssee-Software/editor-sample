@@ -1,0 +1,5 @@
+.Divider{
+  width: stretch;
+  height: 1px !important;
+  background-color: rgb(105, 105, 105 , 0.2);
+}

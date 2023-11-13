@@ -1,0 +1,37 @@
+<mxfile host="app.diagrams.net" modified="2023-10-30T06:34:00.753Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.1 Safari/605.1.15" etag="yEjjmawfKdfd-V0X20O_" version="22.0.8" type="device">
+  <diagram name="Page-1" id="OJW_0PqSyjE4vUaFGjB3">
+    <mxGraphModel dx="1122" dy="704" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="iOsTTCV2gvPUy5oQWHzk-9" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="220" y="200" width="300" height="290" as="geometry" />
+        </mxCell>
+        <mxCell id="iOsTTCV2gvPUy5oQWHzk-8" value="" style="rounded=0;whiteSpace=wrap;html=1;dashed=1;dashPattern=12 12;" vertex="1" parent="iOsTTCV2gvPUy5oQWHzk-9">
+          <mxGeometry width="300" height="290" as="geometry" />
+        </mxCell>
+        <mxCell id="iOsTTCV2gvPUy5oQWHzk-1" value="neutralino / core" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="iOsTTCV2gvPUy5oQWHzk-9">
+          <mxGeometry x="10" y="200" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="iOsTTCV2gvPUy5oQWHzk-2" value="neutralino / socket" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="iOsTTCV2gvPUy5oQWHzk-9">
+          <mxGeometry x="10" y="130" width="280" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="iOsTTCV2gvPUy5oQWHzk-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.582;exitY=0.015;exitDx=0;exitDy=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;startArrow=classic;startFill=1;exitPerimeter=0;" edge="1" parent="iOsTTCV2gvPUy5oQWHzk-9" source="iOsTTCV2gvPUy5oQWHzk-1" target="iOsTTCV2gvPUy5oQWHzk-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="iOsTTCV2gvPUy5oQWHzk-3" value="extensions" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="iOsTTCV2gvPUy5oQWHzk-9">
+          <mxGeometry x="170" y="200" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="iOsTTCV2gvPUy5oQWHzk-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.415;entryY=0.003;entryDx=0;entryDy=0;startArrow=classic;startFill=1;entryPerimeter=0;" edge="1" parent="iOsTTCV2gvPUy5oQWHzk-9" source="iOsTTCV2gvPUy5oQWHzk-2" target="iOsTTCV2gvPUy5oQWHzk-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="iOsTTCV2gvPUy5oQWHzk-4" value="Webview" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="iOsTTCV2gvPUy5oQWHzk-9">
+          <mxGeometry x="10" y="10" width="280" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="iOsTTCV2gvPUy5oQWHzk-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;startArrow=classic;startFill=1;" edge="1" parent="iOsTTCV2gvPUy5oQWHzk-9" source="iOsTTCV2gvPUy5oQWHzk-2" target="iOsTTCV2gvPUy5oQWHzk-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

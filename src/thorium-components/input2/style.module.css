@@ -1,0 +1,11 @@
+.InputContainer1{
+  border: 5px solid green;
+}
+
+.InputContainer2{
+  border: 5px solid blue;
+}
+
+.Input{
+  width: stretch;
+}

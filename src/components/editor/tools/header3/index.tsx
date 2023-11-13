@@ -12,7 +12,8 @@ export class Header3{
   }
 
   render(){
-    return DOM.render( <input class = {style.Header3} /> )
+    let { virtual:VirtualDOM } = DOM;
+    return VirtualDOM.createNodeElement( <input class = {style.Header3} /> )
   }
 
   save(blockContent){

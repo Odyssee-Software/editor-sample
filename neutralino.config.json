@@ -1,7 +1,7 @@
 {
   "applicationId": "js.neutralino.zero",
   "version": "1.0.0",
-  "defaultMode": "window",
+  "defaultMode": "chrome",
   "documentRoot": "/public/",
   "url": "/",
   "enableServer": true,
@@ -10,7 +10,10 @@
     "os.*",
     "app.*",
     "filesystem.*",
-    "window.*"
+    "window.*",
+    "extensions.*",
+    "custom.*",
+    "computer.*"
   ],
   "globalVariables": {
     "TEST_1": 1,
@@ -37,8 +40,8 @@
     "binaryName": "Notes",
     "resourcesPath": "/public/",
     "extensionsPath": "/extensions/",
-    "binaryVersion": "4.13.0",
-    "clientVersion": "3.8.2",
+    "binaryVersion": "4.14.1",
+    "clientVersion": "3.12.0",
     "frontendLibrary": {
       "patchFile" : "/public/index.html",
       "devUrl" : "http://localhost:8080"
@@ -47,8 +50,16 @@
   "enableExtensions": true,
   "extensions": [
     {
-      "id": "extensions.test",
-      "command": "node ${NL_PATH}/extensions/testExtension/dist/index.js"
+      "id": "database.service",
+      "command": "node ${NL_PATH}/extensions/db/dist/index.js"
+    },
+    {
+      "id" : "codeblock.manager",
+      "command": "node ${NL_PATH}/extensions/code-block/dist/index.js"
+    },
+    {
+      "id" : "extensions.manager",
+      "command": "node ${NL_PATH}/extensionsManager/dist/index.js"
     }
   ]
 }

@@ -1,48 +1,112 @@
 import style from './style.module.css';
+import { CustomElement, DOM, Page } from 'thorium-framework';
+import { storeContext } from 'thorium-framework/modules/context';
+import { Button , ButtonElement } from '@thorium-components/button';
+import { Controls } from '@thorium-components/controls';
+import { Divider } from '@thorium-components/divider';
+import { Icon } from '@thorium-components/icon';
+import { ContextualMenu } from '@components/contextual-menu';
 
-import { Button } from '../button';
-import { Divider } from '../divider';
+import { OpenSpring } from '../../animations/spring';
 
-const SideSheetContent = (props:{}) => {
+import { useState , State } from 'thorium-framework/modules/states';
 
-  return <div class = { style.SideSheetContent }>
-    <h3>section a</h3>
-    <Divider/>
-    <h3>section b</h3>
-    <Divider/>
-    <h3>section c</h3>
-  </div>;
+import { SideSheetHeader } from './header';
+import { SideSheetContent } from './content';
+import { SideSheetActionBar } from './action-bar';
+
+import * as path from 'path';
+
+import OptionsIcon from '@fluentui/svg-icons/icons/options_20_filled.svg';
+import CloseIcon from '@fluentui/svg-icons/icons/arrow_previous_20_filled.svg';
+import PageIcon from '@fluentui/svg-icons/icons/document_20_filled.svg';
+
+import { 
+  findAllPages , 
+  findPage 
+} from '@modules/database';
+
+// import { EditorState } from '@components/editor'
+
+export class _SideSheet{
+
+  element:SideSheetElement;
+  get container(){ return this.element.parentElement as CustomElement<HTMLDivElement , {}> }
+
+  constructor(props:{
+    ref:SideSheetElement
+  }){
+
+    this.element = props.ref;
+
+  }
+
+  close(){
+    let attribute = this.container.getAttribute('close');
+    if(attribute && attribute == 'true')attribute = 'false';
+    else if(attribute && attribute == 'false')attribute = 'true';
+    this.container.setAttribute('close' , attribute as string);
+  }
+
+  static afterMounting( manager ){
+
+    return ( target ) => {
+
+      return manager.sideSheet = new _SideSheet({
+        ref : target
+      });
+
+    }
+
+  }
 
 }
 
-const SideSheetActionBar = () => {
+export type SideSheetElement = CustomElement<HTMLDivElement , {
+  close():void;
+}>
 
-  return <div class = { style.SideSheetActionBar }>
-    <Button textContent='Action A'/>
-    <Button textContent='Action B'/>
-  </div>;
-
+export const SideSheetContext = () => {
+  return storeContext().getContextByName('sidesheet')[0];
 }
 
-const SideSheetHeader = () => {
+export const SideSheet = (props:{
+  pluginPages:any[];
+}) => {
 
-  return <div class = { style.SideSheetHeader }>
-    <Button textContent='A'/>
-    <Button textContent='B'/>
-    <Button textContent='C'/>
-    <Button textContent='D'/>
-  </div>;
+  const [workspace] =  storeContext().getContextByName( 'workspace' );
+  const context = workspace.extends( 'sidesheet' );
 
-}
-
-export const SideSheet = (props:{}) => {
-
-  return <div class = { style.SideSheet }>
-    <SideSheetHeader/>
-    <Divider/>
-    <SideSheetContent/>
-    <Divider/>
-    <SideSheetActionBar/>
+  return <div class = { style.SideSheetContainer } close = "false" context = "side-sheet" 
+    _close = {function(this:SideSheetElement){
+      let attribute = this.getAttribute('close');
+      if(attribute && attribute == 'true')attribute = 'false';
+      else if(attribute && attribute == 'false')attribute = 'true';
+      this.setAttribute('close' , attribute as string);
+    }}
+  >
+    <div 
+      class = { style.SideSheet } 
+      // _afterMounting = { _SideSheet.afterMounting( props.manager ) }
+    >
+      <SideSheetHeader/>
+      <Divider/>
+      <SideSheetContent
+        // manager = { props.manager }
+        pluginPages = { props.pluginPages }
+      />
+      <Divider/>
+      <SideSheetActionBar/>
+    </div>
+    <div 
+      class = { style.SideSheetExpand }
+      name = "expander"
+      _onmousedown = {(event) => {
+        let target:CustomElement<HTMLDivElement,{}> = event.target;
+        target.context<SideSheetElement>('side-sheet').close();
+      }}
+    >
+    </div>
   </div>;
 
 };

@@ -3,7 +3,7 @@ export declare class Header1 {
         title: string;
         icon: string;
     };
-    render(): unknown;
+    render(): string;
     save(blockContent: any): {
         url: any;
     };

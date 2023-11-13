@@ -1,9 +1,7 @@
-import { TPage } from 'pages'; 
+import { TPage } from 'types-pages'; 
 import { Cluster } from "../cluster/index";
 
 const cluster = Cluster.create( { filename : 'database/pages.db' , autoload : true } );
-
-export { TPage } from 'pages';
 
 export const findAllPages = async ( ):Promise<TPage[]> => {
   return new Promise((next , reject) => {

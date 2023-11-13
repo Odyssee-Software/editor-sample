@@ -3,10 +3,21 @@
  * database to insert data into a database.
  * @returns The code is returning an object with a single method called `insert`.
  */
-import { Extension } from 'thorino-ipc';
+import { Extension , IExtension } from 'thorino-ipc';
 import Datastore from 'nedb';
 
+import { TPage } from 'types-pages'; 
+
+import { 
+  createPage , 
+  findPage ,
+  findAllPages , 
+  updatePage,
+} from './pages';
+
 const Application = () => {
+
+  console.log('Application');
 
   const Database = new Datastore({ filename: 'datafile.db', autoload: true });
 
@@ -20,8 +31,6 @@ const Application = () => {
       let { chanel , data } = req;
       Database.find( data , (err,result) => { res.send( ( err ? err : result ) ) })
     },
-<<<<<<< Updated upstream
-=======
     update : (req , res ) => {
       let { chanel , data } = req;
       let { search , insert } = data;
@@ -55,9 +64,8 @@ const Application = () => {
       .catch( (error) => res.send( error ) )
 
     }
->>>>>>> Stashed changes
   }
   
 }
 
-Extension( Application() );
+export default Extension( Application() ) as IExtension;
