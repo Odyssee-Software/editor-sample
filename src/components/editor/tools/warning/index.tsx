@@ -1,6 +1,25 @@
+import { CustomElement, DOM , useState } from 'thorium-framework';
+import { storeContext } from 'thorium-framework/modules/context';
 import style from './style.module.css';
 
 export class Warning {
+
+  context = storeContext().getContextByName('workbench')[0]
+  valueStateManager = this.context.set<string>( crypto.randomUUID() , "" );
+  typeStateManager = this.context.set<'message' | 'warning' | 'alert'>( crypto.randomUUID() , 'message');
+  // get valueState(){ return this.valueStateManager[0] };
+  // get value(){ return this.valueStateManager[0].value };
+  // get setValue(){ return this.valueStateManager[1] };
+
+  constructor(){
+
+  }
+
+  static get settings(){
+    return {
+      message : 'mettez un message'
+    }
+  }
 
   static get toolbox() {
     return {
@@ -11,9 +30,83 @@ export class Warning {
   }
 
   render(){
-    let input = document.createElement('input');
-    input.setAttribute('class' , style.WarningInput);
-    return input;
+
+    return this["setElement"]( DOM.render( <div class = { style.MessageContainer } >
+      <input 
+        type = "message"
+        _afterMounting = {( target:CustomElement< HTMLInputElement , {} > ) => {
+
+          this.valueStateManager.state.subscribe( this['parentElement'] , ( newValue ) => {
+            target.value = String(newValue);
+            return newValue;
+          } )
+
+          this.typeStateManager.state.subscribe( this['parentElement'] , (newType) => {
+            target.setAttribute('type' , newType);
+            return newType;
+          })
+
+          this.valueStateManager.setter( Warning.settings.message );
+
+        }}
+        _onkeyup = {(event:Event) => {
+
+          let target = event.target as CustomElement< HTMLInputElement , {} >;
+          this.valueStateManager.setter( target.value );
+
+        }}
+      />
+    </div> ) );
+
+  }
+
+  renderSettings( props ){
+
+    let { settings , config } = props;
+
+    if(settings){
+
+      return <div>
+        <div>
+          <label _textContent = { 'content' } />
+          <input
+            _value  = { this.valueStateManager.state }
+            _afterMounting = {( target:CustomElement<HTMLInputElement , {}> ) => {
+
+              this.valueStateManager.state.subscribe( this['parentElement'] , ( newValue ) => {
+                target.value = String(newValue);
+                return newValue;
+              })
+
+            }}
+            _onkeyup = {(event:Event) => {
+
+              let target = event.target as CustomElement<HTMLInputElement , {}>;
+              this.valueStateManager.setter( target.value )
+
+            }}
+          />
+        </div>
+        <div>
+          <label _textContent = "type" />
+          <select
+            _value = { this.typeStateManager.state }
+            _onchange = {(event:Event) => {
+
+              let target = event.target as CustomElement< HTMLSelectElement , {} >;
+              this.typeStateManager.setter( target.value as any )
+
+            }}
+          >
+            <option _value = "message" _textContent = "message"></option>
+            <option _value = "warning" _textContent = "warning"></option>
+            <option _value = "alert" _textContent = "alert"></option>
+          </select>
+        </div>
+      </div>;
+
+    }
+
   }
 
   save(blockContent){
@@ -21,4 +114,5 @@ export class Warning {
       url: blockContent.value
     }
   }
+
 }

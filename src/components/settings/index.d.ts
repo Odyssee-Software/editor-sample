@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { State } from 'thorium-framework';
 interface ISettings {
 }
@@ -9,3 +10,6 @@ export interface SettingsButtonProps {
 export declare const SettingsButton: (props: SettingsButtonProps) => any;
 export declare const Settings: () => any;
 export {};
+=======
+export declare const Settings: () => any;
+>>>>>>> merge13112023

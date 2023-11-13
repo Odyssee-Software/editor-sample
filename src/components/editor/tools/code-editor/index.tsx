@@ -1,4 +1,5 @@
-import { DOM , CustomElement , useState , State } from 'thorium-framework';
+import { DOM , CustomElement , useState } from 'thorium-framework';
+import { State } from 'thorium-framework/modules/states';
 import style from './style.module.css';
 
 import { minimalSetup, EditorView , basicSetup } from 'codemirror';
@@ -14,8 +15,7 @@ import { OutputBlockData , OutputData } from '@editorjs/editorjs';
 
 import { filesystem as fs , os , events } from '@neutralinojs/lib';
 import * as path from 'path';
-
-import { editorState } from '../../'
+import { storeContext } from 'thorium-framework/modules/context';
 
 let tsConfigFile = () => {
   return {
@@ -95,7 +95,7 @@ type EditorContainerElement = CustomElement<HTMLDivElement , {
   }
 }>
 
-export const TypescriptEditor = ( props : { editorState:State<CodeEditor> } ):EditorContainerElement => {
+export const TypescriptEditor = ( props : { env } ):EditorContainerElement => {
 
   return <div name = 'typescript-code-editor' display = "false" class = { style.TypescriptEditor } >
     <div
@@ -103,9 +103,9 @@ export const TypescriptEditor = ( props : { editorState:State<CodeEditor> } ):Ed
       class = {style.CodeEditor}
       _afterMounting = {async (target:CustomElement<HTMLDivElement , {}>) => {
 
-        let { editorState } = props;
-        let { value:state } = editorState;
-        let { codeBlockEnvPaths } = state;
+        // let { editorState } = props;
+        // let { state } = editorState;
+        let codeBlockEnvPaths = props.env;
 
         let editor = new EditorView({
           doc: '',
@@ -120,11 +120,14 @@ export const TypescriptEditor = ( props : { editorState:State<CodeEditor> } ):Ed
 
               target.useContext<CodeEditorElement>(( context ) => {
 
-                let { value:state } = context.state;
+                console.log({ context })
+
+                let state = context.state as CodeEditor;
                 let envs = state.codeBlockEnvPaths;
 
                 if (v.docChanged) {
                   let editorContent = editor.state.doc;
+                  console.log({ read : envs.indexSrcPath })
                   fs.writeFile( envs.indexSrcPath , editorContent.toString() );
                 }
 
@@ -134,6 +137,9 @@ export const TypescriptEditor = ( props : { editorState:State<CodeEditor> } ):Ed
           ],
           parent: target,
         });
+
+        alert( codeBlockEnvPaths.indexSrcPath );
+        console.log({ read : await fs.readFile( codeBlockEnvPaths.indexSrcPath ) })
 
         editor.dispatch({
           changes: {
@@ -150,16 +156,14 @@ export const TypescriptEditor = ( props : { editorState:State<CodeEditor> } ):Ed
 
 }
 
-export const StyleEditor = ( props:{editorState:State<CodeEditor>} ):EditorContainerElement => {
+export const StyleEditor = ( props : { env } ):EditorContainerElement => {
 
   return <div name = 'style-code-editor' display = "false" class = { style.StyleEditor } >
     <div
       class = {style.CodeEditor}
       _afterMounting = {async (target:CustomElement<HTMLDivElement,{}>) => {
 
-        let { editorState } = props;
-        let { value:state } = editorState;
-        let { codeBlockEnvPaths } = state;
+        let codeBlockEnvPaths = props.env;
         
         let editor = new EditorView({
           doc: '',
@@ -174,12 +178,12 @@ export const StyleEditor = ( props:{editorState:State<CodeEditor>} ):EditorConta
 
               target.useContext<CodeEditorElement>(( context ) => {
 
-                let { value:state } = context.state;
-                let envs = state.codeBlockEnvPaths;
+                let state = context.state as CodeEditor;
+                let envs = codeBlockEnvPaths;
 
                 if (v.docChanged) {
                   let editorContent = editor.state.doc;
-                  fs.writeFile( envs.styleSrcPath , editorContent.toString() );
+                  fs.writeFile( codeBlockEnvPaths.styleSrcPath , editorContent.toString() );
                 }
 
               })
@@ -202,9 +206,9 @@ export const StyleEditor = ( props:{editorState:State<CodeEditor>} ):EditorConta
   </div>;
 }
 
-export const HTMLViewer = ( props : {editorState:State<CodeEditor>} ) => {
+export const HTMLViewer = ( props : { state:CodeEditor } ) => {
 
-  let { value:state } = props.editorState;
+  let state = props.state as CodeEditor;
 
   return <div name = "html-code-viewer" display = { false } class = { style.CodeViewer } >
     <div>
@@ -233,7 +237,6 @@ export const HTMLViewer = ( props : {editorState:State<CodeEditor>} ) => {
   </div>;
 
 }
-
 
 export type CodeEditorElement = CustomElement<HTMLDivElement , {
   state:State<CodeEditor>;
@@ -414,10 +417,16 @@ let createSourceDirectory = ( env:IEnvironements ) => {
 }
 
 let isSourceFileExist = ( env:IEnvironements ) => {
+
+  console.log({env})
+
   return isFileExist( env.indexSrcPath );
 }
 
 let createSourceFileExist = ( env:IEnvironements ) => {
+
+  console.log({ env })
+
   let content = [
     `import "./styles.module.css"`,
     `import styles from "./styles.module.css"`,
@@ -520,20 +529,23 @@ export type TBlockSettings = Record<TBlockSettingsKeys , string>[];
 
 export class CodeEditor {
 
-  state:State<CodeEditor>|null = null;
+  context = storeContext().getContextByName('workbench')[0]
+
   codeBlockId:ICodeBlockEditorConfigData['codeBlockId'] = crypto.randomUUID();
   codeBlockEnvPaths:IEnvironements = defineEnvironement(this.codeBlockId);
-  watcherPidStateManager = useState<number>(-1);
+  watcherPidStateManager = this.context.set<number>( crypto.randomUUID()+"-pid-manager" , -1);
+  codeEditor = this.context.set( crypto.randomUUID()+"-code-editor" , null );
+
   get watcherIdState(){ 
-    let [ state ] = this.watcherPidStateManager;
+    let { state } = this.watcherPidStateManager;
     return state;
   };
   set watcherId(pid:number){ 
-    let [ state , setter ] = this.watcherPidStateManager;
+    let { state , setter } = this.watcherPidStateManager;
     setter(pid);
   }
   get watcherId(){ 
-    return this.watcherIdState.value;
+    return this.watcherIdState;
   }
 
   static get toolbox() {
@@ -550,11 +562,11 @@ export class CodeEditor {
 
   constructor( config:ICodeBlockEditorConfig ){
 
+    console.log(this)
+
     let { data } = config;
     Object.assign( this , data );
     this.codeBlockEnvPaths = defineEnvironement(this.codeBlockId);
-    let [ state ] = useState<CodeEditor>(this);
-    this.state = state;
 
   }
 
@@ -658,7 +670,7 @@ export class CodeEditor {
     })
 
     return DOM.render<CodeEditorElement>( <div 
-      _state = { this.state }
+      _state = { this.codeEditor.state }
       context = "code-editor-container"
       class = { style.CodeEditorContainer }
       _get_typescriptEditor = {get_typescriptEditor}
@@ -683,8 +695,6 @@ export class CodeEditor {
           id : crypto.randomUUID(),
         }
 
-        alert('afterMounting')
-
       }}
       >
         <div class = { style.CodeEditorMenu } >
@@ -702,12 +712,13 @@ export class CodeEditor {
           ]}/>
         </div>
         <div class = { style.CodeEditorCodeWorkspace }>
-          <TypescriptEditor editorState = {this.state as State<CodeEditor>} />
-          <StyleEditor editorState = {this.state as State<CodeEditor>} />
-          <HTMLViewer editorState = {this.state as State<CodeEditor>} />
+          <TypescriptEditor env = {this.codeBlockEnvPaths} />
+          <StyleEditor env = {this.codeBlockEnvPaths} />
+          <HTMLViewer state = {this} />
         </div>
       </div> 
     );
+
   }
 
   save(blockContent:CodeEditorElement){

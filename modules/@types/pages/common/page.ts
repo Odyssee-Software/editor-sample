@@ -14,6 +14,7 @@ export type TPageContent = {
 }
 
 export type TPage = {
+  type:string;
   id:string;
   _id:string;
   name:string;
