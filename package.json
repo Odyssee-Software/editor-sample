@@ -26,8 +26,8 @@
     "nedb": "^1.8.0",
     "terminatorator": "^1.0.2",
     "thorino-ipc": "^1.0.3",
-    "thorium-framework": "file:../../Odyssee/thorium/thorium-framework",
-    "types-pages": "file:modules/@types/pages",
+    "thorium-framework": "^1.0.9",
+    "types-pages": "file:modules/types/pages",
     "typescript": "^5.1.6"
   }
 }

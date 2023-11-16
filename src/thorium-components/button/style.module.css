@@ -10,16 +10,9 @@
   padding: 5px 10px;
   display: inline-flex;
   align-items: center;
-<<<<<<< HEAD
-  gap: 5px;
-  width: stretch;
-  justify-content: center;
-  cursor: pointer;
-=======
   justify-content: flex-start;
   gap: 5px;
   width: stretch;
->>>>>>> origin/update-core-version
 }
 
 .Button [name=icon-container]{

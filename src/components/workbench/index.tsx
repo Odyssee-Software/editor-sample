@@ -1,5 +1,5 @@
 import { CustomElement, useState } from 'thorium-framework';
-import { pageContext, storeContext , listContext } from 'thorium-framework/modules/context';
+import { pageContext, storeContext , listContext , IStoreState } from 'thorium-framework/modules/context';
 import { State } from 'thorium-framework/modules/states';
 import styles from './style.module.css';
 
@@ -147,7 +147,7 @@ export class _Workbench{
     return ( target ) => {
 
       const [workbench] = storeContext().getContextByName( 'workbench' );
-      const { state:Editor , setter:setEditor , subscribe } = workbench.set< IEditor >( 'manager' , null as any );
+      const { state:Editor , setter:setEditor , subscribe } = workbench.set< IEditor >( 'manager' , null as any ) as IStoreState<IEditor>;
 
       Editor.subscribe( target , async ( value ) => {
 
@@ -299,7 +299,7 @@ export const Workbench = ( props:WorkbenchProps ) => {
       allowEnter="false"
       _afterMounting = { _Workbench.afterMounting( plugins ) }
     />
-    <Inspector/>
+    {/* <Inspector/> */}
   </div>;
 
 }

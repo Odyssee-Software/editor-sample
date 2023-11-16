@@ -1,7 +1,8 @@
+import { IStoreState } from 'thorium-framework/modules/context';
 export declare class Warning {
-    context: import("thorium-framework/modules/context").IStoreContext;
-    valueStateManager: import("thorium-framework/modules/context").IStoreState<string>;
-    typeStateManager: import("thorium-framework/modules/context").IStoreState<"warning" | "message" | "alert">;
+    context: import("thorium-store-context/dist/store-context").IStoreContext;
+    valueStateManager: IStoreState<string>;
+    typeStateManager: IStoreState<"warning" | "message" | "alert">;
     constructor();
     static get settings(): {
         message: string;

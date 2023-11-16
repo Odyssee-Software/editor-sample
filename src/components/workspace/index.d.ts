@@ -1,11 +1,5 @@
 import { WorkbenchProps } from "@components/workbench";
 import { CustomElement } from 'thorium-framework';
-export declare const APPAPI: {
-    Workspace: () => {
-        SideSheet: () => {};
-        Editor: () => {};
-    };
-};
 export declare class _Workspace {
     element: WorkspaceElement;
     get container(): HTMLElement | null;
