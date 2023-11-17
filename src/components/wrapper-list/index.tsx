@@ -1,23 +1,23 @@
-import { State , CustomElement , DOMRender } from 'thorium-framework';
-import { EditorState, editorState } from '@components/editor'
+import { CustomElement , DOMRender } from 'thorium-framework';
+import { IStoreState } from 'thorium-framework/modules/context';
 import style from './style.module.css';
 import EditorStyle from '../../components/editor/style.module.css';
 
-import { CustomElementDefultProps } from '../'
+import { CustomElementDefultProps } from '@thorium-components/index';
 
 export type WrapperItemProps = {
 
 };
 
 export type WrapperOptions = {
-    items:[State<string[]> , any],
-    label?:string
+    items: IStoreState<string[]>['state']['mutator'] | string[];
+    label?:string;
 } & CustomElementDefultProps;
 
 
 export const WrapperList = ( props:WrapperOptions ) => {
 
-    console.log('wrapperList' , props)
+    let { items } = props;
 
     return <div class={style.WrapperList}>
         <select 
@@ -25,22 +25,35 @@ export const WrapperList = ( props:WrapperOptions ) => {
                 console.log(EditorStyle.Editor)
             }}
             _afterMounting = {( target:CustomElement< HTMLSelectElement , {} > ) => {
-                let [ state ] = props.items;
 
-                state.subscribe( target , ( newList ) => {
+                if(items.length == 2 && typeof items[1] == 'function'){
 
-                    for( const e of [...target.children].reverse() ){
-                        e.remove();
-                    }
+                    let [ state ] = items;
 
-                    for(const e of newList){
+                    (state as IStoreState<string[]>['state']).subscribe( target , ( newList ) => {
+    
+                        for( const e of [...target.children].reverse() ){
+                            e.remove();
+                        }
+    
+                        for(const e of newList){
+                            DOMRender( <option _textContent = {e}/> , target ); 
+                        }
+    
+                    })
+
+                    for(const e of (state as IStoreState<string[]>['state']).value as string[]){
+                        console.log({e})
                         DOMRender( <option _textContent = {e}/> , target ); 
                     }
 
-                })
+                }
+                else{
 
-                for(const e of state.value){
-                    DOMRender( <option _textContent = {e}/> , target ); 
+                    for(const e of items as string[]){
+                        DOMRender( <option _textContent = {e}/> , target ); 
+                    }
+
                 }
 
             }}/>

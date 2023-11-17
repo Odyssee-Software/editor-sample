@@ -21,9 +21,9 @@ export const Inspector = () => {
 
   const context = pageContext().extends( 'inspector' );
 
-  const { state:inspector , setter:setInspector } = context.set<IInspectorElement | null>( 'inspector' , null );
-  const { state:idleState , setter:setIdleState , subscribe } = context.set< 'true' | 'false' >( 'idle-state' , 'false' );
-  const { state:keepOpen , setter:setKeepOpen } = context.set< boolean >( 'keep-open' , false );
+  const { state:inspector, setter:setInspector } = context.set<IInspectorElement | null>( 'inspector' , null ) as IStoreState<IInspectorElement>;
+  const { state:idleState , setter:setIdleState } = context.set< 'true' | 'false' >( 'idle-state' , 'false' )  as IStoreState<'true' | 'false'>;
+  const { state:keepOpen , setter:setKeepOpen } = context.set< boolean >( 'keep-open' , false ) as IStoreState<boolean>;
 
   // let [inspector , setInspector] = useState<IInspectorElement | null>( null );
   // let [idleState , setIdleState] = useState< 'true' | 'false' >( 'false' );

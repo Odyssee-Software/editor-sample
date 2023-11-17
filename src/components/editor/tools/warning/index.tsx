@@ -1,12 +1,12 @@
 import { CustomElement, DOM , useState } from 'thorium-framework';
-import { storeContext } from 'thorium-framework/modules/context';
+import { storeContext , IStoreState } from 'thorium-framework/modules/context';
 import style from './style.module.css';
 
 export class Warning {
 
   context = storeContext().getContextByName('workbench')[0]
-  valueStateManager = this.context.set<string>( crypto.randomUUID() , "" );
-  typeStateManager = this.context.set<'message' | 'warning' | 'alert'>( crypto.randomUUID() , 'message');
+  valueStateManager = this.context.set<string>( crypto.randomUUID() , "" ) as IStoreState<string>;
+  typeStateManager = this.context.set<'message' | 'warning' | 'alert'>( crypto.randomUUID() , 'message') as IStoreState<'message' | 'warning' | 'alert'>;
   // get valueState(){ return this.valueStateManager[0] };
   // get value(){ return this.valueStateManager[0].value };
   // get setValue(){ return this.valueStateManager[1] };

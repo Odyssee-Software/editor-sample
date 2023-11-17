@@ -1,5 +1,6 @@
 import { CustomElement } from 'thorium-framework';
 import { State } from 'thorium-framework/modules/states';
+import { IStoreState } from 'thorium-framework/modules/context';
 import { OutputBlockData, OutputData } from '@editorjs/editorjs';
 import { os } from '@neutralinojs/lib';
 type EditorContainerElement = CustomElement<HTMLDivElement, {
@@ -63,8 +64,8 @@ export declare class CodeEditor {
     context: import("thorium-store-context/dist/store-context").IStoreContext;
     codeBlockId: ICodeBlockEditorConfigData['codeBlockId'];
     codeBlockEnvPaths: IEnvironements;
-    watcherPidStateManager: void | import("thorium-store-context/dist/store-context").IStoreState<number>;
-    codeEditor: void | import("thorium-store-context/dist/store-context").IStoreState<null>;
+    watcherPidStateManager: void | IStoreState<number>;
+    codeEditor: void | IStoreState<null>;
     get watcherIdState(): any;
     set watcherId(pid: number);
     get watcherId(): number;

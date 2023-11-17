@@ -1,5 +1,6 @@
 import { DOM , CustomElement , useState } from 'thorium-framework';
 import { State } from 'thorium-framework/modules/states';
+import { IStoreState } from 'thorium-framework/modules/context';
 import style from './style.module.css';
 
 import { minimalSetup, EditorView , basicSetup } from 'codemirror';
@@ -537,11 +538,11 @@ export class CodeEditor {
   codeEditor = this.context.set( crypto.randomUUID()+"-code-editor" , null );
 
   get watcherIdState(){ 
-    let { state } = this.watcherPidStateManager;
+    let { state } = this.watcherPidStateManager as IStoreState<any>;
     return state;
   };
   set watcherId(pid:number){ 
-    let { state , setter } = this.watcherPidStateManager;
+    let { state , setter } = this.watcherPidStateManager as IStoreState<any>;
     setter(pid);
   }
   get watcherId(){ 
@@ -670,7 +671,7 @@ export class CodeEditor {
     })
 
     return DOM.render<CodeEditorElement>( <div 
-      _state = { this.codeEditor.state }
+      _state = { (this.codeEditor as IStoreState<any>).state }
       context = "code-editor-container"
       class = { style.CodeEditorContainer }
       _get_typescriptEditor = {get_typescriptEditor}
