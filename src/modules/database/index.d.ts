@@ -16,4 +16,4 @@ export declare const update: (update: {
 }) => Promise<CustomEvent<TPage>>;
 export declare const findPage: (data: Partial<TPage> | Partial<TPage>[]) => Promise<CustomEvent<TPage[]>>;
 export declare const findAllPages: () => Promise<CustomEvent<TPage[]>>;
-export declare const createPage: (data: Partial<TPage>) => Promise<CustomEvent<TPage>>;
+export declare const createPage: (data: TPage) => Promise<CustomEvent<TPage>>;
