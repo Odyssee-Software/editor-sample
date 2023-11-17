@@ -1,5 +1,6 @@
 import { PageRouter , Page , PageLink , useState } from "thorium-framework";
 import { Workspace } from '@components/workspace';
+import { Settings } from '@components/settings';
 
 import { configureNoteEditorBlock } from "@components/workbench";
 import Header from '@editorjs/header';
@@ -17,12 +18,12 @@ const Home = () => {
 
 }
 
-const Settings = () => {
-  return <div>
-    <h1>Settings</h1>
-    <PageLink to = "/" title = "home" />
-  </div>;
-}
+// const Settings = () => {
+//   return <div>
+//     <h1>Settings</h1>
+//     <PageLink to = "/" title = "home" />
+//   </div>;
+// }
 
 class _ImportMDPlugin{
 

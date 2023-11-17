@@ -1,8 +1,8 @@
-import { State } from 'thorium-framework';
-import { CustomElementDefultProps } from '../';
+import { IStoreState } from 'thorium-framework/modules/context';
+import { CustomElementDefultProps } from '@thorium-components/index';
 export type WrapperItemProps = {};
 export type WrapperOptions = {
-    items: [State<string[]>, any];
+    items: IStoreState<string[]>['state']['mutator'] | string[];
     label?: string;
 } & CustomElementDefultProps;
 export declare const WrapperList: (props: WrapperOptions) => any;

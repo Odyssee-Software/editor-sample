@@ -1,11 +1,13 @@
 import { PageLink , useState } from "thorium-framework";
 import { Button } from '@thorium-components/button';
-import { WrapperList } from '@thorium-components/wrapper-list';
+import { WrapperList } from '../wrapper-list';
 import styles from './style.module.css';
 
 export const Settings = () => {
 
-  let state = useState<string[]>('' , [ "un" , "deux" ]);
+  let { state } = useState<string[]>( 'test' , [ "un" , "deux" ]);
+
+  console.log({ state })
 
   return <div class={styles.Settings}>
     <div class={styles.SideLeftMenu}>
@@ -23,7 +25,7 @@ export const Settings = () => {
       </div>
       <div class={styles.MainContent}>
           <div class={styles.ListItem}>
-              < WrapperList items= {state}/>
+              < WrapperList items = { state.mutator }/>
           </div>
       </div>
     </div>
