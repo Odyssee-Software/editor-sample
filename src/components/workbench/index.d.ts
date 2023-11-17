@@ -42,10 +42,10 @@ export declare class _Workbench {
         ref: any;
         editorManager: any;
     });
-    static afterMounting(plugins: any): (target: any) => any;
+    static afterMounting(plugins: any): (target: any) => import("thorium-store-context/dist/store-context").IStoreContext;
 }
 export interface WorkbenchProps {
     plugins: Record<string, (ToolConstructable | ToolSettings)>;
 }
-export declare const WorkbenchContext: () => any;
+export declare const WorkbenchContext: () => import("thorium-store-context/dist/store-context").IStoreContext;
 export declare const Workbench: (props: WorkbenchProps) => any;

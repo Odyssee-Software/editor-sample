@@ -11,7 +11,7 @@ export declare class _SideSheet {
 export type SideSheetElement = CustomElement<HTMLDivElement, {
     close(): void;
 }>;
-export declare const SideSheetContext: () => any;
+export declare const SideSheetContext: () => import("thorium-store-context/dist/store-context").IStoreContext;
 export declare const SideSheet: (props: {
     pluginPages: any[];
 }) => any;

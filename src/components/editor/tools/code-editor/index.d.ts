@@ -60,11 +60,11 @@ export declare const defineEnvironement: (codeBlockId: string) => IEnvironements
 export type TBlockSettingsKeys = 'input';
 export type TBlockSettings = Record<TBlockSettingsKeys, string>[];
 export declare class CodeEditor {
-    context: any;
+    context: import("thorium-store-context/dist/store-context").IStoreContext;
     codeBlockId: ICodeBlockEditorConfigData['codeBlockId'];
     codeBlockEnvPaths: IEnvironements;
-    watcherPidStateManager: any;
-    codeEditor: any;
+    watcherPidStateManager: void | import("thorium-store-context/dist/store-context").IStoreState<number>;
+    codeEditor: void | import("thorium-store-context/dist/store-context").IStoreState<null>;
     get watcherIdState(): any;
     set watcherId(pid: number);
     get watcherId(): number;
