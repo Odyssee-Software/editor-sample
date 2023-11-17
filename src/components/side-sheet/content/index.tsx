@@ -12,7 +12,7 @@ import {
   findAllPages , 
   findPage 
 } from '@modules/database';
-import { TPage } from 'types-pages';
+//import { TPage } from 'types-pages';
 
 import { OpenSpring } from '../../../animations/spring';
 
@@ -91,10 +91,6 @@ const PageContr = (page:PageParams):PageControlElement => {
             VirtualDOM.createNodeElement( <ContextualMenu target = {target as Element} position='right' childrens = {[
               <Button textContent='Edit' />,
               <Button textContent='Copy' />,
-<<<<<<< HEAD
-              <Button textContent='Settings' pageLink = {{ to : '/settings' }} />,
-              <Divider/>
-=======
               <Button textContent='Duplicate' />,
               <Divider/>,
               <Button textContent='Delete' />,
@@ -111,7 +107,6 @@ const PageContr = (page:PageParams):PageControlElement => {
                     return (<Button textContent = { _exportPlugin.title }/>)
                   } )} 
                 /> : null ),
->>>>>>> merge13112023
             ]} /> , document.body )
           }} />
         ]}
@@ -130,7 +125,7 @@ const PageContr = (page:PageParams):PageControlElement => {
               type : 'note',
               id : pageSettings.id,
               name : pageSettings.name,
-              content : pageSettings.content,
+              content : pageSettings.content as any
             }
           });
 

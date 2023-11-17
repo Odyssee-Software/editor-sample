@@ -1,21 +1,3 @@
-<<<<<<< HEAD
-import { DOM , CustomElement , DesignSystem , PaternArea } from 'thorium-framework';
-
-export type InputProps = {
-    placeholder:string
-}
-
-export const InputPatern = DesignSystem().register('thorium' , {
-    baseName : 'input',
-    attr : {},
-    childrens : [],
-    proto : {},
-    
-});
-  
-export const InputConnector = InputPatern.connector<any>();
-
-=======
 import { DesignSystem , PaternArea , CustomElement , NodeTemplate } from "thorium-framework";
 import { CustomElementDefultProps } from '../index';
 export type InputElement = CustomElement< HTMLDivElement , {
@@ -76,4 +58,3 @@ export const Input = ( props:InputProps ):NodeTemplate<InputElement> => {
   </div>
 
 }
->>>>>>> merge13112023
