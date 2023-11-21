@@ -1,0 +1,110 @@
+.EditorContainer{
+  display: grid;
+  grid-template-columns: minmax(0,1fr) minmax(0,300px);
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  font-size: 14px;
+  box-shadow: 0px 0px 10px rgba( 31, 38, 135, 0.37 );
+  transition: 0.4s;
+}
+
+.Editor{
+  background-color: white;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  display: grid;
+}
+
+.Inspector{
+  width: stretch;
+  height: stretch;
+  overflow: auto;
+  display: grid;
+  grid-template-rows: min-content minmax(0,1fr);
+  grid-auto-columns: 1fr;
+  background-color: white;
+  transform: translateX(150%);
+  transition: 0.4s;
+  border-left: 2px solid rgb(105, 105, 105 , 0.2);
+  display: grid;
+  grid-auto-rows: min-content;
+}
+
+.Inspector > [name = "header"]{
+  display: inline-flex;
+  justify-content: flex-end;
+  gap: 20px;
+  margin: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgb(105, 105, 105 , 0.2);
+}
+
+.Inspector > [name = "header"] > thorium-button{
+  width: fit-content;
+  height: fit-content;
+}
+
+.Inspector > [name = "header"] > [name = "switch"]{
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.Inspector > [name = "header"] > [name = "switch"] > input{
+  width: 30px;
+}
+
+
+.Inspector > [name = "content"]{
+  padding: 10px;
+  display: grid;
+  grid-auto-rows: min-content;
+  grid-template-columns: 1fr;
+}
+
+.Inspector > [name = "content"] > div{
+  display: grid;
+  grid-auto-rows: min-content;
+  gap: 15px;
+}
+
+.Inspector > [name = "content"] > div > *{
+  display: grid;
+  grid-template-columns: min-content 1fr;
+  gap: 10px;
+}
+
+.Inspector > [name = "content"] > div > * label{
+  text-transform: capitalize;
+}
+
+.Inspector > [name = "content"] > div > * label:after{
+  content : ':';
+}
+
+.Inspector > [name = "content"] > div > * input,
+.Inspector > [name = "content"] > div > * select{
+  border: 1px solid rgb(105, 105, 105 , 0.2);
+  outline:none;
+}
+
+.Inspector > [name = "content"] > div > * input:focus,
+.Inspector > [name = "content"] > div > * select:focus{
+  border-bottom: 2px solid royalblue;
+}
+
+.EditorContainer:has(div[context="inspector"][show = true]){
+  /* grid-template-columns: minmax(0,1fr) minmax(0,300px); */
+  grid-template-columns: minmax(0,1fr) minmax(300px,30%);
+}
+
+.EditorContainer:has(div[context="inspector"][show = false]){
+  grid-template-columns: minmax(0,1fr) 0;
+}
+
+.EditorContainer > div[context="inspector"][show = true]{
+  transform: translateX(0%);
+}
+

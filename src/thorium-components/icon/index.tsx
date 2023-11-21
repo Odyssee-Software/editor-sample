@@ -18,7 +18,7 @@ export type IconContainerElement = CustomElement<HTMLDivElement , {
 
 export const Icon = (props:IconProps) => {
 
-  return <div style = { `--background:url(${props.path})`} class = { style.IconContainer } >
+  return <div style = { `--background:url(${props.path})`} class = { style.IconContainer } name = 'icon-container' >
     <icon name = 'icon' class = { ( props.type == 'mask' ? style.Iconmask : style.Iconbackground) } />
   </div>;
 

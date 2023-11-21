@@ -1,36 +1,88 @@
 import { CustomElement } from 'thorium-framework';
+import { State } from 'thorium-framework/modules/states';
+import { OutputBlockData, OutputData } from '@editorjs/editorjs';
+import { os } from '@neutralinojs/lib';
 type EditorContainerElement = CustomElement<HTMLDivElement, {
     children: {
         "editor": CustomElement<HTMLDivElement, {}>;
     };
 }>;
-export declare const TypescriptEditor: () => EditorContainerElement;
-export declare const StyleEditor: () => EditorContainerElement;
+export declare const TypescriptEditor: (props: {
+    env;
+}) => EditorContainerElement;
+export declare const StyleEditor: (props: {
+    env;
+}) => EditorContainerElement;
+export declare const HTMLViewer: (props: {
+    state: CodeEditor;
+}) => any;
 export type CodeEditorElement = CustomElement<HTMLDivElement, {
-    get_typescriptEditor(): CustomElement<Element, {}>;
+    state: State<CodeEditor>;
+    get_typescriptEditor(): CustomElement<HTMLElement, {}>;
     show_typescritEditor(): void;
+    show_codeViewer(): void;
+    get_styleEditor(): CustomElement<HTMLElement, {}>;
     show_styleEditor(): void;
+    get_codeViewer(): CustomElement<HTMLElement, {}>;
+    show_codeViewer(): void;
+    hide_all(): void;
 }>;
+export interface ICodeBlockEditorConfigData extends OutputData {
+    codeBlockId: `${string}-${string}-${string}-${string}-${string}`;
+}
+export interface ICodeBlockEditorConfig extends OutputBlockData {
+    data: ICodeBlockEditorConfigData;
+}
+export interface IEnvironements {
+    codeBlockId: string;
+    _publicPath: string[];
+    publicPath: string;
+    _codeBlockEnvPath: string[];
+    codeBlockEnvPath: string;
+    _envPath: string[];
+    envPath: string;
+    _envSrcPath: string[];
+    envSrcPath: string;
+    _envDistPath: string[];
+    envDistPath: string;
+    _packageJsonPath: string[];
+    packageJsonPath: string;
+    _tsconfigSrcPath: string[];
+    tsconfigSrcPath: string;
+    _indexSrcPath: string[];
+    indexSrcPath: string;
+    _globalsDTsPath: string[];
+    globalsDTsPath: string;
+    _styleSrcPath: string[];
+    styleSrcPath: string;
+}
+export declare const defineEnvironement: (codeBlockId: string) => IEnvironements;
+export type TBlockSettingsKeys = 'input';
+export type TBlockSettings = Record<TBlockSettingsKeys, string>[];
 export declare class CodeEditor {
-<<<<<<< Updated upstream
-=======
-    context: import("thorium-store-context/dist/store-context").IStoreContext;
+    context: import("thorium-framework/modules/context").IStoreContext;
     codeBlockId: ICodeBlockEditorConfigData['codeBlockId'];
     codeBlockEnvPaths: IEnvironements;
-    watcherPidStateManager: import("thorium-store-context/dist/store-context").IStoreState<number>;
-    codeEditor: import("thorium-store-context/dist/store-context").IStoreState<null>;
+    watcherPidStateManager: import("thorium-framework/modules/context").IStoreState<number>;
+    codeEditor: import("thorium-framework/modules/context").IStoreState<null>;
     get watcherIdState(): import("thorium-framework/modules/states").TState<number>;
     set watcherId(pid: number);
     get watcherId(): number;
->>>>>>> Stashed changes
     static get toolbox(): {
         title: string;
         icon: string;
     };
     static get enableLineBreaks(): boolean;
+    constructor(config: ICodeBlockEditorConfig);
+    onChange(): void;
+    get settings(): TBlockSettings;
+    ensureRepertoryIntegrity(): Promise<boolean>;
+    launchCompilationWatcher(): Promise<os.SpawnedProcess>;
+    compile(): void;
+    updateViewer(): void;
     render(): CodeEditorElement;
-    save(blockContent: any): {
-        url: any;
+    save(blockContent: CodeEditorElement): {
+        codeBlockId: `${string}-${string}-${string}-${string}-${string}`;
     };
 }
 export {};

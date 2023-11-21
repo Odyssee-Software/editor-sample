@@ -167,7 +167,7 @@ export class _Workbench{
           console.warn(`kill watcher (${watcher.id})path:${watcher.path}`);
         }
 
-        return value as any;
+        return value;
   
       })
   
@@ -299,7 +299,7 @@ export const Workbench = ( props:WorkbenchProps ) => {
       allowEnter="false"
       _afterMounting = { _Workbench.afterMounting( plugins ) }
     />
-    {/* <Inspector/> */}
+    <Inspector/>
   </div>;
 
 }

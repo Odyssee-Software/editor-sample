@@ -1,0 +1,39 @@
+.ContextualMenuContainer{
+  position: absolute;
+  height: fit-content;
+  width: fit-content;
+  display: grid;
+  z-index: 100;
+  padding: 15px;
+}
+
+.ContextualMenu{
+  display: grid;
+  height: fit-content;
+  min-width: 150px;
+  width: fit-content;
+  padding: 10px;
+  background-color: whitesmoke;
+  border: 1px solid;
+  gap: 5px;
+  border-radius: 5px;
+  border: 1px solid rgba(105 105 105 / 20%);
+}
+
+.ContextualMenu > *{
+  width: stretch;
+  height: min-content;
+}
+
+.ContextualMenu > thorium-button{
+  border: none;
+}
+
+.ContextualMenu > thorium-button > button{
+  border: none;
+  background-color: transparent;
+}
+
+.ContextualMenu > thorium-button > button:hover{
+  background-color: rgba(105 105 105 / 10% );
+}
