@@ -20,6 +20,7 @@ const configuration = ( config ) => {
       '@modules' : path.resolve( compilationTargetPath , 'modules'),
       '@utils' : path.resolve( compilationTargetPath , 'utils'),
       '@context' : path.resolve( compilationTargetPath , 'context'),
+      '@preload' : path.resolve( compilationTargetPath , 'preload'),
     }
   }
 

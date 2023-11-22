@@ -1,0 +1,115 @@
+.Overlay{
+  background-color: white;
+  top: 0;
+  left: 0;
+  position:absolute;
+  height: stretch;
+  width: stretch;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  text-align: center;
+}
+.Container{
+  background-color: white;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  grid-auto-rows: min-content;
+  margin: auto;
+}
+.Ellipsis {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin: auto;
+}
+.Ellipsis div {
+  position: absolute;
+  top: 33px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+.Ellipsis div:nth-child(1) {
+  background-color: red;
+  left: 8px;
+  animation: lds-ellipsis1 0.6s infinite;
+}
+.Ellipsis div:nth-child(2) {
+  background-color: orange;
+  left: 8px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.Ellipsis div:nth-child(3) {
+  background-color: green;
+  left: 32px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.Ellipsis div:nth-child(4) {
+  background-color: blue;
+  left: 56px;
+  animation: lds-ellipsis3 0.6s infinite;
+}
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+    z-index: 0;
+  }
+  100% {
+    transform: scale(1);
+    z-index: 1;
+  }
+}
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+    z-index: 1;
+  }
+  100% {
+    transform: scale(0);
+    z-index: 0;
+  }
+}
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+    z-index: 0;
+  }
+  100% {
+    transform: translate(24px, 0);
+    z-index: 0;
+  }
+}
+.Text{
+  width: stretch;
+  min-width: 25ch;
+  text-align: center;
+  font-weight: bold;
+}
+.Text::before{
+  content : ' ';
+  animation: text 0.6s infinite;
+}
+.Text::after{
+  content : ' ';
+  animation: text 0.6s infinite;
+}
+
+@keyframes text {
+  0% {
+    content : " ";
+  }
+  33% {
+    content : ".";
+  }
+  66% {
+    content : "..";
+  }
+  99% {
+    content : "...";
+  }
+}

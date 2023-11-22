@@ -18,6 +18,7 @@
       "@modules/*" : ["src/modules/*"],
       "@utils/*" : ["src/utils/*"],
       "@context/*" : ["src/context/*"],
+      "@preload/*" : ["src/preload/*"],
     }
   },
   "include": ["./src/*"],
