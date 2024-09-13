@@ -1,0 +1,1 @@
+require('editor-database-service/extension/dist/index');

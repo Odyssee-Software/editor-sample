@@ -34,6 +34,15 @@
       "minHeight": 200,
       "icon": "/public/thorium.png",
       "enableInspector": true
+    },
+    "chrome" : {
+      "title": "Notes",
+      "width": 800,
+      "height": 500,
+      "minWidth": 400,
+      "minHeight": 200,
+      "icon": "/public/thorium.png",
+      "args" : "--install-extension=/Users/guillaume/Documents/temporaire/editor-sample/devTools"
     }
   },
   "cli": {
@@ -41,17 +50,13 @@
     "resourcesPath": "/public/",
     "extensionsPath": "/extensions/",
     "binaryVersion": "4.14.1",
-    "clientVersion": "3.12.0",
-    "frontendLibrary": {
-      "patchFile" : "/public/index.html",
-      "devUrl" : "http://localhost:8080"
-    }
+    "clientVersion": "3.12.0"
   },
   "enableExtensions": true,
   "extensions": [
     {
       "id": "database.service",
-      "command": "node ${NL_PATH}/extensions/db/dist/index.js"
+      "command": "node ${NL_PATH}/extensions/database.js"
     },
     {
       "id" : "codeblock.manager",

@@ -1,11 +1,11 @@
-import { Button } from '@thorium-components/button';
+import { ThoriumButton } from 'thorium-components';
 import styles from './style.module.css';
 
 export const SideSheetActionBar = () => {
 
-  return <div class = { styles.SideSheetActionBar }>
-    <Button textContent='Action A'/>
-    <Button textContent='Action B'/>
+  return <div className = { styles.SideSheetActionBar }>
+    <ThoriumButton textContent='Action A'/>
+    <ThoriumButton textContent='Action B'/>
   </div>;
 
 }

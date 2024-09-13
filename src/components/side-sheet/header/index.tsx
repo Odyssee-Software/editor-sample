@@ -1,7 +1,7 @@
 import * as path from 'path';
 
 import { CustomElement , PageLink } from 'thorium-framework';
-import { Button } from '@thorium-components/button';
+import { ThoriumButton } from 'thorium-components';
 
 import styles from './style.module.css';
 
@@ -10,13 +10,11 @@ import CloseIcon from '@fluentui/svg-icons/icons/arrow_previous_20_filled.svg';
 
 export const SideSheetHeader = () => {
 
-  return <div class = { styles.SideSheetHeader }>
-    <Button textContent='Settings' icon = {{ type : 'mask' , path : path.join( 'app' , path.basename(OptionsIcon) ) }} pageLink = {{ to : '/settings' }} />
-    <Button textContent='Google' pageLink = {{ to : 'https://www.google.be/' }} />
-    <Button textContent='C'/>
-    <Button 
-      icon = {{ type : 'mask' , path : path.join( 'app' , path.basename(CloseIcon) ) }}
-      action = {(event) => {
+  return <div className = { styles.SideSheetHeader }>
+    <ThoriumButton textContent='Settings'/>
+    <ThoriumButton textContent='C'/>
+    <ThoriumButton 
+      onmousedown = {(event) => {
         
         let { target } = event;
         /* The line `let sideSheet = (target as CustomElement<any,{}>).context('side-sheet');` is

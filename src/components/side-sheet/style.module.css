@@ -13,7 +13,7 @@
   grid-template-rows: min-content min-content minmax(0,1fr) min-content min-content;
   gap: 15px;
 
-  background: rgba( 255, 255, 255, 0.25 );
+  background: rgba( 255, 255, 255, 0.75 );
   box-shadow: 1px 1px 10px rgba( 31, 38, 135, 0.37 );
   backdrop-filter: blur( 4px );
   border-radius: var(--sidesheet-border-radius);

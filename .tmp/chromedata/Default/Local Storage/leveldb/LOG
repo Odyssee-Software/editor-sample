@@ -1,3 +1,18 @@
-2023/11/22-19:18:02.554 3f07 Reusing MANIFEST /Users/guillaume/Documents/temporaire/editor-sample/.tmp/chromedata/Default/Local Storage/leveldb/MANIFEST-000001
-2023/11/22-19:18:02.555 3f07 Recovering log #249
-2023/11/22-19:18:02.555 3f07 Reusing old log /Users/guillaume/Documents/temporaire/editor-sample/.tmp/chromedata/Default/Local Storage/leveldb/000249.log 
+2024/04/16-19:55:10.149 2d03 Reusing MANIFEST /Users/guillaume/Documents/temporaire/editor-sample/.tmp/chromedata/Default/Local Storage/leveldb/MANIFEST-000001
+2024/04/16-19:55:10.151 2d03 Recovering log #44
+2024/04/16-19:55:10.151 2d03 Reusing old log /Users/guillaume/Documents/temporaire/editor-sample/.tmp/chromedata/Default/Local Storage/leveldb/000044.log 
+2024/04/16-20:23:14.841 3103 Level-0 table #48: started
+2024/04/16-20:23:14.851 3103 Level-0 table #48: 35513 bytes OK
+2024/04/16-20:23:14.862 3103 Delete type=0 #44
+2024/04/16-20:25:41.804 3103 Level-0 table #50: started
+2024/04/16-20:25:41.813 3103 Level-0 table #50: 65667 bytes OK
+2024/04/16-20:25:41.824 3103 Delete type=0 #47
+2024/04/16-20:25:41.824 3103 Compacting 4@0 + 1@1 files
+2024/04/16-20:25:41.831 3103 Generated table #51@0: 108 keys, 81673 bytes
+2024/04/16-20:25:41.831 3103 Compacted 4@0 + 1@1 files => 81673 bytes
+2024/04/16-20:25:41.841 3103 compacted to: files[ 0 1 1 0 0 0 0 ]
+2024/04/16-20:25:41.842 3103 Delete type=2 #48
+2024/04/16-20:25:41.842 3103 Delete type=2 #42
+2024/04/16-20:25:41.842 3103 Delete type=2 #40
+2024/04/16-20:25:41.842 3103 Delete type=2 #45
+2024/04/16-20:25:41.842 3103 Delete type=2 #50

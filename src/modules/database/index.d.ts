@@ -1,4 +1,4 @@
-import { TPage } from 'types-pages';
+import { Page } from 'editor-page-types';
 export declare const database: <response>(event: string, message: string | Record<string, any>) => Promise<CustomEvent<response>>;
 /**
  * The function `insert` takes in a single object or an array of objects and inserts it into a
@@ -8,12 +8,12 @@ export declare const database: <response>(event: string, message: string | Recor
  * @returns the result of calling the `database` function with the arguments `'insert'` and
  * `JSON.stringify(data)`.
 */
-export declare const insert: (data: TPage | TPage[]) => Promise<CustomEvent<TPage>>;
-export declare const find: (data: TPage | TPage[]) => Promise<CustomEvent<TPage[]>>;
+export declare const insert: (data: Page | Page[]) => Promise<CustomEvent<Page>>;
+export declare const find: (data: Page | Page[]) => Promise<CustomEvent<Page[]>>;
 export declare const update: (update: {
-    search: Partial<TPage>;
-    insert: Partial<TPage> | Partial<TPage>[];
-}) => Promise<CustomEvent<TPage>>;
-export declare const findPage: (data: Partial<TPage> | Partial<TPage>[]) => Promise<CustomEvent<TPage[]>>;
-export declare const findAllPages: () => Promise<CustomEvent<TPage[]>>;
-export declare const createPage: (data: Partial<TPage>) => Promise<CustomEvent<TPage>>;
+    search: Partial<Page>;
+    insert: Partial<Page> | Partial<Page>[];
+}) => Promise<CustomEvent<Page>>;
+export declare const findPage: (data: Partial<Page> | Partial<Page>[]) => Promise<CustomEvent<Page[]>>;
+export declare const findAllPages: () => Promise<CustomEvent<Page[]>>;
+export declare const createPage: (data: Partial<Page>) => Promise<CustomEvent<Page>>;

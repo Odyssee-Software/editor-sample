@@ -1,14 +1,14 @@
-import { DOM , CustomElement , NodeTemplate , useState , pageContext } from "thorium-framework";
-import { IStoreState } from "thorium-framework/modules/context";
+import { DOM , CustomElement , INodeTemplate , useState , pageContext } from "thorium-framework";
+import { IStoreState , useContext } from "thorium-framework/modules/context";
 import styles from './style.module.css';
 
-import { Button } from "@thorium-components/button";
+import { ThoriumButton } from "thorium-components";
 import { Input } from "@thorium-components/input";
 
 export type IInspectorElement = CustomElement<HTMLDivElement , {
   header():CustomElement<HTMLDivElement , {}>;
   content():CustomElement<HTMLDivElement , {}>;
-  render( template:NodeTemplate<any> ):void;
+  render( template:INodeTemplate<any> ):void;
   show():void;
   hide():void;
   children:{
@@ -19,11 +19,11 @@ export type IInspectorElement = CustomElement<HTMLDivElement , {
 
 export const Inspector = () => {
 
-  const context = pageContext().extends( 'inspector' );
+  const context = useContext( pageContext.value ).extends( 'inspector' );
 
-  const { state:inspector , setter:setInspector } = context.set<IInspectorElement | null>( 'inspector' , null );
-  const { state:idleState , setter:setIdleState , subscribe } = context.set< 'true' | 'false' >( 'idle-state' , 'false' );
-  const { state:keepOpen , setter:setKeepOpen } = context.set< boolean >( 'keep-open' , false );
+  const [ inspector , setInspector ] = useContext( context ).set<IInspectorElement | null>( 'inspector' , null );
+  const [ idleState , setIdleState] = useContext( context ).set< 'true' | 'false' >( 'idle-state' , 'false' );
+  const [ keepOpen , setKeepOpen ] = useContext( context ).set< boolean >( 'keep-open' , false );
 
   // let [inspector , setInspector] = useState<IInspectorElement | null>( null );
   // let [idleState , setIdleState] = useState< 'true' | 'false' >( 'false' );
@@ -31,10 +31,10 @@ export const Inspector = () => {
   
   return (<div 
     context = "inspector"
-    class = {styles.Inspector}
-    show = {idleState.value}
-    _header = {function(this:IInspectorElement){ return this.children.header;}}
-    _content = {function(this:IInspectorElement){ return this.children.content;}}
+    className = {styles.Inspector}
+    // show = {idleState.value}
+    // _header = {function(this:IInspectorElement){ return this.children.header;}}
+    // _content = {function(this:IInspectorElement){ return this.children.content;}}
     _afterMounting = {( target:IInspectorElement ) => { 
 
       idleState.subscribe( target , ( newValue ):any => {
@@ -44,40 +44,29 @@ export const Inspector = () => {
 
       setInspector(target); 
     }}
-    _show = {function(this:IInspectorElement){ setIdleState('true') }}
-    _hide = {function(this:IInspectorElement){ setIdleState('false') }}
-    _render = {( template:NodeTemplate<any> ) => {
+    // _show = {function(this:IInspectorElement){ setIdleState('true') }}
+    // _hide = {function(this:IInspectorElement){ setIdleState('false') }}
+    // _render = {( template:INodeTemplate<any> ) => {
 
-      console.log( { template } )
+    //   console.log( { template } )
 
-      if(inspector.value){
+    //   if(inspector){
 
-        for(let e of [...inspector.value.content().children].reverse()){ e.remove() }
-        DOM.render( template , inspector.value.content() );
+    //     for(let e of [...(inspector as any).content().children].reverse()){ e.remove() }
+    //     DOM.render( template , inspector.content() );
 
-      }
+    //   }
 
-    }}
+    // }}
   >
     <div name = "header" context = "header" >
       <div name = "switch" >
         <label >Garder ouvert :</label>
-        {/* <Input 
-          type = "range" 
-          min = "0" 
-          max = "0" 
-          value = "0"
-          onchange = {(event) => {
-            let target = event.target as CustomElement<HTMLInputElement , {}>;
-            if(target.value == '0')setKeepOpen(false);
-            else if(target.value == '1')setKeepOpen(true);
-          }}
-        /> */}
         <input 
           type="range" 
           min = "0" 
           max = "1" 
-          _value = "0"
+          value = "0"
           _onchange = {( event:Event ) => {
 
             let target = event.target as CustomElement<HTMLInputElement , {}>;
@@ -87,9 +76,9 @@ export const Inspector = () => {
           }}
         />
       </div>
-      <Button 
+      <ThoriumButton 
         textContent="&#10539;" 
-        action = {() => {
+        onmousedown = {() => {
           if(inspector.value)inspector.value.hide()
         }}
       />

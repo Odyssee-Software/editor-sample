@@ -1,5 +1,5 @@
 import { Dispatcher } from "thorino-ipc";
-import { TPage } from 'types-pages';
+import { Page } from 'editor-page-types';
 
 /* The line `export const database = Dispatcher( 'database.service' );` is creating a dispatcher object
 named `database` using the `Dispatcher` function from the `thorino-ipc` library. The dispatcher
@@ -15,27 +15,27 @@ export const database = Dispatcher( 'database.service' );
  * @returns the result of calling the `database` function with the arguments `'insert'` and
  * `JSON.stringify(data)`.
 */
-export const insert = (data:TPage|TPage[]):Promise<CustomEvent<TPage>> => {
+export const insert = (data:Page|Page[]):Promise<CustomEvent<Page>> => {
   return database( 'insert' , data );
 }
 
-export const find = (data:TPage|TPage[]):Promise<CustomEvent<TPage[]>> => {
+export const find = (data:Page|Page[]):Promise<CustomEvent<Page[]>> => {
   return database( 'find' , data );
 }
 
-export const update = (update:{search:Partial<TPage>,insert:Partial<TPage>|Partial<TPage>[]}):Promise<CustomEvent<TPage>> => {
+export const update = (update:{search:Partial<Page>,insert:Partial<Page>|Partial<Page>[]}):Promise<CustomEvent<Page>> => {
   return database( 'update' , update );
 }
 
-export const findPage = (data:Partial<TPage>|Partial<TPage>[]):Promise<CustomEvent<TPage[]>> => {
+export const findPage = (data:Partial<Page>|Partial<Page>[]):Promise<CustomEvent<Page[]>> => {
   return database( 'find-page' , data );
 }
 
-export const findAllPages = ():Promise<CustomEvent<TPage[]>> => {
+export const findAllPages = ():Promise<CustomEvent<Page[]>> => {
   return database( 'find-all-pages' , {} );
 }
 
-export const createPage = (data:Partial<TPage>):Promise<CustomEvent<TPage>> => {
+export const createPage = (data:Partial<Page>):Promise<CustomEvent<Page>> => {
   return database( 'create-page' , data );
 }
 

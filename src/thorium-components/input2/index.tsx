@@ -1,4 +1,4 @@
-import { DesignSystem , PaternArea , NodeTemplate , CustomElement } from 'thorium-framework';
+import { DesignSystem , PaternArea , INodeTemplate , CustomElement } from 'thorium-framework';
 import { State } from 'thorium-framework/modules/states';
 import styles from './style.module.css';
 
@@ -41,18 +41,18 @@ export interface Input2Props{
   value:string | [State<string> , (value:string) => string];
 };
 
-export const Input2 = ( props : Input2Props ):NodeTemplate<Input2Element> => {
+export const Input2 = ( props : Input2Props ):INodeTemplate<Input2Element> => {
 
   console.log({props})
 
   return (<Input2Connector
     attr = {{ context : "input" }}
     childrens={[
-      <div name = "input-container" class = { styles.InputContainer1 } >
+      <div name = "input-container" className = { styles.InputContainer1 } >
         <input
-          class = { styles.Input }
+          className = { styles.Input }
           name = "input"
-          _value = { ( Array.isArray(props.value) ? props.value[0] : props.value) }
+          value = { ( Array.isArray(props.value) ? props.value[0] as any : props.value) }
           _onkeyup = {(event:Event) => {
 
             let target = event.target as _Input;

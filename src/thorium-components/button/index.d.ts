@@ -40,6 +40,6 @@ export type ButtonContentElement = CustomElement<HTMLButtonElement, {
         ['text']: ButtonContentTextElement;
     };
 }>;
-export declare const ButtonPatern: import("thorium-framework").CustomElementPatern<unknown, unknown>;
-export declare const ButttonConnector: (connectorTemplate?: import("thorium-framework").ConnectorTemplate<any> | undefined) => import("thorium-framework").NodeTemplate<any>;
+export declare const ButtonPatern: import("thorium-framework").ICustomElementPatern<unknown, unknown>;
+export declare const ButttonConnector: (connectorTemplate?: import("thorium-framework").IConnectorTemplate<any> | undefined) => import("thorium-framework").INodeTemplate<any>;
 export declare const Button: (props: ButtonProps) => ButtonElement;

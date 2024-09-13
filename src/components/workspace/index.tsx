@@ -1,7 +1,8 @@
 // import { HelloWorld } from "@components/editor";
 import { Workbench , WorkbenchProps , createNoteEditorBlock , configureNoteEditorBlock , NoteEditorBlockConf , IEditor, _Workbench } from "@components/workbench";
 import { SideSheet , _SideSheet } from "@components/side-sheet";
-import { CustomElement, useState , pageContext } from 'thorium-framework';
+import { CustomElement, useState } from 'thorium-framework';
+import { pageContext , useContext } from 'thorium-framework/modules/context';
 
 import style from './style.module.css';
 import { storeContext } from "thorium-framework/modules/context";
@@ -15,11 +16,13 @@ export interface WorkspaceProps{
 
 export const Workspace = ( props:WorkspaceProps ) => {
 
-  const workspaceContext = pageContext().extends( 'workspace' );
+  console.log({ pageContext : pageContext.value , context : useContext( pageContext.value ) })
 
-  return <div class = {style.WorkspaceContainer} >
+  const workspaceContext = useContext( pageContext.value ).extends( 'workspace' );
+
+  return <div className = {style.WorkspaceContainer} >
     <div
-      class = {style.Workspace}
+      className = {style.Workspace}
       _afterMounting = {(target:CustomElement<HTMLDivElement , {}>) => {
         console.log({ API : workspaceContext })
       }}
@@ -27,9 +30,7 @@ export const Workspace = ( props:WorkspaceProps ) => {
       <SideSheet 
         pluginPages = { props.pluginPages }
       />
-      <Workbench
-        plugins={ props.pluginBlocks }
-      />
+      <Workbench/>
     </div>
   </div>
 }

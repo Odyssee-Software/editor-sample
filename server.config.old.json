@@ -1,0 +1,17 @@
+{
+  "main" : "",
+  "package" : "",
+  "devServer" : {
+    "port": 3000,
+    "host": "localhost",
+    "open": {
+      "app" : {
+        "name" : "Google Chrome"
+      }
+    }
+  },
+  "client" : {
+    "views" : {}
+  },
+  "routers" : []
+}

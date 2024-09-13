@@ -1,4 +1,4 @@
-import { DesignSystem , PaternArea , CustomElement , NodeTemplate } from "thorium-framework";
+import { DesignSystem , PaternArea , CustomElement , INodeTemplate } from "thorium-framework";
 import { CustomElementDefultProps } from '../index';
 export type InputElement = CustomElement< HTMLDivElement , {
   value:string;
@@ -39,12 +39,12 @@ export interface InputProps extends CustomElementDefultProps{
   onchange?(event:Event):void;
 }
 
-export const Input = ( props:InputProps ):NodeTemplate<InputElement> => {
+export const Input = ( props:InputProps ):INodeTemplate<InputElement> => {
 
   return <div>
     <input
-      _placeholder = { props.placeholder }
-      _value = { props.value }
+      placeholder = { props.placeholder }
+      value = { props.value }
       _afterMounting = {( target:CustomElement<HTMLInputElement , {}> ) => {
 
         if(props.type)target.setAttribute('type' , props.type);

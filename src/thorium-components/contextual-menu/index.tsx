@@ -49,8 +49,8 @@ export const ContextualMenu = ( props:ContextualMenuProps ):ContextualMenuElemen
 
   let injectStyle = `left:${left}px;top:${top}px;${transform}`;
 
-  return <div name = 'contextual-menu-container' context = 'contextual-menu-container' class = {style.ContextualMenuContainer} style = {injectStyle} >
-    <div name = 'contextual-menu' childrens = {props.childrens} class = {style.ContextualMenu} position={position} _afterMounting = {( props.afterMouning ? props.afterMouning : null )} />
+  return <div name = 'contextual-menu-container' context = 'contextual-menu-container' className = {style.ContextualMenuContainer} style = {{ top , left , transform }} >
+    <div name = 'contextual-menu' childrens = {props.childrens} className = {style.ContextualMenu} _afterMounting = {( props.afterMouning ? props.afterMouning : null ) as any} />
   </div>;
 
 }

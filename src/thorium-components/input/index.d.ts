@@ -1,4 +1,4 @@
-import { CustomElement, NodeTemplate } from "thorium-framework";
+import { CustomElement, INodeTemplate } from "thorium-framework";
 import { CustomElementDefultProps } from '../index';
 export type InputElement = CustomElement<HTMLDivElement, {
     value: string;
@@ -7,8 +7,8 @@ export type InputElement = CustomElement<HTMLDivElement, {
         input: CustomElement<HTMLInputElement, {}>;
     };
 }>;
-export declare const InputPatern: import("thorium-framework").CustomElementPatern<unknown, unknown>;
-export declare const InputConnector: (connectorTemplate?: import("thorium-framework").ConnectorTemplate<any> | undefined) => NodeTemplate<any>;
+export declare const InputPatern: import("thorium-framework").ICustomElementPatern<unknown, unknown>;
+export declare const InputConnector: (connectorTemplate?: import("thorium-framework").IConnectorTemplate<any> | undefined) => INodeTemplate<any>;
 export interface InputProps extends CustomElementDefultProps {
     type?: string;
     placeholder?: string;
@@ -17,4 +17,4 @@ export interface InputProps extends CustomElementDefultProps {
     max?: string;
     onchange?(event: Event): void;
 }
-export declare const Input: (props: InputProps) => NodeTemplate<InputElement>;
+export declare const Input: (props: InputProps) => INodeTemplate<InputElement>;

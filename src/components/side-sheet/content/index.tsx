@@ -1,17 +1,17 @@
-import { CustomElement, DOM, pageContext , DesignSystem , CustomElementPatern , PaternArea } from 'thorium-framework';
-import { Button , ButtonElement } from '@thorium-components/button';
+import { CustomElement, DOM, pageContext , DesignSystem , PaternArea } from 'thorium-framework';
+import { useContext } from 'thorium-framework/modules/context';
+import { ThoriumButton } from 'thorium-components';
 import { Controls } from '@thorium-components/controls';
 import { Divider } from '@thorium-components/divider';
 import { Icon } from '@thorium-components/icon';
 import { ContextualMenu } from '@components/contextual-menu';
-import { useContext } from '@context/index';
 
 import { 
   createPage ,
   findAllPages , 
   findPage 
 } from '@modules/database';
-import { TPage } from 'types-pages';
+import { Page } from 'editor-page-types';
 
 import { OpenSpring } from '../../../animations/spring';
 
@@ -31,15 +31,7 @@ export type PageParams = {
   plugin:any;
 };
 
-export type PageControlElement = CustomElement<HTMLDivElement , {
-  children:{
-    "page-selector" : ButtonElement<{
-      "page-edit" : ButtonElement,
-      "page-delete" : ButtonElement,
-      "page-options" : ButtonElement,
-    }>
-  }
-}>
+export type PageControlElement = CustomElement<HTMLDivElement , {}>
 
 export class _SideSheet_Content{
 
@@ -72,90 +64,90 @@ const PageContr = (page:PageParams):PageControlElement => {
   console.log({ page })
 
   return <PageControlConnector
-    attr = {{class : styles.PageControl}}
+    attr = {{className : styles.PageControl}}
     childrens={[
-      <Button
+      <ThoriumButton
         id = {page.id}
         name = "page-selector"
         textContent={page.name} 
-        icon={{ type : 'mask' , path : path.join( 'app' , path.basename(PageIcon) ) }}
-        controls={[
-          <Button name = "page-edit" textContent='✍️' action = {() => { }} />,
-          <Button name = "page-delete" textContent='🗑️' action = {() => { }} />,
-          <Button name = "page-options" textContent='⠸' action = {( event ) => {
-            let { target } = event;
+        // icon={{ type : 'mask' , path : path.join( 'app' , path.basename(PageIcon) ) }}
+        // controls={[
+        //   <ThoriumButton name = "page-edit" textContent='✍️' _onmousedown = {() => { }} />,
+        //   <ThoriumButton name = "page-delete" textContent='🗑️' _onmousedown = {() => { }} />,
+        //   <ThoriumButton name = "page-options" textContent='⠸' _onmousedown = {( event ) => {
+        //     let { target } = event;
 
-            let { virtual:VirtualDOM } = DOM;
+        //     let { virtual:VirtualDOM } = DOM;
 
-            VirtualDOM.createNodeElement( <ContextualMenu target = {target as Element} position='right' childrens = {[
-              <Button textContent='Edit' />,
-              <Button textContent='Copy' />,
-              <Button textContent='Duplicate' />,
-              <Divider/>,
-              <Button textContent='Delete' />,
-              ( page.plugin.import || page.plugin.export ? <Divider/> : null ),
-              ( page.plugin.import ?  <Button 
-                textContent='Import' 
-                controls={Array.from( page.plugin.import , ( _importPlugin:any ) => {
-                  return (<Button textContent = { _importPlugin.title } action = { _importPlugin.main }/>)
-                } )}
-              /> : null ),
-              ( page.plugin.export ?  <Button 
-                  textContent='Export'
-                  controls={Array.from( page.plugin.export , ( _exportPlugin:any ) => {
-                    return (<Button textContent = { _exportPlugin.title }/>)
-                  } )} 
-                /> : null ),
-            ]} /> , document.body )
-          }} />
-        ]}
-        action = {async () => {
+        //     VirtualDOM.createNodeElement( <ContextualMenu target = {target as Element} position='right' childrens = {[
+        //       <ThoriumButton textContent='Edit' />,
+        //       <ThoriumButton textContent='Copy' />,
+        //       <ThoriumButton textContent='Duplicate' />,
+        //       <Divider/>,
+        //       <ThoriumButton textContent='Delete' />,
+        //       ( page.plugin.import || page.plugin.export ? <Divider/> : null ),
+        //       ( page.plugin.import ?  <ThoriumButton 
+        //         textContent='Import' 
+        //         // controls={Array.from( page.plugin.import , ( _importPlugin:any ) => {
+        //         //   return (<Button textContent = { _importPlugin.title } action = { _importPlugin.main }/>)
+        //         // } )}
+        //       /> : null ),
+        //       ( page.plugin.export ?  <ThoriumButton 
+        //           textContent='Export'
+        //           // controls={Array.from( page.plugin.export , ( _exportPlugin:any ) => {
+        //           //   return (<ThoriumButton textContent = { _exportPlugin.title }/>)
+        //           // } )} 
+        //         /> : null ),
+        //     ]} /> , document.body )
+        //   }} />
+        // ]}
+        // _onmousedown = {async () => {
 
-          const context = useContext( "workbench" );
-          const { state:editor , setter:setEditor } = context.get<IEditor>( 'manager' );
+        //   const context = useContext( "workbench" );
+        //   const { state:editor , setter:setEditor } = context.get<IEditor>( 'manager' );
 
-          let { detail:pageResult } = await findPage( { id : page.id } );
-          let [ pageSettings ] = pageResult as any[];
-          let { content } = pageSettings;
+        //   let { detail:pageResult } = await findPage( { id : page.id } );
+        //   let [ pageSettings ] = pageResult as any[];
+        //   let { content } = pageSettings;
           
-          setEditor({
-            editor : editor.editor,
-            configuration : {
-              type : 'note',
-              id : pageSettings.id,
-              name : pageSettings.name,
-              content : pageSettings.content,
-            }
-          });
+        //   setEditor({
+        //     editor : editor.editor,
+        //     configuration : {
+        //       type : 'note',
+        //       id : pageSettings.id,
+        //       name : pageSettings.name,
+        //       content : pageSettings.content,
+        //     }
+        //   });
 
-          console.log({ editor })
+        //   console.log({ editor })
 
-          if(editor){
-            console.log({ editor })
-            editor.editor.render(content);
-          }
+        //   if(editor){
+        //     console.log({ editor })
+        //     editor.editor.render(content);
+        //   }
 
-        }}
-        _afterMounting = {(target) => {
+        // }}
+        // _afterMounting = {(target) => {
 
-          const { state:editor , setter:setEditor } = useContext( "workbench" ).get<IEditor>( 'manager' );
+        //   const { state:editor , setter:setEditor } = useContext( "workbench" ).get<IEditor>( 'manager' );
 
-          editor.subscribe( target , (stateConfig) => {
+        //   editor.subscribe( target , (stateConfig) => {
 
-            let { configuration } = stateConfig as any;
+        //     let { configuration } = stateConfig as any;
   
-            let pageId = page.id;
-            let { text:textElement } = target.children;
-            let { innerHTML:text } = textElement;
-            if(pageId == configuration.id && text != configuration.name){
-              textElement.innerText = configuration.name;
-            }
+        //     let pageId = page.id;
+        //     // let { text:textElement } = target.children;
+        //     // let { innerHTML:text } = textElement;
+        //     // if(pageId == configuration.id && text != configuration.name){
+        //     //   textElement.innerText = configuration.name;
+        //     // }
 
-            return stateConfig;
+        //     return stateConfig;
   
-          } )
+        //   } )
 
-        }}
+        // }}
       />
     ]}
   />;
@@ -175,14 +167,14 @@ export const SideSheetContent = (props:{
 
     return [
       <div context = {`pages-${plugin.type}`} >
-        <nav class = {styles.UserPagesNav} >
+        <nav className = {styles.UserPagesNav} >
           <h3 _textContent = { `▸ ${plugin.title}` }/>
           <Controls buttons={[
-            <Button textContent='+' action = {async (event:MouseEvent) => {
+            <ThoriumButton textContent='+' _onmousedown = {async (event:MouseEvent) => {
 
               let target = event.target as CustomElement<HTMLButtonElement , {}>;
               let context = target.context(`pages-${plugin.type}`);
-              let [pagesControl] = context.querySelectorAll(`div[name="pages-${plugin.type}"]`);
+              let pagesControl = context.querySelectorAll(`div[name="pages-${plugin.type}"]`)[0];
 
               if(pagesControl){
 
@@ -204,7 +196,7 @@ export const SideSheetContent = (props:{
                     name : pageName,
                     content : { blocks : content} as any,
                   }
-                } )
+                } as any )
 
                 // props.manager.editor = {
                 //   ...props.manager.editor , 
@@ -216,7 +208,7 @@ export const SideSheetContent = (props:{
                 //   }
                 // };
 
-                await createPage(editor?.configuration as Record<string,any>);
+                await createPage(editor?.value.configuration as Record<string,any>);
 
                 // editorState.value?.editor.render({
                 //   blocks : content
@@ -231,12 +223,11 @@ export const SideSheetContent = (props:{
           name = { `pages-${plugin.type}` }
           _afterMounting = {async (target:CustomElement<HTMLDivElement , {}>) => {
 
-            let { virtual:VirtualDOM } = DOM;
             let { detail:pages } = await findPage({ type : plugin.type });
   
             for await( const page of pages ){
 
-              VirtualDOM.createNodeElement( <PageContr
+              DOM.createNodeElement( <PageContr
                 id = { page.id } 
                 name = {page.name}
                 plugin = { plugin }
@@ -247,16 +238,16 @@ export const SideSheetContent = (props:{
              OpenSpring( target );
             
           }}
-          _addPageController = {function( this , page ){
+          // _addPageController = {function( this , page ){
 
-            let { virtual:VirtualDOM } = DOM;
-            VirtualDOM.createNodeElement( <PageContr
-              id = { page.id } 
-              name = {page.name}
-              plugin = { plugin }
-            /> , this );
+          //   let { virtual:VirtualDOM } = DOM;
+          //   VirtualDOM.createNodeElement( <PageContr
+          //     id = { page.id } 
+          //     name = {page.name}
+          //     plugin = { plugin }
+          //   /> , this );
 
-          }}
+          // }}
         />
       </div>,
       <Divider/>
@@ -264,8 +255,15 @@ export const SideSheetContent = (props:{
 
   } ).flat()
 
-  return <div class = { styles.SideSheetContent }>
-    <div childrens = {sections} ></div>
+  return <div className = { styles.SideSheetContent }>
+    <div _afterMounting={( target ) => {
+
+      for(let section of sections){
+        console.log({ section });
+        DOM.render( section , target )
+      }
+
+    }} ></div>
   </div>;
 
 }

@@ -11,5 +11,5 @@ export type ControlsElement<Children = Record<string , CustomElement<Element,{}>
 } >
 
 export const Controls = (props:ControlsProps):ControlsElement => {
-  return <div name = "controls" class = {styles.Controls} childrens = {props.buttons} >{props.buttons}</div>
+  return <div name = "controls" className = {styles.Controls} childrens = {props.buttons} >{props.buttons}</div>
 }

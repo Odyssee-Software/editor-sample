@@ -3,10 +3,9 @@ import { pageContext, storeContext , listContext } from 'thorium-framework/modul
 import { uuid } from 'thorium-framework/modules/huid';
 import { State } from 'thorium-framework/modules/states';
 import styles from './style.module.css';
-import { useContext } from '@context/index';
 
 // import { afterMounting } from './editor-afterMounting';
-import EditorJS, { ToolConfig , ToolConstructable , ToolSettings , BlockToolConstructable , BlockToolConstructorOptions , BlockTool, BlockAPI } from '@editorjs/editorjs';
+import EditorJS, { ToolConfig , ToolConstructable , ToolSettings , BlockToolConstructable , BlockToolConstructorOptions , BlockTool, BlockAPI, OutputData } from '@editorjs/editorjs';
 import { API as EditorJsAPI } from '@editorjs/editorjs/types';
 import { ExternalToolSettings } from '@editorjs/editorjs/types/tools';
 import Header from '@editorjs/header';
@@ -18,6 +17,7 @@ import * as Tools from '../editor/tools';
 import notifier from 'codex-notifier';
 
 import * as Database from '@modules/database';
+import { useApplication } from '@context/index';
 
 export {
   ToolConfig,
@@ -75,12 +75,12 @@ export function createNoteEditorBlock( binder:ToolConstructable ):ToolConstructa
     static get enableLineBreaks(){ return binder['enableLineBreaks'] }
     static get settings(){ return binder['settings'] }
 
-    blockContext = useContext( 'workbench' ).extends( `custom-block-${blockId}` );
-    elementState = this.blockContext.set<CustomElement<HTMLElement,any> | null>( blockId , null);
-    get state(){ return this.elementState; }
+    // blockContext = useContext( 'workbench' ).extends( `custom-block-${blockId}` );
+    // elementState = this.blockContext.set<CustomElement<HTMLElement,any> | null>( blockId , null);
+    // get state(){ return this.elementState; }
     setElement( element:CustomElement<HTMLElement,any> ){
-      this.elementState.setter( element );
-      return this.state.value;
+      // this.elementState.setter( element );
+      // return this.state.value;
     };
 
     get parentElement(){ return document.querySelectorAll(`div.${styles.EditorContainer}`)[0] as CustomElement<HTMLDivElement , {}> }
@@ -112,13 +112,13 @@ export function createNoteEditorBlock( binder:ToolConstructable ):ToolConstructa
 
       initBlock();
 
-      let { state , setter:setElement } = this.state;
+      // let { state , setter:setElement } = this.state;
 
-      state.subscribe( this.parentElement , ( element:CustomElement<HTMLElement,any> ) => {
+      // state.subscribe( this.parentElement , ( element:CustomElement<HTMLElement,any> ) => {
 
-        element.onmousedown = onmousedown;
+      //   element.onmousedown = onmousedown;
 
-      })
+      // })
 
     }
 
@@ -150,10 +150,9 @@ export class _Workbench{
 
     return ( target ) => {
 
-      const [workbench] = storeContext().getContextByName( 'workbench' );
-      const { state:Editor , setter:setEditor , subscribe } = workbench.set< IEditor >( 'manager' , null as any );
+      let app = useApplication();
 
-      Editor.subscribe( target , async ( value ) => {
+      if(app.editor?.subscribe)app.editor.subscribe( target , async ( value ) => {
 
         let processes = await os.getSpawnedProcesses();
         for await(const process of processes){
@@ -177,15 +176,29 @@ export class _Workbench{
         tools : plugins,
         onReady: () => {
 
-          setEditor({
+          // setEditor({
+          //   configuration : {
+          //     id:'',
+          //     name:'',
+          //     content:[],
+          //     type : 'note'
+          //   },
+          //   editor : editor_instance
+          // })
+
+          console.log({ app : app.pagePointer?.value })
+
+          app.editor = {
             configuration : {
-              id:'',
-              name:'',
-              content:[],
+              id:app.pagePointer?.id || "",
+              name:app.pagePointer?.name || "",
+              content:app.pagePointer?.content || [],
               type : 'note'
             },
             editor : editor_instance
-          })
+          };
+
+          editor_instance?.render( app.pagePointer?.content || [] );
   
           // manager.workspace.workbench.editor = {
           //   configuration : {
@@ -199,9 +212,10 @@ export class _Workbench{
         },
         onChange: async (api, event:CustomEvent | CustomEvent[]) => {
   
-          let { configuration , editor } = Editor;
+          let configuration = app.editor?.configuration;
+          let editor = app.editor?.editor;
   
-          if(!configuration.id){
+          if(!configuration?.id){
   
             notifier.show({
               message: "Vous n'avez aucune page sélectionnée",
@@ -211,7 +225,7 @@ export class _Workbench{
   
           }else{
   
-            let save = await editor.save();
+            let save = await editor?.save() as OutputData;
             
             let { name:pageName } = configuration;
             let { blocks } = save;
@@ -233,10 +247,21 @@ export class _Workbench{
             }
   
             let { text:titleText } = blocks[0].data;
+
+            console.log({ titleText , blocks })
+
+            if(!titleText){
+
+              return notifier.show({
+                message : `vous n'avez pas de titre à la page`,
+                style : 'error'
+              });
+
+            }
   
             if(titleText != pageName){
 
-              setEditor({
+              app.editor = {
                 configuration : {
                   ...configuration,
                   ...{ 
@@ -244,10 +269,12 @@ export class _Workbench{
                     type : 'note'
                   }
                 },
-                editor,
-              });
+                editor : editor as EditorJS,
+              };
 
             }
+
+            console.log({ titleText , configuration : app.editor })
   
             let insertResult = await Database.update( {
               search : { id : configuration.id },
@@ -269,8 +296,6 @@ export class _Workbench{
   
         }
       });
-      
-      return workbench;
 
     }
 
@@ -285,19 +310,16 @@ export interface WorkbenchProps{
 
 }
 
-export const Workbench = ( props:WorkbenchProps ) => {
+export const Workbench = ( props? : { } ) => {
 
-  const [workspace] = storeContext().getContextByName( 'workspace' );
-  const context = workspace.extends( 'workbench' );
+  let app = useApplication();
+  let blocks = app.pagePointer?.plugin?.blocks || {};
 
-  let { plugins } = props;
-
-  return <div class = {styles.EditorContainer}>
+  return <div className = {styles.EditorContainer}>
     <div
       id = "editorjs"
-      class = {styles.Editor}
-      allowEnter="false"
-      _afterMounting = { _Workbench.afterMounting( plugins ) }
+      className = {styles.Editor}
+      _afterMounting = { _Workbench.afterMounting( blocks ) }
     />
     <Inspector/>
   </div>;

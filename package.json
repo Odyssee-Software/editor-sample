@@ -1,12 +1,14 @@
 {
-  "name": "Thorino Starter",
+  "name": "Thorium Editor",
   "version": "1.0.0",
-  "description": "An empty Neutralinojs - Thorium app, extend as you wish",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npx thorium-cli@1.0.50 --outputDir=./public/app --watch",
-    "build:local": "npx /Users/guillaume/Documents/Odyssee/thorium/thorium-cli  --outputDir=./public/app --log=./logs --watch"
+    "start": "neu run",
+    "dev": "neu run",
+    "build": "npx thorium-cli build --outputDir ./public/app",
+    "serve": "npx thorium-cli serve --dev --outputDir ./public/app"
   },
   "author": "",
   "license": "ISC",
@@ -23,11 +25,19 @@
     "codemirror": "^6.0.1",
     "codex-notifier": "^1.1.2",
     "dynamics.js": "^1.1.0",
+    "editor-database-service": "file:../thorium-editor/editor-database-service",
+    "editor-page-types": "file:../thorium-editor/editor-page-types",
     "nedb": "^1.8.0",
     "terminatorator": "^1.0.2",
     "thorino-ipc": "^1.0.3",
+    "thorium-cli": "file:../../Odyssee/thorium/thorium-cli",
+    "thorium-components": "file:../../Odyssee/thorium/thorium-components",
     "thorium-framework": "file:../../Odyssee/thorium/thorium-framework",
-    "types-pages": "file:modules/@types/pages",
-    "typescript": "^5.1.6"
+    "typescript": "^5.1.6",
+    "web-dialog": "^0.0.11",
+    "webextension-polyfill": "^0.10.0"
+  },
+  "devDependencies": {
+    "@types/webextension-polyfill": "^0.10.7"
   }
 }

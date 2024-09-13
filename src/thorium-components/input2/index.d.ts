@@ -1,4 +1,4 @@
-import { NodeTemplate, CustomElement } from 'thorium-framework';
+import { INodeTemplate, CustomElement } from 'thorium-framework';
 import { State } from 'thorium-framework/modules/states';
 export type Input2Element = CustomElement<HTMLDivElement, {
     value: string;
@@ -14,10 +14,10 @@ export type Input2Element = CustomElement<HTMLDivElement, {
 }>;
 export type _InputContainer = Input2Element['children']['input-container'];
 export type _Input = _InputContainer['children']['input'];
-export declare const Input2Patern: import("thorium-framework").CustomElementPatern<unknown, unknown>;
-export declare const Input2Connector: (connectorTemplate?: import("thorium-framework").ConnectorTemplate<unknown> | undefined) => NodeTemplate<unknown>;
+export declare const Input2Patern: import("thorium-framework").ICustomElementPatern<unknown, unknown>;
+export declare const Input2Connector: (connectorTemplate?: import("thorium-framework").IConnectorTemplate<unknown> | undefined) => INodeTemplate<unknown>;
 export interface Input2Props {
     label?: string;
     value: string | [State<string>, (value: string) => string];
 }
-export declare const Input2: (props: Input2Props) => NodeTemplate<Input2Element>;
+export declare const Input2: (props: Input2Props) => INodeTemplate<Input2Element>;

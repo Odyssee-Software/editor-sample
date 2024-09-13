@@ -1,20 +1,24 @@
 import * as Neutralino from "@neutralinojs/lib";
-import './pages/main'
+import "web-dialog";
+import './context';
+import './pages/main';
 
-import { DOM , preload , PreloadModule } from 'thorium-framework';
+import { DOM , preload , PreloadModule , pages } from 'thorium-framework';
+
+import * as database from 'editor-database-service/client/dist/index';
 
 import './index.css';
 import styles from './loading.module.css';
+import notifier from "codex-notifier";
 
 declare const window:Window & {
   Neutralino:typeof Neutralino;
   DOM:typeof DOM;
-  VirtualDOM:typeof DOM.virtual;
 };
 
 window['Neutralino'] = Neutralino;
 window['DOM'] = DOM;
-window['VirtualDOM'] = DOM.virtual;
+window["Database"] = database;
 
 interface ITestModule{
   lol:string;
@@ -28,16 +32,18 @@ let testModule:PreloadModule = {
 
     return new Promise((next) => {
 
-      document.body.innerHTML = `<div class = "${styles.Overlay}" >
-        <div class = "${styles.Container}">
-          <div class="${styles.Ellipsis}"><div></div><div></div><div></div><div></div></div>
-          <div class="${styles.Text}">Preload Working</div>
-          <p>Welcome in Editor</p>
-        </div>
+      let overlay = document.createElement('div');
+      overlay.setAttribute('class' , styles.Overlay );
+      overlay.innerHTML = `<div class = "${styles.Container}">
+        <div class="${styles.Ellipsis}"><div></div><div></div><div></div><div></div></div>
+        <div class="${styles.Text}">Preload Working</div>
+        <p>Welcome in Editor</p>
       </div>`;
 
+      document.body.appendChild(overlay);
+
       setTimeout(() => {
-        document.body.innerHTML = "";
+        overlay.remove();
         next( true );
       }, 2000);
 
@@ -47,9 +53,49 @@ let testModule:PreloadModule = {
 
 }
 
+let testConcurentModule:PreloadModule = {
+
+  main(){
+    return new Promise((next) => {
+      let counter = 1;
+      let interval = setInterval(() => {
+
+        if(counter == 6){
+          clearInterval( interval );
+          next( true );
+        }
+        else {
+          notifier.show( {
+            message: `Concurent loading count : ${counter}`,
+            time : 1000
+          } );
+          counter = counter + 1;
+        }
+
+      } , 1000)
+    })
+  }
+
+}
+
+pages().onHashChange = () => {
+  notifier.show( {
+    message: `Hash change catched`,
+    time : 1000
+  } );
+}
+
+pages().onRenderPage = () => {
+  notifier.show( {
+    message: `Render page catched`,
+    time : 1000
+  } );
+}
+
 /* The `preload().push( testModule );` statement is adding the `testModule` object to the
 `preloadStack` array. This means that the `testModule` will be executed when the `preloadStack` is
 executed using the `execute()` method. */
-preload().push( testModule );
+// preload().push( testModule );
+// preload().push( testConcurentModule );
 
 Neutralino.init();
